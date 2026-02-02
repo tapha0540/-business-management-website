@@ -1,106 +1,115 @@
 CREATE DATABASE gestion_commerce;
 USE gestion_commerce;
 
--- 1. Utilisateurs
+-- 1. Table des utilisateurs
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin','vendeur') NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    nom VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    role ENUM('Administrateur','Vendeur') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- 2. Catégories de produits
+-- 2. Table des catégories de produits
 CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    nom VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- 3. Produits
-CREATE TABLE products (
+-- 3. Table des produits
+CREATE TABLE produits (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    category_id INT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    quantity INT DEFAULT 0,
-    critical_level INT DEFAULT 5,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+    nom VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    categorie_id INT NOT NULL,
+    prix_vente DECIMAL(10,2) NOT NULL,
+    quantite_stock INT NOT NULL,
+    seuil_critique INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (categorie_id) REFERENCES categories(id)
 );
 
--- 4. Fournisseurs
-CREATE TABLE suppliers (
+-- 4. Table des fournisseurs
+CREATE TABLE fournisseurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100),
-    phone VARCHAR(20),
-    address VARCHAR(255),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    nom VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,       -- email ajouté
+    telephone VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- 5. Clients
-CREATE TABLE customers (
+
+-- 5. Table des approvisionnements
+CREATE TABLE approvisionnements (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100),
-    phone VARCHAR(20),
-    address VARCHAR(255),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    fournisseur_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (fournisseur_id) REFERENCES fournisseurs(id)
 );
 
--- 6. Approvisionnements et mouvements de stock
-CREATE TABLE stock_movements (
+-- 6. Détails des produits approvisionnés
+CREATE TABLE details_approvisionnement (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL,
-    type ENUM('approvisionnement','vente') NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(10,2),
-    date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    reference_id INT,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    approvisionnement_id INT NOT NULL,
+    produit_id INT NOT NULL,
+    quantite INT NOT NULL,
+    prix_achat DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (approvisionnement_id) REFERENCES approvisionnements(id),
+    FOREIGN KEY (produit_id) REFERENCES produits(id)
 );
 
--- 7. Commandes
-CREATE TABLE orders (
+-- 7. Table des clients
+CREATE TABLE clients (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL,
-    user_id INT NOT NULL,
-    date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('En cours','Clôturée','Annulée') DEFAULT 'En cours',
-    total DECIMAL(10,2) DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES customers(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    nom VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    telephone VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- 8. Détails des commandes
-CREATE TABLE order_items (
+-- 8. Table des commandes
+CREATE TABLE commandes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT NOT NULL,
-    product_id INT NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id)
+    client_id INT NOT NULL,
+    vendeur_id INT NOT NULL, -- le vendeur qui a créé la commande
+    etat ENUM('En cours','Clôturée','Annulée') DEFAULT 'En cours',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES clients(id),
+    FOREIGN KEY (vendeur_id) REFERENCES users(id)
 );
 
--- 9. Factures
-CREATE TABLE invoices (
+-- 9. Détails des commandes (produits commandés)
+CREATE TABLE details_commande (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT NOT NULL,
-    date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    total DECIMAL(10,2) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(id)
+    commande_id INT NOT NULL,
+    produit_id INT NOT NULL,
+    quantite INT NOT NULL,
+    prix_vente DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (commande_id) REFERENCES commandes(id),
+    FOREIGN KEY (produit_id) REFERENCES produits(id)
+);
+
+-- 10. Table des factures
+CREATE TABLE factures (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    commande_id INT NOT NULL,
+    date_facture DATE NOT NULL,
+    montant_total DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (commande_id) REFERENCES commandes(id)
 );

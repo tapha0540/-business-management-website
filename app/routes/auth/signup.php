@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $last_name = $data['last_name'] ?? '';
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
+        $role = $data['role'] ?? '';
 
         // Example validation and processing
         if (empty($first_name) || empty($last_name) || empty($email) || empty($password)) {
@@ -21,6 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             exit;
         }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Adresse e-mail invalide.'
+            ]);
+            exit;
+
+        }
+        
 
 
         echo json_encode([

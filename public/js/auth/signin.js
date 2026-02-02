@@ -17,13 +17,18 @@ toggleFormLinks.forEach(link => {
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     signupErrorMsg.textContent = '';
+;
+    if (signupForm['signup-password'].value !==  signupForm['signup-confirm-password'].value) {
+        signupErrorMsg.textContent = 'Les mots de passe ne correspondent pas.';
+        return;
+    }
     const formData = {
-        first_name: signupForm.first_name.value,
-        last_name: signupForm.last_name.value,
-        email: signupForm.email.value,
-        password: signupForm.password.value,
+        first_name: signupForm['first-name'].value,
+        last_name: signupForm['last-name'].value,
+        email: signupForm['signup-email'].value,
+        password: signupForm['signup-password'].value,
     }; 
-    const response = await fetchApi('http://localhost:8000/routes/auth/signup.php', 'POST', formData);
+    const response = await fetchApi('http://localhost:8081/routes/auth/signup.php', 'POST', formData);
     if (response.success) {
         window.location.href = '/html/dashboard.html'; 
     } else {
@@ -38,9 +43,9 @@ loginForm.addEventListener('submit', async (e) => {
         email: loginForm.email.value,
         password: loginForm.password.value,
     }; 
-    const response = await fetchApi('/api/auth/login', 'POST', formData);
+    const response = await fetchApi('http://localhost:8081/routes/auth/login.php', 'POST', formData);
     if (response.success) {
-        window.location.href = '/dashboard.html';
+        window.location.href = '/html/dashboard.html';
     } else {
         loginErrorMsg.textContent = response.message || 'Erreur lors de la connexion.';
     }

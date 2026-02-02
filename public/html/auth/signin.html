@@ -12,12 +12,14 @@
     <title>Page de Connexion</title>
   </head>
   <body>
-    <main class="row d-flex justify-content-sm-between align-items-center vh-100 p-5 m-0 overflow-hidden">
+    <main
+      class="row d-flex justify-content-sm-between align-items-center vh-100 p-5 m-0 overflow-x-hidden"
+    >
       <form
-        class="col form-signin d-flex flex-column row-gap-3 d-none  border-primary p-4 rounded"
+        class="col form-signin d-flex flex-column row-gap-3 d-none border-primary p-4 rounded"
         id="signup-form"
       >
-        <div class="form-group">
+        <div class="form-group p-2">
           <label for="first-name">Prénom</label>
           <input
             type="text"
@@ -28,7 +30,7 @@
             required
           />
         </div>
-        <div class="form-group">
+        <div class="form-group p-2">
           <label for="last-name">Nom</label>
           <input
             type="text"
@@ -39,7 +41,7 @@
             required
           />
         </div>
-        <div class="form-group">
+        <div class="form-group p-2">
           <label for="signup-email">Adresse Email</label>
           <input
             type="email"
@@ -50,7 +52,7 @@
             required
           />
         </div>
-        <div class="form-group">
+        <div class="form-group p-2">
           <label for="signup-password">Mot de Passe</label>
           <input
             type="password"
@@ -61,7 +63,7 @@
             required
           />
         </div>
-        <div class="form-group">
+        <div class="form-group p-2">
           <label for="signup-confirm-password">Confirmer le Mot de Passe</label>
           <input
             type="password"
@@ -72,17 +74,16 @@
             required
           />
         </div>
-        <p class="text-danger" id="signup-error-msg"></p>
+        <p class="text-danger text-center" id="signup-error-msg"></p>
         <button type="submit" class="btn btn-primary">S'inscrire</button>
         <a href="#" class="toggle-form">Déjà un compte ? Se connecter</a>
       </form>
-
 
       <form
         class="col form-signin d-flex flex-column row-gap-3"
         id="login-form"
       >
-        <div class="form-group">
+        <div class="form-group p-2">
           <label for="email">Adresse Email</label>
           <input
             type="email"
@@ -93,7 +94,7 @@
             required
           />
         </div>
-        <div class="form-group">
+        <div class="form-group p-2">
           <label for="password">Mot de Passe</label>
           <input
             type="password"
@@ -104,9 +105,11 @@
             required
           />
         </div>
-        <p class="text-danger" id="login-error-msg"></p>
+        <p class="text-danger text-center" id="login-error-msg"></p>
         <button type="submit" class="btn btn-primary">Se Connecter</button>
-        <a href="#" class="toggle-form">Pas de compte ? S'inscrire</a>
+        <a href="#" class="toggle-form text-center"
+          >Pas de compte ? S'inscrire</a
+        >
       </form>
     </main>
     <script src="../../js/script.js"></script>

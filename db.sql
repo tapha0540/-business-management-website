@@ -1,3 +1,6 @@
+CREATE DATABASE gestion_commerce;
+USE gestion_commerce;
+
 -- 1. Utilisateurs
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,

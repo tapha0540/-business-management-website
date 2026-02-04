@@ -2,6 +2,7 @@
 
 class DetailsApprovisionnement
 {
+    private PDO $pdo;
     private int $id;
     private int $approvisionnement_id;
     private int $produit_id;
@@ -25,5 +26,68 @@ class DetailsApprovisionnement
         $this->prix_achat = (int) $prix_achat;
         $this->created_at = (string) $created_at;
         $this->updated_at = (string) $updated_at;
+    }
+
+    public function create() {
+        $stmt = $this->pdo->prepare('INSERT INTO details_approvisionnements (approvisionnement_id, produit_id, quantite, prix_achat) VALUES (:approvisionnement_id, :produit_id, :quantite, :prix_achat)');
+
+        return $stmt->execute([
+            ':approvisionnement_id' => $this->approvisionnement_id,
+            ':produit_id' => $this->produit_id,
+            ':quantite' => $this->quantite,
+            ':prix_achat' => $this->prix_achat
+        ]);
+    }
+
+    public function get(int $id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM details_approvisionnements WHERE id = :id");
+
+        $stmt->execute(['id' => $id]);
+        $details = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$details) {
+            return null;
+        }
+        $this->__construct(
+            (int) $details['id'],
+            (int) $details['approvisionnement_id'],
+            (int) $details['produit_id'],
+            (float) $details['quantite'],
+            (int) $details['prix_achat'],
+            (string) $details['created_at'],
+            (string) $details['updated_at']
+        );
+        return $details;
+    }
+    public function getAll()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM details_approvisionnements");
+
+        $stmt->execute();
+
+        $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $details;
+    }
+    public function update($new_quantite, $new_prix_achat)
+    {
+        $this->quantite = $new_quantite;
+        $this->prix_achat = $new_prix_achat;
+        $stmt = $this->pdo->prepare('UPDATE details_approvisionnements SET quantite = :quantite, prix_achat = :prix_achat WHERE id = :id');
+
+        return $stmt->execute([
+            ':quantite' => $this->quantite,
+            ':prix_achat' => $this->prix_achat,
+            ':id' => $this->id
+        ]);
+    }
+    public function delete(int $id)
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM details_approvisionnements WHERE id = :id');
+
+        return $stmt->execute([
+            ':id' => $id
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 class Commandes
 {
+    private PDO $pdo;
     private int $id;
     private int $vendeur_id;
     private int $client_id;
@@ -19,9 +20,6 @@ class Commandes
         string $created_at,
         string $updated_at
     ) {
-        if (!$id) {
-            throw new InvalidArgumentException("Commande_id ne doit pas etre null.");
-        }
         if (!in_array($etat, ['en_cours', 'cloturee', 'annulee'])) {
             throw new InvalidArgumentException("variable etat doit etre egale en_cours, cloturee ou annulee.");
         }
@@ -32,5 +30,8 @@ class Commandes
         $this->etat = (string) $etat;
         $this->created_at = (string) $created_at;
         $this->updated_at = (string) $updated_at;
+    }
+    public function get(int $id) {
+
     }
 }

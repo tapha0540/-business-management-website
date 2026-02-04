@@ -2,6 +2,7 @@
 
 class DetailsCommande
 {
+    private PDO $pdo;
     private int $id;
     private int $commande_id;
     private int $produit_id;
@@ -11,6 +12,7 @@ class DetailsCommande
     private string $updated_at;
 
     public function __construct(
+        PDO $pdo,
         int $id,
         int $commande_id,
         int $produit_id,
@@ -19,12 +21,66 @@ class DetailsCommande
         string $created_at,
         string $updated_at
     ) {
-        $this->id = (int)$id;
-        $this->commande_id = (int)$commande_id;
-        $this->produit_id = (int)$produit_id;
-        $this->quantite = (int)$quantite;
-        $this->prix_vente = (float)$prix_vente;
-        $this->created_at = (string)$created_at;
-        $this->updated_at = (string)$updated_at;
+        $this->pdo = $pdo;
+        $this->id = (int) $id;
+        $this->commande_id = (int) $commande_id;
+        $this->produit_id = (int) $produit_id;
+        $this->quantite = (int) $quantite;
+        $this->prix_vente = (float) $prix_vente;
+        $this->created_at = (string) $created_at;
+        $this->updated_at = (string) $updated_at;
+    }
+    public function create(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('INSERT INTO details_commandes (commande_id, produit_id, quantite, prix_vente) VALUES (:commande_id, :produit_id, :quantite, :prix_vente)');
+
+        return $stmt->execute([
+            ':commande_id' => $this->commande_id,
+            ':produit_id' => $this->produit_id,
+            ':quantite' => $this->quantite,
+            ':prix_vente' => $this->prix_vente
+        ]);
+    }
+    public function get()
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM details_commandes WHERE id = :id');
+
+        $stmt->execute([':id' => $this->id]);
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
+            return null;
+        }
+        $this->__construct(
+            $this->pdo,
+            (int) $row['id'],
+            (int) $row['commande_id'],
+            (int) $row['produit_id'],
+            (int) $row['quantite'],
+            (float) $row['prix_vente'],
+            (string) $row['created_at'],
+            (string) $row['updated_at']
+        );
+        return $row;
+    }
+    public function update($new_quantite, $new_prix_vente)
+    {
+        $this->quantite = $new_quantite;
+        $this->prix_vente = $new_prix_vente;
+        $stmt = $this->pdo->prepare('UPDATE details_commandes SET quantite = :quantite, prix_vente = :prix_vente WHERE id = :id');
+
+        return $stmt->execute([
+            ':quantite' => $this->quantite,
+            ':prix_vente' => $this->prix_vente,
+            ':id' => $this->id
+        ]);
+    }
+    public function delete(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('DELETE FROM details_commandes WHERE id = :id');
+
+        return $stmt->execute([
+            ':id' => $this->id
+        ]);
     }
 }

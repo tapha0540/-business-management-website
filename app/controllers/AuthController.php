@@ -45,13 +45,13 @@ class AuthController
         // logique de connexion d'un utilisateur
         $user = $this->userModel->get(email: $email);
         if ($user) {
-
             if (!password_verify($password, $user['mot_de_passe'])) {
                 return [
                     "message" => "mot de passe incorrect",
                     "success" => false
                 ];
             }
+            session_start();
             return [
                 "message" => "connexion reussie",
                 "success" => true,
@@ -68,6 +68,13 @@ class AuthController
     public function logout()
     {
         // Logout logic would go here
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            return [
+                'message' => "Vous n'etes pas connecte.",
+                'success' => false
+            ];
+        }
+
         if (session_unset() && session_destroy()) {
             return [
                 "message" => "deconnexion reussie",

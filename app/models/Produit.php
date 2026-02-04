@@ -46,7 +46,7 @@ class Produit
             VALUES (:nom, :description, :imgUrl, :categorie_id, :prix_vente, :quantite, :seuil_critique)
         ");
 
-        return $stmt->execute([
+        $isCreated = $stmt->execute([
             "nom" => $this->nom,
             "description" => $this->description,
             "imgUrl" => $this->imgUrl,
@@ -55,6 +55,8 @@ class Produit
             "quantite" => $this->quantite,
             "seuil_critique" => $this->seuil_critique
         ]);
+        $this->id = (int) $this->pdo->lastInsertId();
+        return $isCreated;
     }
     /**
      * Summary of 
@@ -115,7 +117,7 @@ class Produit
             updated_at = CURRENT_TIMESTAMP
             WHERE id = :id
         ");
-        return $stmt->execute([
+        $isCreated = $stmt->execute([
             "nom" => $new_nom,
             "description" => $new_description,
             "imgUrl" => $new_imgUrl,
@@ -125,6 +127,16 @@ class Produit
             "seuil_critique" => $new_seuil_critique,
             "id" => $this->id
         ]);
+        if ($isCreated) {
+            $this->nom = (string) $new_nom;
+            $this->description = (string) $new_description;
+            $this->imgUrl = (string) $new_imgUrl;
+            $this->categorie_id = (int) $new_categorie_id;
+            $this->prix_vente = (float) $new_prix_vente;
+            $this->quantite = (int) $new_quantite;
+            $this->seuil_critique = (int) $new_seuil_critique;
+        }
+        return $isCreated;
     }
 
     public function delete()

@@ -31,12 +31,14 @@ class DetailsApprovisionnement
     public function create() {
         $stmt = $this->pdo->prepare('INSERT INTO details_approvisionnements (approvisionnement_id, produit_id, quantite, prix_achat) VALUES (:approvisionnement_id, :produit_id, :quantite, :prix_achat)');
 
-        return $stmt->execute([
+        $success = $stmt->execute([
             ':approvisionnement_id' => $this->approvisionnement_id,
             ':produit_id' => $this->produit_id,
             ':quantite' => $this->quantite,
             ':prix_achat' => $this->prix_achat
         ]);
+        $this->id = (int) $this->pdo->lastInsertId();
+        return $success;
     }
 
     public function get(int $id)

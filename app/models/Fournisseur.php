@@ -35,12 +35,14 @@ class Fournisseur
             VALUES (:nom, :email, :telephone, :adresse)
         ");
 
-        return $stmt->execute([
+        $isCreated = $stmt->execute([
             "nom" => $this->nom,
             "email" => $this->email,
             "telephone" => $this->telephone,
             "adresse" => $this->adresse
         ]);
+        $this->id = (int) $this->pdo->lastInsertId();
+        return $isCreated;
     }
     public function get(int $id)
     {

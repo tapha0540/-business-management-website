@@ -30,7 +30,9 @@ class Facture
         $stmt->bindParam(':commande_id', $this->commande_id, PDO::PARAM_INT);
         $stmt->bindParam(':montant_total', $this->montant_total, PDO::PARAM_STR);
 
-        return $stmt->execute();
+        $success = $stmt->execute();
+        $this->id = (int) $this->pdo->lastInsertId();
+        return $success;
     }
     /**
      * Summary of get

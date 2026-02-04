@@ -101,13 +101,20 @@ class Utilisateur
             $this->updated_at
         );
 
-        return $stmt->execute([
+        $isUpdated = $stmt->execute([
             'prenom' => $new_prenom,
             'nom' => $new_nom,
             'email' => $new_email,
             'mot_de_passe' => password_hash($new_mot_de_passe, PASSWORD_BCRYPT),
             'id' => $this->id
         ]);
+        if ($isUpdated) {
+            $this->prenom = $new_prenom;
+            $this->nom = $new_nom;
+            $this->email = $new_email;
+            $this->mot_de_passe = $new_mot_de_passe;
+        }
+        return $isUpdated;
     }
     public function delete()
     {

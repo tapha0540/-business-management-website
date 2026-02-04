@@ -34,12 +34,15 @@ class DetailsCommande
     {
         $stmt = $pdo->prepare('INSERT INTO details_commandes (commande_id, produit_id, quantite, prix_vente) VALUES (:commande_id, :produit_id, :quantite, :prix_vente)');
 
-        return $stmt->execute([
+        $success = $stmt->execute([
             ':commande_id' => $this->commande_id,
             ':produit_id' => $this->produit_id,
             ':quantite' => $this->quantite,
             ':prix_vente' => $this->prix_vente
         ]);
+        $this->id = (int) $this->pdo->lastInsertId();
+
+        return $success;
     }
     public function get()
     {

@@ -34,12 +34,16 @@ class Client
     public function create()
     {
         $stmt = $this->pdo->prepare("INSERT INTO clients (prenom, nom, email, telephone) VALUES (:prenom,:nom, :email, :telephone)");
-        return $stmt->execute([
+        $isCreated = $stmt->execute([
             "prenom" => $this->prenom,
             "nom" => $this->nom,
             "email" => $this->email,
             "telephone" => $this->telephone
         ]);
+        if ($isCreated) {
+            $this->id = (int) $this->pdo->lastInsertId();
+        }
+        return $isCreated;
     }
     /**
      * 
@@ -65,20 +69,30 @@ class Client
     }
     public function update(string $new_prenom, string $new_nom, string $new_email, string $new_telephone): bool
     {
+
         $stmt = $this->pdo->prepare('UPDATE clients SET prenom = :prenom, nom = :nom, email = :email, telephone = :telephone WHERE id = :id');
-        return $stmt->execute([
+       
+        $isUpdated = $stmt->execute([
             'prenom' => $new_prenom,
             'nom' => $new_nom,
             'email' => $new_email,
             'telephone' => $new_telephone,
             'id' => $this->id
         ]);
+
+        if ($isUpdated) {
+            $this->prenom = $new_prenom;
+            $this->nom = $new_nom;
+            $this->email = $new_email;
+            $this->telephone = $new_telephone;
+        }
+        return $isUpdated;
     }
 
     public function delete(): bool
     {
         $stmt = $this->pdo->prepare('DELETE FROM clients WHERE id = ?');
-        
+
         return $stmt->execute([$this->id]);
     }
 }

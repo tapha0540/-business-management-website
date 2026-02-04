@@ -25,7 +25,6 @@ class UserController
             ];
         }
 
-
     }
 
     public function getUserProfile(int|null $userId = null, string|null $email = null)

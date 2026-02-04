@@ -8,17 +8,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $reqBody = file_get_contents('php://input');
         $data = json_decode($reqBody, true);
 
-        $first_name = $data['first_name'] ?? '';
-        $last_name = $data['last_name'] ?? '';
+        $first_name = $data['first_name'] ?? 'hello';
+        $last_name = $data['last_name'] ?? 'World';
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
-        $role = $data['role'] ?? '';
+        $role = $data['role'] ?? 'vendeur'; // s'il n'est pas spécifié, le rôle par défaut est 'vendeur'
 
         // Example validation and processing
         if (empty($first_name) || empty($last_name) || empty($email) || empty($password)) {
             echo json_encode([
                 'success' => false,
-                'message' => 'Tous les champs sont requis.'
+                'message' => "Tous les champs sont requis. $email $first_name $last_name $password $role"
             ]);
             exit;
         }
@@ -30,13 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
 
         }
-        
+        require_once '../../controllers/UserController.php';
+        require_once '../../config/database.php';
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        if ($role !== 'admin') {
+            $userController = new UserController($pdo);
+            echo json_encode($userController->createUser($first_name, $last_name, $email, $passwordHash, $role));
 
+        } else {
+            // Pour des raisons de sécurité, empêcher la création directe d'un utilisateur admin via cette route
+            echo json_encode([
+                'success' => false,
+                'message' => 'Création de compte admin non autorisée.'
+            ]);
+            exit;
+        }
 
-        echo json_encode([
-            'success' => true,
-            'message' => 'Inscription réussie.'
-        ]);
     } catch (Exception $e) {
         error_log($e->getMessage(), 3, $erro_log_path);
         echo json_encode([

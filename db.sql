@@ -81,10 +81,10 @@ CREATE TABLE
 CREATE TABLE
     clients (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        prenom VARCHAR(100) NOT NULL,
         nom VARCHAR(100) NOT NULL,
         email VARCHAR(100),
         telephone VARCHAR(20),
-        adresse TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );

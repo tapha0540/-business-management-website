@@ -9,18 +9,18 @@ class Utilisateur
     private string $email;
     private string $mot_de_passe;
     private string $role;
-    private string|null $created_at;
-    private string|null $updated_at;
+    private string $created_at;
+    private string $updated_at;
     public function __construct(
         PDO $pdo,
         int $id,
-        string|null $prenom = null,
-        string|null $nom = null,
+        string $prenom,
+        string $nom,
         string $email,
-        string|null $mot_de_passe = null,
-        string $role,
-        string|null $created_at = null,
-        string|null $updated_at = null
+        string $mot_de_passe,
+        string $role = 'vendeur',
+        string $created_at,
+        string $updated_at
     ) {
         if ($role != 'admin' && $role != 'vendeur') {
             throw new InvalidArgumentException('Variable role doit etre egal a admin ou vendeur');
@@ -31,7 +31,7 @@ class Utilisateur
         $this->nom = (string) $nom;
         $this->email = (string) $email;
         $this->mot_de_passe = (string) $mot_de_passe;
-        $this->role = (string) $role;
+        $this->role = (string) $role ?? 'vendeur';
         $this->created_at = (string) $created_at;
         $this->updated_at = (string) $updated_at;
     }
@@ -40,23 +40,36 @@ class Utilisateur
     {
         $stmt = $this->pdo->prepare('INSERT INTO utilisateurs(prenom, nom, email, mot_de_passe, role) VALUES (:prenom, :nom, :email, :mot_de_passe, :role)');
 
-        
-        return $stmt->execute([
+        $isCreated = $stmt->execute([
             'prenom' => $this->prenom,
             'nom' => $this->nom,
             'email' => $this->email,
-            'mot_de_passe' => password_hash($this->mot_de_passe, PASSWORD_BCRYPT),
+            'mot_de_passe' => $this->mot_de_passe,
             'role' => $this->role
         ]);
+        if ($isCreated) {
+            $this->id = (int) $this->pdo->lastInsertId();
+        }
+
+        return $isCreated;
     }
     /**
      * Summary of 
      * @return null|array{id: int, prenom: string, nom: string, email: string, mot_de_passe: string, role: string, created_at: string, updated_at: string}
      */
-    public function get(int $id): array|null
+    public function get(int|null $id = null, string|null $email = null): array|null
     {
-        $stmt = $this->pdo->prepare('SELECT id, prenom, nom, email, mot_de_passe, role, created_at, updated_at FROM utilisateurs WHERE id = ?');
-        if (!$stmt->execute([$id])) {
+        if ($id !== null) {
+            $stmt = $this->pdo->prepare('SELECT id, prenom, nom, email, mot_de_passe, role, created_at, updated_at FROM utilisateurs WHERE id = ?');
+            if (!$stmt->execute([$id])) {
+                return null;
+            }
+        } else if ($email !== null) {
+            $stmt = $this->pdo->prepare('SELECT id, prenom, nom, email, mot_de_passe, role, created_at, updated_at FROM utilisateurs WHERE email = ?');
+            if (!$stmt->execute([$email])) {
+                return null;
+            }
+        } else {
             return null;
         }
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -80,7 +93,7 @@ class Utilisateur
     public function getAll()
     {
         $stmt = $this->pdo->prepare('SELECT id, prenom, nom, email, mot_de_passe, role, created_at, updated_at FROM utilisateurs');
-        
+
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

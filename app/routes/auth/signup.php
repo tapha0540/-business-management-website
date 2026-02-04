@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $reqBody = file_get_contents('php://input');
         $data = json_decode($reqBody, true);
 
-        $first_name = $data['first_name'] ?? 'hello';
-        $last_name = $data['last_name'] ?? 'World';
+        $first_name = $data['first-name'] ?? 'hello';
+        $last_name = $data['last-name'] ?? 'World';
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
         $role = $data['role'] ?? 'vendeur'; // s'il n'est pas spécifié, le rôle par défaut est 'vendeur'
@@ -30,13 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
 
         }
-        require_once '../../controllers/UserController.php';
+        require_once '../../controllers/AuthController.php';
         require_once '../../config/database.php';
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
         if ($role !== 'admin') {
-            $userController = new UserController($pdo);
-            echo json_encode($userController->createUser($first_name, $last_name, $email, $passwordHash, $role));
-
+            $authController = new AuthController($pdo);
+            echo json_encode($authController->signup($first_name, $last_name, $email, $passwordHash, $role));
         } else {
             // Pour des raisons de sécurité, empêcher la création directe d'un utilisateur admin via cette route
             echo json_encode([

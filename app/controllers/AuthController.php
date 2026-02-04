@@ -1,34 +1,52 @@
 <?php
 
-require_once 'app/controllers/UserController.php';
-class AuthController extends UserController
+require_once 'C:\Users\DELL\Dev\php\projet_final\app\models\Utilisateur.php';
+
+
+class AuthController
 {
     private PDO $pdo;
+    private Utilisateur $userModel;
 
     public function __construct(PDO $pdo)
     {
-        parent::__construct($pdo);
         $this->pdo = $pdo;
     }
     public function signup(string $first_name, string $last_name, string $email, string $password, string $role)
     {
         // Logique de creation d'un nouvel utilisateur
-        // 
-        return $this->createUser(
+
+        $this->userModel = new Utilisateur(
+            $this->pdo,
+            -1,
             $first_name,
             $last_name,
             $email,
             $password,
-            $role ?? 'vendeur' // valeur par defaut 'vendeur' si aucun role n'est fourni
+            $role,
+            '',
+            ''
         );
+
+        if ($this->userModel->create()) {
+            return [
+                "message" => "utilisateur créé avec succès",
+                "success" => true
+            ];
+        } else {
+            return [
+                "message" => "échec de la création du compte utilisateur",
+                "success" => false
+            ];
+        }
     }
     public function login(string $email, string $password)
     {
         // logique de connexion d'un utilisateur
-        $user = $this->getUserProfile(email: $email);
+        $user = $this->userModel->get(email: $email);
         if ($user) {
 
-            if (!password_verify($password, $user['password'])) {
+            if (!password_verify($password, $user['mot_de_passe'])) {
                 return [
                     "message" => "mot de passe incorrect",
                     "success" => false

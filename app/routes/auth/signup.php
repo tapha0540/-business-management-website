@@ -32,10 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         require_once '../../controllers/AuthController.php';
         require_once '../../config/database.php';
-        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
         if ($role !== 'admin') {
             $authController = new AuthController($pdo);
-            echo json_encode($authController->signup($first_name, $last_name, $email, $passwordHash, $role));
+            echo json_encode($authController->signup($first_name, $last_name, $email, $password, $role));
         }
 
     } catch (Exception $e) {

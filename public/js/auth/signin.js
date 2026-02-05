@@ -63,7 +63,9 @@ loginForm.addEventListener("submit", async (e) => {
     true,
   );
 
-  loginErrorMsg.classList.add(response.success ? "text-succes" : "text-danger");
+  loginErrorMsg.classList.add(
+    response.success ? "text-success" : "text-danger",
+  );
 
   loginErrorMsg.textContent =
     response.message || "Erreur lors de la connexion.";

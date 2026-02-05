@@ -65,7 +65,7 @@ class AuthController
                 'success' => false
             ];
         }
-
+        error_log((password_verify(trim($password), $user['mot_de_passe']) ? 'True' : 'false'), 3, 'C:\Users\DELL\Dev\php\projet_final\app\storage\logs\error_log.log');
         if (!password_verify($password, $user['mot_de_passe'])) {
             return [
                 'message' => 'Mot de passe incorrect.',

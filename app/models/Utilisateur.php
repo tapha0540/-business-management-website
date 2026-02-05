@@ -54,7 +54,7 @@ class Utilisateur
         ]);
 
         if ($ok) {
-            $this->id = (int)$this->pdo->lastInsertId();
+            $this->id = (int) $this->pdo->lastInsertId();
         }
 
         return $ok;
@@ -81,7 +81,7 @@ class Utilisateur
             return null;
         }
 
-        $this->id = (int)$row['id'];
+        $this->id = (int) $row['id'];
         $this->prenom = $row['prenom'];
         $this->nom = $row['nom'];
         $this->email = $row['email'];
@@ -102,39 +102,51 @@ class Utilisateur
     }
 
     public function update(
-        string $prenom,
-        string $nom,
-        string $email,
-        string $mot_de_passe
+        ?string $prenom = null,
+        ?string $nom = null,
+        ?string $email = null,
+        ?string $mot_de_passe = null
     ): bool {
         if ($this->id === null) {
             return false;
         }
 
-        $hash = password_hash($mot_de_passe, PASSWORD_BCRYPT);
+        $fields = [];
+        $params = ['id' => $this->id];
 
-        $stmt = $this->pdo->prepare(
-            'UPDATE utilisateurs
-             SET prenom = :prenom, nom = :nom, email = :email, mot_de_passe = :mot_de_passe
-             WHERE id = :id'
-        );
-
-        $ok = $stmt->execute([
-            'prenom' => $prenom,
-            'nom' => $nom,
-            'email' => $email,
-            'mot_de_passe' => $hash,
-            'id' => $this->id
-        ]);
-
-        if ($ok) {
+        if ($prenom !== null) {
+            $fields[] = 'prenom = :prenom';
+            $params['prenom'] = $prenom;
             $this->prenom = $prenom;
+        }
+
+        if ($nom !== null) {
+            $fields[] = 'nom = :nom';
+            $params['nom'] = $nom;
             $this->nom = $nom;
+        }
+
+        if ($email !== null) {
+            $fields[] = 'email = :email';
+            $params['email'] = $email;
             $this->email = $email;
+        }
+
+        if ($mot_de_passe !== null) {
+            $fields[] = 'mot_de_passe = :mot_de_passe';
+            $hash = password_hash($mot_de_passe, PASSWORD_BCRYPT);
+            $params['mot_de_passe'] = $hash;
             $this->mot_de_passe = $hash;
         }
 
-        return $ok;
+        if (empty($fields)) {
+            return false;
+        }
+
+        $sql = 'UPDATE utilisateurs SET ' . implode(', ', $fields) . ' WHERE id = :id';
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute($params);
     }
 
     public function delete(): bool

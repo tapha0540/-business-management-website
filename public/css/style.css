@@ -1,11 +1,13 @@
 :root {
-  --primary-color: #ff4D00;
+  --primary-color: #ff4d00;
   --secondary-color: #f0f0f0;
   --light-color: #f8f9fa;
   --dark-color: #343a40;
   --text-light-color: #ffffff;
   --text-dark-color: #212529;
+  --background-color: #f8f9fa;
 }
+
 
 .bg-primary {
   background-color: var(--primary-color) !important;
@@ -13,16 +15,28 @@
 .bg-secondary {
   background-color: var(--secondary-color) !important;
 }
-.btn-primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+.btn-primary, .btn-primary:active, .btn-primary:hover {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
   color: #fff;
 }
-
+.btn-primary:hover {
+  scale: 1.02;
+}
+.btn-primary:focus {
+  outline: 2px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+.border-primary {
+  border: 1px solid var(--secondary-color) !important;
+}
 .btn-secondary {
-  background-color: var(--secondary-color) ;
+  background-color: var(--secondary-color);
   border-color: var(--secondary-color);
   color: #fff;
+}
+.border-primary:hover {
+  border: 1px solid var(--primary-color) !important;
 }
 .bg-light {
   background-color: var(--light-color) !important;

@@ -16,6 +16,7 @@ toggleFormLinks.forEach((link) => {
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   signupErrorMsg.textContent = "";
+  signupErrorMsg.classList.remove("text-danger", "text-success");
   if (
     signupForm["signup-password"].value !==
     signupForm["signup-confirm-password"].value
@@ -34,11 +35,14 @@ signupForm.addEventListener("submit", async (e) => {
     "POST",
     formData,
   );
+  signupErrorMsg.classList.add(
+    response.success ? "text-success" : "text-danger",
+  );
   signupErrorMsg.textContent =
     response.message || "Erreur lors de l'inscription.";
   if (response.success) {
     setTimeout(() => {
-      window.location.href = "/html/dashboard.html";
+      window.location.href = "/html/user/dashboard.html";
     }, 1000);
   }
 });
@@ -46,6 +50,8 @@ signupForm.addEventListener("submit", async (e) => {
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   loginErrorMsg.textContent = "";
+  loginErrorMsg.classList.remove("text-danger", "text-success");
+
   const formData = {
     email: loginForm["login-email"].value,
     password: loginForm["login-password"].value,
@@ -56,11 +62,14 @@ loginForm.addEventListener("submit", async (e) => {
     formData,
     true,
   );
+
+  loginErrorMsg.classList.add(response.success ? "text-succes" : "text-danger");
+
   loginErrorMsg.textContent =
     response.message || "Erreur lors de la connexion.";
   if (response.success) {
     setTimeout(() => {
-      window.location.href = "/html/dashboard.html";
+      window.location.href = "/html/user/dashboard.html";
     }, 1000);
   }
 });

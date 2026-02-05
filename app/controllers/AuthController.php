@@ -1,116 +1,116 @@
 <?php
 
-require_once 'C:\Users\DELL\Dev\php\projet_final\app\models\Utilisateur.php';
-
+require_once __DIR__ . '/../models/Utilisateur.php';
 
 class AuthController
 {
     private PDO $pdo;
 
-
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
-    public function signup(string $first_name, string $last_name, string $email, string $password, string $role)
-    {
-        // Logique de creation d'un nouvel utilisateur
 
+    /* ================= SIGNUP ================= */
+    public function signup(
+        string $first_name,
+        string $last_name,
+        string $email,
+        string $password,
+        string $role = 'vendeur'
+    ): array {
+        $userModel = new Utilisateur($this->pdo);
+
+        // Vérifier email existant
+        if ($userModel->get(email: $email)) {
+            return [
+                'message' => 'Un utilisateur avec cet email existe déjà.',
+                'success' => false
+            ];
+        }
+
+        // Créer utilisateur
         $userModel = new Utilisateur(
             $this->pdo,
-            -1,
+            null,
             $first_name,
             $last_name,
             $email,
             $password,
-            $role,
-            '',
-            ''
+            $role
         );
 
-        $user = $userModel->get(email: $email);
-        if ($user) {
-            return [
-                'message' => 'Un utilisateur avec un tel email existe deja.',
-                'success' => false
-            ];
-        }
         if ($userModel->create()) {
             return [
-                "message" => "utilisateur créé avec succès",
-                "success" => true
-            ];
-        } else {
-            return [
-                "message" => "échec de la création du compte utilisateur",
-                "success" => false
+                'message' => 'Utilisateur créé avec succès',
+                'success' => true
             ];
         }
-    }
-    public function login(string $email, string $password)
-    {
-        // logique de connexion d'un utilisateur
-        $userModel = new Utilisateur(pdo: $this->pdo, email: $email, mot_de_passe: $password);
 
+        return [
+            'message' => 'Échec de la création du compte',
+            'success' => false
+        ];
+    }
+
+    /* ================= LOGIN ================= */
+    public function login(string $email, string $password): array
+    {
+        $userModel = new Utilisateur($this->pdo);
         $user = $userModel->get(email: $email);
-        if ($user) {
-            if (!password_verify($password, $user['mot_de_passe'])) {
-                return [
-                    "message" => "mot de passe incorrect",
-                    "success" => false
-                ];
-            }
-            error_log("\n $password", 3, 'C:\Users\DELL\Dev\php\projet_final\app\storage\logs\error_log.log');
 
-            $lifetime = 60 * 60 * 24 * 60; // 60 jours = 2 mois
-
-            session_set_cookie_params([
-                'lifetime' => $lifetime,
-                'path' => '/',
-                'domain' => '',
-                'secure' => false, // true si HTTPS
-                'httponly' => true,
-                'samesite' => 'Lax'
-            ]);
-
-            session_start();
-
-            $_SESSION['user'] = $user;
-
+        if (!$user) {
             return [
-                "message" => "connexion reussie",
-                "success" => true,
-                "user" => $user
-            ];
-
-        } else {
-            return [
-                "message" => "Email incorrect.",
-                "success" => false
-            ];
-
-        }
-    }
-    public function logout()
-    {
-        // Logout logic would go here
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            return [
-                'message' => "Vous n'etes pas connecte.",
+                'message' => 'Email incorrect.',
                 'success' => false
             ];
         }
 
-        if (session_unset() && session_destroy()) {
+        if (!password_verify($password, $user['mot_de_passe'])) {
             return [
-                "message" => "deconnexion reussie",
-                "success" => true
-            ];
-        } else {
-            return [
-                "message" => "echec de la deconnexion",
-                "success" => false
+                'message' => 'Mot de passe incorrect.',
+                'success' => false
             ];
         }
+
+        // Session 2 mois
+        session_set_cookie_params([
+            'lifetime' => 60 * 60 * 24 * 60,
+            'path' => '/',
+            'secure' => false, // true si HTTPS
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+
+        session_start();
+        session_regenerate_id(true);
+
+        unset($user['mot_de_passe']); // on enleve le mot de passe pour des raisons de sécurité.
+        $_SESSION['user'] = $user;
+
+        return [
+            'message' => 'Connexion réussie',
+            'success' => true,
+            'user' => $user
+        ];
+    }
+
+    /* ================= LOGOUT ================= */
+    public function logout(): array
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            return [
+                'message' => "Vous n'êtes pas connecté.",
+                'success' => false
+            ];
+        }
+
+        session_unset();
+        session_destroy();
+
+        return [
+            'message' => 'Déconnexion réussie',
+            'success' => true
+        ];
     }
 }

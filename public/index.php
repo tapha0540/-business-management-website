@@ -7,5 +7,5 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 $user = $_SESSION['user'];
-header('Location: /html/user/dashboard.php');
+header('Location: /html/user/dashboard.html');
 

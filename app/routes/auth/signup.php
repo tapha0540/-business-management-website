@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $reqBody = file_get_contents('php://input');
         $data = json_decode($reqBody, true);
 
-        $first_name = $data['first-name'] ?? 'hello';
-        $last_name = $data['last-name'] ?? 'World';
+        $first_name = $data['first_name'] ?? '';
+        $last_name = $data['last_name'] ?? '';
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
         $role = $data['role'] ?? 'vendeur'; // s'il n'est pas spécifié, le rôle par défaut est 'vendeur'

@@ -3,136 +3,150 @@
 class Utilisateur
 {
     private PDO $pdo;
-    private int|null $id;
-    private string|null $prenom;
-    private string|null $nom;
-    private string|null $email;
-    private string|null $mot_de_passe;
-    private string|null $role;
-    private string|null $created_at;
-    private string|null $updated_at;
+    private ?int $id;
+    private ?string $prenom;
+    private ?string $nom;
+    private ?string $email;
+    private ?string $mot_de_passe;
+    private string $role;
+    private ?string $created_at;
+    private ?string $updated_at;
+
     public function __construct(
         PDO $pdo,
-        int|null $id = null,
-        string|null $prenom = null,
-        string|null $nom = null,
-        string|null $email = null,
-        string|null $mot_de_passe = null,
-        string|null $role = 'vendeur' ,
-        string|null $created_at = null,
-        string|null $updated_at = null
+        ?int $id = null,
+        ?string $prenom = null,
+        ?string $nom = null,
+        ?string $email = null,
+        ?string $mot_de_passe = null,
+        string $role = 'vendeur',
+        ?string $created_at = null,
+        ?string $updated_at = null
     ) {
-        if ($role != 'admin' && $role != 'vendeur') {
-            throw new InvalidArgumentException('Variable role doit etre egal a admin ou vendeur');
+        if (!in_array($role, ['admin', 'vendeur'])) {
+            throw new InvalidArgumentException('Role invalide');
         }
+
         $this->pdo = $pdo;
-        $this->id = (int) $id;
-        $this->prenom = (string) $prenom;
-        $this->nom = (string) $nom;
-        $this->email = (string) $email;
-        $this->mot_de_passe = (string) $mot_de_passe;
-        $this->role = (string) $role ?? 'vendeur';
-        $this->created_at = (string) $created_at;
-        $this->updated_at = (string) $updated_at;
+        $this->id = $id;
+        $this->prenom = $prenom;
+        $this->nom = $nom;
+        $this->email = $email;
+        $this->mot_de_passe = $mot_de_passe;
+        $this->role = $role;
+        $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
     }
 
     public function create(): bool
     {
-        $stmt = $this->pdo->prepare('INSERT INTO utilisateurs(prenom, nom, email, mot_de_passe, role) VALUES (:prenom, :nom, :email, :mot_de_passe, :role)');
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO utilisateurs (prenom, nom, email, mot_de_passe, role)
+             VALUES (:prenom, :nom, :email, :mot_de_passe, :role)'
+        );
 
-        $isCreated = $stmt->execute([
+        $ok = $stmt->execute([
             'prenom' => $this->prenom,
             'nom' => $this->nom,
             'email' => $this->email,
-            'mot_de_passe' => $this->mot_de_passe,
+            'mot_de_passe' => password_hash($this->mot_de_passe, PASSWORD_BCRYPT),
             'role' => $this->role
         ]);
-        if ($isCreated) {
-            $this->id = (int) $this->pdo->lastInsertId();
+
+        if ($ok) {
+            $this->id = (int)$this->pdo->lastInsertId();
         }
 
-        return $isCreated;
+        return $ok;
     }
-    /**
-     * Summary of 
-     * @return null|array{id: int, prenom: string, nom: string, email: string, mot_de_passe: string, role: string, created_at: string, updated_at: string}
-     */
-    public function get(int|null $id = null, string|null $email = null): array|null
+
+    public function get(?int $id = null, ?string $email = null): ?array
     {
         if ($id !== null) {
-            $stmt = $this->pdo->prepare('SELECT id, prenom, nom, email, mot_de_passe, role, created_at, updated_at FROM utilisateurs WHERE id = ?');
-            if (!$stmt->execute([$id])) {
-                return null;
-            }
-        } else if ($email !== null) {
-            $stmt = $this->pdo->prepare('SELECT id, prenom, nom, email, mot_de_passe, role, created_at, updated_at FROM utilisateurs WHERE email = ?');
-            if (!$stmt->execute([$email])) {
-                return null;
-            }
+            $stmt = $this->pdo->prepare(
+                'SELECT * FROM utilisateurs WHERE id = ?'
+            );
+            $stmt->execute([$id]);
+        } elseif ($email !== null) {
+            $stmt = $this->pdo->prepare(
+                'SELECT * FROM utilisateurs WHERE email = ?'
+            );
+            $stmt->execute([$email]);
         } else {
             return null;
         }
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $this->__construct(
-            $this->pdo,
-            (int) $id,
-            (string) $row['prenom'],
-            (string) $row['nom'],
-            (string) $row['email'],
-            (string) $row['mot_de_passe'],
-            (string) $row['role'],
-            (string) $row['created_at'],
-            (string) $row['updated_at']
-        );
+        if (!$row) {
+            return null;
+        }
+
+        $this->id = (int)$row['id'];
+        $this->prenom = $row['prenom'];
+        $this->nom = $row['nom'];
+        $this->email = $row['email'];
+        $this->mot_de_passe = $row['mot_de_passe'];
+        $this->role = $row['role'];
+        $this->created_at = $row['created_at'];
+        $this->updated_at = $row['updated_at'];
+
         return $row;
     }
-    /**
-     * Summary of 
-     * @return array<array{id: int, prenom: string, nom: string, email: string, mot_de_passe: string, role: string, created_at: string, updated_at: string}>
-     */
-    public function getAll()
+
+    public function getAll(): array
     {
-        $stmt = $this->pdo->prepare('SELECT id, prenom, nom, email, mot_de_passe, role, created_at, updated_at FROM utilisateurs');
-
-        $stmt->execute();
-
+        $stmt = $this->pdo->query(
+            'SELECT id, prenom, nom, email, role, created_at, updated_at FROM utilisateurs'
+        );
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function update(string $new_prenom, string $new_nom, string $new_email, string $new_mot_de_passe)
-    {
-        $stmt = $this->pdo->prepare('UPDATE utilisateurs SET prenom = :prenom, nom = :nom, email = :email, mot_de_passe = :mot_de_passe WHERE id = :id');
 
-        $this->__construct(
-            $this->pdo,
-            $this->id,
-            $new_prenom,
-            $new_nom,
-            $new_email,
-            $new_mot_de_passe,
-            $this->role,
-            $this->created_at,
-            $this->updated_at
+    public function update(
+        string $prenom,
+        string $nom,
+        string $email,
+        string $mot_de_passe
+    ): bool {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $hash = password_hash($mot_de_passe, PASSWORD_BCRYPT);
+
+        $stmt = $this->pdo->prepare(
+            'UPDATE utilisateurs
+             SET prenom = :prenom, nom = :nom, email = :email, mot_de_passe = :mot_de_passe
+             WHERE id = :id'
         );
 
-        $isUpdated = $stmt->execute([
-            'prenom' => $new_prenom,
-            'nom' => $new_nom,
-            'email' => $new_email,
-            'mot_de_passe' => password_hash($new_mot_de_passe, PASSWORD_BCRYPT),
+        $ok = $stmt->execute([
+            'prenom' => $prenom,
+            'nom' => $nom,
+            'email' => $email,
+            'mot_de_passe' => $hash,
             'id' => $this->id
         ]);
-        if ($isUpdated) {
-            $this->prenom = $new_prenom;
-            $this->nom = $new_nom;
-            $this->email = $new_email;
-            $this->mot_de_passe = $new_mot_de_passe;
-        }
-        return $isUpdated;
-    }
-    public function delete()
-    {
-        $stmt = $this->pdo->prepare('DELETE FROM utilisateurs WHERE id = :id');
 
-        return $stmt->execute(['id' => $this->id]);
+        if ($ok) {
+            $this->prenom = $prenom;
+            $this->nom = $nom;
+            $this->email = $email;
+            $this->mot_de_passe = $hash;
+        }
+
+        return $ok;
+    }
+
+    public function delete(): bool
+    {
+        if ($this->id === null) {
+            return false;
+        }
+
+        $stmt = $this->pdo->prepare(
+            'DELETE FROM utilisateurs WHERE id = ?'
+        );
+
+        return $stmt->execute([$this->id]);
     }
 }

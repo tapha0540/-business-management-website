@@ -6,7 +6,7 @@ require_once 'C:\Users\DELL\Dev\php\projet_final\app\models\Utilisateur.php';
 class AuthController
 {
     private PDO $pdo;
-    private Utilisateur $userModel;
+
 
     public function __construct(PDO $pdo)
     {
@@ -16,7 +16,7 @@ class AuthController
     {
         // Logique de creation d'un nouvel utilisateur
 
-        $this->userModel = new Utilisateur(
+        $userModel = new Utilisateur(
             $this->pdo,
             -1,
             $first_name,
@@ -28,7 +28,14 @@ class AuthController
             ''
         );
 
-        if ($this->userModel->create()) {
+        $user = $userModel->get(email: $email);
+        if ($user) {
+            return [
+                'message' => 'Un utilisateur avec un tel email existe deja.',
+                'success' => false
+            ];
+        }
+        if ($userModel->create()) {
             return [
                 "message" => "utilisateur créé avec succès",
                 "success" => true
@@ -43,7 +50,9 @@ class AuthController
     public function login(string $email, string $password)
     {
         // logique de connexion d'un utilisateur
-        $user = $this->userModel->get(email: $email);
+        $userModel = new Utilisateur(pdo: $this->pdo, email: $email, mot_de_passe: $password);
+        
+        $user = $userModel->get(email: $email);
         if ($user) {
             if (!password_verify($password, $user['mot_de_passe'])) {
                 return [

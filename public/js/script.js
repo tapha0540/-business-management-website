@@ -1,10 +1,18 @@
-const fetchApi = async (url, method = "GET", data = null) => {
+const fetchApi = async (
+  url,
+  method = "GET",
+  data = null,
+  isCrendentialIncluded = false,
+) => {
   const options = {
     method,
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
+    credentials: isCrendentialIncluded ? "include" : "omit",
   };
+
   if (data) {
     options.body = JSON.stringify(data);
   }

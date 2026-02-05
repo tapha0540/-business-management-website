@@ -3,24 +3,24 @@
 class Utilisateur
 {
     private PDO $pdo;
-    private int $id;
-    private string $prenom;
-    private string $nom;
-    private string $email;
-    private string $mot_de_passe;
-    private string $role;
-    private string $created_at;
-    private string $updated_at;
+    private int|null $id;
+    private string|null $prenom;
+    private string|null $nom;
+    private string|null $email;
+    private string|null $mot_de_passe;
+    private string|null $role;
+    private string|null $created_at;
+    private string|null $updated_at;
     public function __construct(
         PDO $pdo,
-        int $id,
-        string $prenom,
-        string $nom,
-        string $email,
-        string $mot_de_passe,
-        string $role = 'vendeur',
-        string $created_at,
-        string $updated_at
+        int|null $id = null,
+        string|null $prenom = null,
+        string|null $nom = null,
+        string|null $email = null,
+        string|null $mot_de_passe = null,
+        string|null $role = 'vendeur' ,
+        string|null $created_at = null,
+        string|null $updated_at = null
     ) {
         if ($role != 'admin' && $role != 'vendeur') {
             throw new InvalidArgumentException('Variable role doit etre egal a admin ou vendeur');

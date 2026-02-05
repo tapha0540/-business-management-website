@@ -47,13 +47,14 @@ loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   loginErrorMsg.textContent = "";
   const formData = {
-    email: loginForm.email.value,
-    password: loginForm.password.value,
+    email: loginForm["login-email"].value,
+    password: loginForm["login-password"].value,
   };
   const response = await fetchApi(
     "http://localhost:8081/routes/auth/login.php",
     "POST",
     formData,
+    true,
   );
   loginErrorMsg.textContent =
     response.message || "Erreur lors de la connexion.";

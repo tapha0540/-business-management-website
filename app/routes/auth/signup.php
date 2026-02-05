@@ -36,13 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($role !== 'admin') {
             $authController = new AuthController($pdo);
             echo json_encode($authController->signup($first_name, $last_name, $email, $passwordHash, $role));
-        } else {
-            // Pour des raisons de sécurité, empêcher la création directe d'un utilisateur admin via cette route
-            echo json_encode([
-                'success' => false,
-                'message' => 'Création de compte admin non autorisée.'
-            ]);
-            exit;
         }
 
     } catch (Exception $e) {

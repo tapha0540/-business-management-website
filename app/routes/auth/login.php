@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo json_encode($result);
 
     } catch (Exception $e) {
-
         error_log('\n ' . $e->getMessage(), 3, $erro_log_path);
         echo json_encode([
             'message' => 'Erreur cote serveur',

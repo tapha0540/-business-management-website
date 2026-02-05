@@ -42,7 +42,7 @@ signupForm.addEventListener("submit", async (e) => {
     response.message || "Erreur lors de l'inscription.";
   if (response.success) {
     setTimeout(() => {
-      window.location.href = "/html/user/dashboard.html";
+      window.location.reload();
     }, 1000);
   }
 });

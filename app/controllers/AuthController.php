@@ -51,7 +51,7 @@ class AuthController
     {
         // logique de connexion d'un utilisateur
         $userModel = new Utilisateur(pdo: $this->pdo, email: $email, mot_de_passe: $password);
-        
+
         $user = $userModel->get(email: $email);
         if ($user) {
             if (!password_verify($password, $user['mot_de_passe'])) {
@@ -60,6 +60,8 @@ class AuthController
                     "success" => false
                 ];
             }
+            error_log("\n $password", 3, 'C:\Users\DELL\Dev\php\projet_final\app\storage\logs\error_log.log');
+
             $lifetime = 60 * 60 * 24 * 60; // 60 jours = 2 mois
 
             session_set_cookie_params([
@@ -72,15 +74,18 @@ class AuthController
             ]);
 
             session_start();
+
             $_SESSION['user'] = $user;
+
             return [
                 "message" => "connexion reussie",
                 "success" => true,
                 "user" => $user
             ];
+
         } else {
             return [
-                "message" => "nom d'utilisateur ou mot de passe incorrect",
+                "message" => "Email incorrect.",
                 "success" => false
             ];
 

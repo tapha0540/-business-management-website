@@ -2,7 +2,7 @@
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$dbpassword = "";
 $dbname = "gestion_commerciale";
 $dbport = 3306;
 
@@ -10,7 +10,7 @@ try {
     $pdo = new PDO(
         "mysql:host=$servername;dbname=$dbname;port=$dbport",
         $username,
-        $password
+        $dbpassword
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
 
-        if (!$email || !$password) {
+        if (empty($email) || empty(!$password)) {
             echo json_encode([
                 'message' => "Tous les champs sont obligatoires.",
                 'success' => false
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $authController = new AuthController($pdo);
 
         $result = $authController->login($email, $password);
-        
+
         echo json_encode($result);
 
     } catch (Exception $e) {

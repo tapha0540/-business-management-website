@@ -60,7 +60,6 @@ class AuthController
                     "success" => false
                 ];
             }
-            session_start();
             return [
                 "message" => "connexion reussie",
                 "success" => true,

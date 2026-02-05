@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ]);
 
             session_start();
-            $_session['user'] = $result['user'];
+            $_SESSION['user'] = $result['user'];
         }
         echo json_encode($result);
 

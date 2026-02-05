@@ -10,7 +10,6 @@ const fetchApi = async (
       "Content-Type": "application/json",
     },
     credentials: "include",
-    credentials: isCrendentialIncluded ? "include" : "omit",
   };
 
   if (data) {

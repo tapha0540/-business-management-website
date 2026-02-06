@@ -1,1 +1,22 @@
-True
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[05-Feb-2026 23:28:22 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21
+[05-Feb-2026 23:28:22 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: AuthController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php:9
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php(21): AuthController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php on line 9
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[05-Feb-2026 23:28:26 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21
+[05-Feb-2026 23:28:26 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: AuthController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php:9
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php(21): AuthController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php on line 9
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[05-Feb-2026 23:28:30 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21
+[05-Feb-2026 23:28:30 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: AuthController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php:9
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php(21): AuthController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php on line 9
+TrueTrueTrueTrue

@@ -1,67 +1,122 @@
 <!doctype html>
 <html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="../../bootstrap-5.3.8-dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../../css/auth/signin.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <title>Page de Connexion</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../../bootstrap-5.3.8-dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="../../css/auth/signin.css" />
-  <link rel="stylesheet" href="../../css/style.css" />
-  <title>Page de Connexion</title>
-</head>
+  <body>
+    <main
+      class="row d-flex justify-content-sm-between align-items-center vh-100 p-5 m-0 overflow-x-hidden"
+    >
+      <form
+        class="col form-signin d-flex flex-column row-gap-3 d-none border-primary border-2 rounded-4"
+        id="signup-form"
+      >
+        <div class="form-group p-2">
+          <label for="first-name">Prénom</label>
+          <input
+            type="text"
+            class="form-control border-primary border-1"
+            id="first-name"
+            name="first-name"
+            placeholder="Entrez votre prénom"
+            required
+          />
+        </div>
+        <div class="form-group p-2">
+          <label for="last-name">Nom</label>
+          <input
+            type="text"
+            class="form-control"
+            id="last-name"
+            name="last-name"
+            placeholder="Entrez votre nom"
+            required
+          />
+        </div>
+        <div class="form-group p-2">
+          <label for="signup-email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="signup-email"
+            name="signup-email"
+            placeholder="Entrez votre email"
+            required
+          />
+        </div>
+        <div class="form-group p-2">
+          <label for="signup-password">Mot de Passe</label>
+          <input
+            type="password"
+            class="form-control"
+            id="signup-password"
+            name="signup-password"
+            placeholder="Entrez votre mot de passe"
+            required
+          />
+        </div>
+        <div class="form-group p-2">
+          <label for="signup-confirm-password">Confirmer le Mot de Passe</label>
+          <input
+            type="password"
+            class="form-control"
+            id="signup-confirm-password"
+            name="signup-confirm-password"
+            placeholder="Confirmez votre mot de passe"
+            required
+          />
+        </div>
+        <p class="text-center" id="signup-error-msg"></p>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+        <a href="#" class="toggle-form text-center"
+          >Déjà un compte ? Se connecter</a
+        >
+      </form>
 
-<body>
-  <main class="row d-flex justify-content-sm-between align-items-center vh-100 p-5 m-0 overflow-x-hidden">
-    <form class="col form-signin d-flex flex-column row-gap-3 d-none border-primary border-2 rounded-4" id="signup-form">
-      <div class="form-group p-2">
-        <label for="first-name">Prénom</label>
-        <input type="text" class="form-control border-primary border-1" id="first-name" name="first-name" placeholder="Entrez votre prénom"
-          required />
-      </div>
-      <div class="form-group p-2">
-        <label for="last-name">Nom</label>
-        <input type="text" class="form-control" id="last-name" name="last-name" placeholder="Entrez votre nom"
-          required />
-      </div>
-      <div class="form-group p-2">
-        <label for="signup-email">Adresse Email</label>
-        <input type="email" class="form-control" id="signup-email" name="signup-email" placeholder="Entrez votre email"
-          required />
-      </div>
-      <div class="form-group p-2">
-        <label for="signup-password">Mot de Passe</label>
-        <input type="password" class="form-control" id="signup-password" name="signup-password"
-          placeholder="Entrez votre mot de passe" required />
-      </div>
-      <div class="form-group p-2">
-        <label for="signup-confirm-password">Confirmer le Mot de Passe</label>
-        <input type="password" class="form-control" id="signup-confirm-password" name="signup-confirm-password"
-          placeholder="Confirmez votre mot de passe" required />
-      </div>
-      <p class="text-center" id="signup-error-msg"></p>
-      <button type="submit" class="btn btn-primary">S'inscrire</button>
-      <a href="#" class="toggle-form text-center">Déjà un compte ? Se connecter</a>
-    </form>
-
-    <form class="col form-signin d-flex flex-column row-gap-3 border-primary border-2 rounded-4" id="login-form">
-      <div class="form-group p-2">
-        <label for="email">Adresse Email</label>
-        <input type="email" class="form-control" id="email" name="login-email" placeholder="Entrez votre email"
-          required />
-      </div>
-      <div class="form-group p-2">
-        <label for="password">Mot de Passe</label>
-        <input type="password" class="form-control" id="password" name="login-password"
-          placeholder="Entrez votre mot de passe" required />
-      </div>
-      <p class="text-center" id="login-error-msg"></p>
-      <button type="submit" class="btn btn-primary">Se Connecter</button>
-      <a href="#" class="toggle-form text-center">Pas de compte ? S'inscrire</a>
-    </form>
-  </main>
-  <script src="../../js/script.js"></script>
-  <script src="../../js/auth/signin.js"></script>
-  <script src="../../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+      <form
+        class="col form-signin d-flex flex-column row-gap-3 border-primary border-2 rounded-4"
+        id="login-form"
+      >
+        <div class="form-group p-2">
+          <label for="email">Adresse Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="login-email"
+            placeholder="Entrez votre email"
+            required
+          />
+        </div>
+        <div class="form-group p-2">
+          <label for="password">Mot de Passe</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="login-password"
+            placeholder="Entrez votre mot de passe"
+            required
+          />
+        </div>
+        <p class="text-center" id="login-error-msg"></p>
+        <button type="submit" class="btn btn-primary">Se Connecter</button>
+        <a href="#" class="toggle-form text-center"
+          >Pas de compte ? S'inscrire</a
+        >
+      </form>
+    </main>
+    <script src="../../js/script.js"></script>
+    <script src="../../js/auth/signin.js"></script>
+    <script src="../../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

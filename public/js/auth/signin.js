@@ -71,7 +71,7 @@ loginForm.addEventListener("submit", async (e) => {
     response.message || "Erreur lors de la connexion.";
   if (response.success) {
     setTimeout(() => {
-      window.location.href = "/html/user/dashboard.html";
+      window.location.href = "/html/user/dashboard.php";
     }, 1000);
   }
 });

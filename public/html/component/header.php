@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-lighter">
+<nav class="navbar navbar-expand-lg navbar-light bg-lighter border-5 border-primary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Gestion Commerciale</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

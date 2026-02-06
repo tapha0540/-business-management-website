@@ -5,6 +5,11 @@ if (!isset($_SESSION['user'])) {
   header('/html/auth/signup.html');
   exit;
 }
+/**
+ * @var array{id: int, prenom: string, nom: string, email: string, role: string, created_at: string, updated_at: string}
+ */
+$user = $_SESSION['user'];
+$estAdmin = $user['role'] == 'admin';
 
 ?>
 <!doctype html>
@@ -23,34 +28,41 @@ if (!isset($_SESSION['user'])) {
 
   <main class="row bg-light justify-content-center">
 
-    <section class="col h-100 p-0 m-0 bg-lighter border-5 border-primary">
+    <section class="col h-100 p-0 m-0 bg-lighter border-5 border-primary shadow-sm">
       <h5 class="text-center my-3 text-primary">Gestion Commerciale</h5>
       <div class="nav flex-column nav-pills m-1 justify-content-center align-items-center row-gap-3" id="v-pills-tab"
         role="tablist" aria-orientation="vertical">
-        <button class="nav-link active w-75 p-2" id="v-pills-dashboard-tab" data-bs-toggle="pill"
+        <button class="nav-link active w-75 p-2 text-dark" id="v-pills-dashboard-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard"
           aria-selected="true">
           <img src="../../assets/images/icons/dashboard-layout.svg" width="24px" height="24px" class="" />
           Dashboard
         </button>
-        <button class="nav-link w-75 p-2" id="v-pills-orders-tab" data-bs-toggle="pill" data-bs-target="#v-pills-orders"
+        <button class="nav-link w-75 p-2 text-dark" id="v-pills-orders-tab" data-bs-toggle="pill" data-bs-target="#v-pills-orders"
           type="button" role="tab" aria-controls="v-pills-orders" aria-selected="false">
           <img src="../../assets/images/icons/shoppin_bag.svg" width="24px" height="24px" class="" />
           Commandes
         </button>
-        <button class="nav-link w-75 p-2" id="v-pills-products-tab" data-bs-toggle="pill"
+        <button class="nav-link w-75 p-2 text-dark" id="v-pills-products-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-products" type="button" role="tab" aria-controls="v-pills-products"
           aria-selected="false">
           <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
           Produits
         </button>
-        <button class="nav-link w-75 p-2" id="v-pills-clients-tab" data-bs-toggle="pill"
+        <button class="nav-link w-75 p-2 text-dark" id="v-pills-clients-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-clients" type="button" role="tab" aria-controls="v-pills-clients"
           aria-selected="false">
           <img src="../../assets/images/icons/customers.svg" width="24px" height="24px" class="" />
           Clients
         </button>
-        <button class="nav-link w-75 p-2" id="v-pills-settings-tab" data-bs-toggle="pill"
+        <?php if ($estAdmin): ?>
+          <button class="nav-link w-75 p-2 text-dark" id="v-pills-settings-tab" data-bs-toggle="pill"
+            data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-users" aria-selected="false">
+            <img src="../../assets/images/icons/users.svg" width="24px" height="24px" class="" />
+            Utilisateurs
+          </button>
+        <?php endif; ?>
+        <button class="nav-link w-75 p-2 text-dark" id="v-pills-settings-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings"
           aria-selected="false">
           <img src="../../assets/images/icons/settings.svg" width="24px" height="24px" class="" />
@@ -72,6 +84,11 @@ if (!isset($_SESSION['user'])) {
         <div class="tab-pane fade" id="v-pills-products" role="tabpanel" aria-labelledby="v-pills-products-tab">
           product
         </div>
+        <?php if ($estAdmin): ?>
+          <div class="tab-pane fade" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
+            Utilisateurs
+          </div>
+        <?php endif; ?>
         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
           settings
         </div>

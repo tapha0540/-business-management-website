@@ -100,10 +100,17 @@ class Commandes
                                         WHERE c.etat = 'cloturee'
                                         AND f.created_at BETWEEN :from AND :to
                                         ORDER BY f.montant_total DESC
-                                        LIMIT :limit;
+                                        LIMIT :limit
                                         ");
-        $stmt->bindValue(':from', $from);
-        $stmt->bindValue(':to', $to);
+
+        $stmt->bindValue(':from', (new DateTime($from))
+            ->modify('-1 day')
+            ->format('Y-m-d'), PDO::PARAM_STR);
+
+        $stmt->bindValue(':to', (new DateTime($to))
+            ->modify('+1 day')
+            ->format('Y-m-d'), PDO::PARAM_STR);
+            
         $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
         $stmt->execute();
 

@@ -9,7 +9,7 @@ const fetchApi = async (
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include",
+    credentials: isCrendentialIncluded ? "include" : "omit",
   };
 
   if (data) {
@@ -26,3 +26,4 @@ const fetchApi = async (
     };
   }
 };
+

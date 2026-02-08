@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../models/Utilisateur.php';
+require_once __DIR__ . dirname('\..\models\Utilisateur.php');
 
 class AuthController
 {

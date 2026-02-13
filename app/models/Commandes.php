@@ -93,15 +93,17 @@ class Commandes
     public static function bestOrdersByPrice(PDO $pdo, int $limit, string $from, string $to)
     {
         $stmt = $pdo->prepare("SELECT 
-                                            c.id,
-                                            f.montant_total
-                                        FROM commandes c
-                                        JOIN factures f ON f.commande_id = c.id
-                                        WHERE c.etat = 'cloturee'
-                                        AND f.created_at BETWEEN :from AND :to
-                                        ORDER BY f.montant_total DESC
-                                        LIMIT :limit
-                                        ");
+                                    c.id,
+                                    f.montant_total AS `Montant Total`,
+                                    c.etat AS Etat,
+                                    c.created_at AS 'Commandé le',
+                                    c.updated_at AS `Cloturée le`
+                                FROM commandes c
+                                JOIN factures f ON f.commande_id = c.id
+                                WHERE c.etat = 'cloturee'
+                                AND f.created_at BETWEEN :from AND :to
+                                ORDER BY f.montant_total DESC
+                                LIMIT :limit");
 
         $stmt->bindValue(':from', (new DateTime($from))
             ->modify('-1 day')
@@ -110,7 +112,7 @@ class Commandes
         $stmt->bindValue(':to', (new DateTime($to))
             ->modify('+1 day')
             ->format('Y-m-d'), PDO::PARAM_STR);
-            
+
         $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
         $stmt->execute();
 

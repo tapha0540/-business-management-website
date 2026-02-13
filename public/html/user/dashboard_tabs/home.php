@@ -29,7 +29,7 @@
 <?php $spinnerId = 'home-spinner';
 require_once 'C:\Users\DELL\Dev\php\projet_final\public\html\component\spinner.php' ?>
 
-<table id="home-table" class="table table-primary border-3 border-primary">
+<table id="home-table" class="table p-2 text-center shadow-sm rounded-3">
     <tfoot>
         <p id="error-message" class="text-danger text-center"></p>
     </tfoot>

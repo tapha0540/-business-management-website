@@ -15,26 +15,24 @@ class DashboardController
                 require_once __DIR__ . '/../models/Commandes.php';
                 return Commandes::bestOrdersByPrice($this->pdo, $limit, $from, $to);
             case 'best-sellers':
-                return [
-                    ['id' => 1, 'nom' => 'fall']
-                ];
+                require_once __DIR__ . '/../models/Utilisateur.php';
+                return Utilisateur::bestSellers($this->pdo, $limit, $from, $to);
             case 'most-sold-products':
                 return [
-                    ['id' => 1, 'nom' => 'fall']
+                    ['id' => 1, 'nom' => 'most-sold-products']
                 ];
             case 'best-customers':
                 return [
-                    ['id' => 1, 'nom' => 'fall']
+                    ['id' => 1, 'nom' => 'best-customers']
                 ];
             case 'product-at-risk-of-out-of-stock':
                 return [
-                    ['id' => 1, 'nom' => 'fall']
+                    ['id' => 1, 'nom' => 'product-at-risk-of-out-of-stock']
                 ];
             default:
                 // latest-orders
-                return [
-                    ['id' => 1, 'nom' => 'fall']
-                ];
+                require_once __DIR__ . '/../models/Commandes.php';
+                return Commandes::latestOrders($this->pdo, $limit, $from, $to);
         }
     }
 }

@@ -161,4 +161,33 @@ class Utilisateur
 
         return $stmt->execute([$this->id]);
     }
+    static public function bestSellers(PDO &$pdo, int $limit, string $from, string $to): array
+    {
+        $stmt = $pdo->prepare("SELECT 
+                                        u.id AS `Id`,
+                                        u.prenom AS `Prénom`,
+                                        u.nom AS `Nom`,
+                                        u.email AS `Email`,
+                                        u.created_at AS `Compte crée le`,
+                                        COUNT(c.id) AS `Nombre de commandes réalisées`
+                                    FROM utilisateurs u
+                                    LEFT JOIN commandes c ON u.id = c.vendeur_id
+                                    WHERE u.role = 'vendeur' AND u.created_at BETWEEN :from AND :to
+                                    GROUP BY u.id, u.prenom, u.nom, u.email
+                                    ORDER BY `Nombre de commandes réalisées` DESC
+                                    LIMIT :limit");
+
+        $stmt->bindValue(':from', (new DateTime($from))
+            ->modify('-1 day')
+            ->format('Y-m-d'), PDO::PARAM_STR);
+
+        $stmt->bindValue(':to', (new DateTime($to))
+            ->modify('+1 day')
+            ->format('Y-m-d'), PDO::PARAM_STR);
+
+        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

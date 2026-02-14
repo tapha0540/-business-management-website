@@ -26,7 +26,6 @@ const fetchHomeTableData = async (e) => {
       errorMsg.textContent =
         serverRes.message || "Erreur le serveur ne repond pas.";
     }
-    console.log(serverRes.data);
 
     renderTable(serverRes.data, "home-table");
   } catch (err) {
@@ -39,3 +38,25 @@ const fetchHomeTableData = async (e) => {
 
 homeForm.onsubmit = (e) => fetchHomeTableData(e);
 homeForm.onsubmit();
+
+const getMonthlyRevenue = async () => {
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/dashboard/monthly_revenue.php",
+    "GET",
+  );
+  console.log(serverRes);
+   if (!serverRes.success) {
+      errorMsg.textContent =
+        serverRes.message || "Erreur le serveur ne repond pas.";
+    }
+  if (serverRes.data) {
+    const chart = drawChart(
+      "home-canvas",
+      "bar",
+      serverRes.data.map((item) => `${item.mois_nom} ${item.mois_annee.split('-')[0]}`),
+      serverRes.data.map((item) => item.chiffre_affaire),
+      "Chiffre d'affaires mensuel",
+    );
+  }
+};
+getMonthlyRevenue();

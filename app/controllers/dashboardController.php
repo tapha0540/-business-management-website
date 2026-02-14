@@ -22,16 +22,19 @@ class DashboardController
                 return Produit::mostSoldProduct($this->pdo, $limit, $from, $to);
             case 'best-customers':
                 require_once __DIR__ . '/../models/Client.php';
-                return  Client::bestCustomers($this->pdo, $limit, $from, $to);
+                return Client::bestCustomers($this->pdo, $limit, $from, $to);
             case 'product-at-risk-of-out-of-stock':
                 require_once __DIR__ . '/../models/Produit.php';
-                return [
-                    ['id' => 1, 'nom' => 'product-at-risk-of-out-of-stock']
-                ];
+                return Produit::productsAtRiskOfOutOfStock($this->pdo, $limit);
             default:
                 // latest-orders
                 require_once __DIR__ . '/../models/Commandes.php';
                 return Commandes::latestOrders($this->pdo, $limit, $from, $to);
         }
+    }
+    public function monthlyRevenues()
+    {
+        require_once __DIR__ . '/../models/Facture.php';
+        return Facture::getMonthlyRevenues($this->pdo);
     }
 }

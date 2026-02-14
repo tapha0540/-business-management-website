@@ -75,3 +75,62 @@ function renderTable(data, tableId) {
 
   table.appendChild(tbody);
 }
+
+function drawChart(
+  canvasId,
+  type,
+  labels,
+  data,
+  label = "Dataset",
+  othersDatasets = [],
+) {
+  const ctx = document.getElementById(canvasId).getContext("2d");
+
+  return new Chart(ctx, {
+    type: type, // "bar", "line", "pie", "doughnut", "radar", etc.
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: label,
+          data: data,
+          borderColor: "transparent", // couleur de la ligne
+          backgroundColor: "#ff4d00", // couleur de remplissage si fill:true
+          borderWidth: 2,
+          fill: true, // remplir la zone sous la courbe
+          tension: 0.4,
+          borderRadius: 8,
+        },
+        ...othersDatasets,
+      ],
+    },
+    options: {
+      responsive: false,
+      maintainAspectRatio: true,
+      scales:
+        type === "bar" || type === "line"
+          ? {
+              x: {
+                ticks: {
+                  color: "#ff4d00", // X-axis labels color
+                },
+              },
+              y: { beginAtZero: true, color: "purple" },
+            }
+          : {},
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: "Monthly Sales",
+        color: "red", // Title color
+        font: { size: 18 },
+      },
+      legend: {
+        labels: {
+          color: "blue", // Legend text color
+        },
+      },
+    },
+  });
+}

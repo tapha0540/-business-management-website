@@ -168,7 +168,7 @@ class Utilisateur
                                         u.prenom AS `Prénom`,
                                         u.nom AS `Nom`,
                                         u.email AS `Email`,
-                                        u.created_at AS `Compte crée le`,
+                                        DATE_FORMAT(u.created_at, '%d/%m/%Y') AS `Compte crée le`,
                                         COUNT(c.id) AS `Nombre de commandes réalisées`
                                     FROM utilisateurs u
                                     LEFT JOIN commandes c ON u.id = c.vendeur_id

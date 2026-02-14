@@ -102,7 +102,7 @@ class Client
                                         cl.nom,
                                         cl.email,
                                         cl.telephone,
-                                        cl.created_at AS 'Compte crée le',
+                                        DATE_FORMAT(cl.created_at, '%d/%m/%Y') AS 'Compte crée le',
                                         COUNT(co.id) AS `Nombre de commandes faites`
                                     FROM clients cl
                                     LEFT JOIN commandes co ON cl.id = co.client_id

@@ -13,7 +13,7 @@ $estAdmin = $user['role'] == 'admin';
 
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="UTF-8" />
@@ -118,6 +118,8 @@ $estAdmin = $user['role'] == 'admin';
   </main>
 
   <script src="../../js/script.js"></script>
+  <!-- <script src="../../chart.js-4.5.1/dist/chart.umd.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../../js/user/dashboard.js"></script>
   <script src="../../js/user/dashboard_tabs/home.js"></script>
   <script src="../../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>

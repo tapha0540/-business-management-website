@@ -96,8 +96,8 @@ class Commandes
                                     c.id AS `Id`,
                                     f.montant_total AS `Montant Total`,
                                     c.etat AS `Etat`,
-                                    c.created_at AS 'Commandé le',
-                                    c.updated_at AS `Cloturée le`
+                                    DATE_FORMAT(c.created_at, '%d/%m/%Y') AS 'Commandé le',
+                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `Cloturée le`
                                 FROM commandes c
                                 JOIN factures f ON f.commande_id = c.id
                                 WHERE c.etat = 'cloturee'
@@ -124,8 +124,8 @@ class Commandes
                                     c.id AS `Id`,
                                     f.montant_total AS `Montant Total`,
                                     c.etat AS `Etat`,
-                                    c.created_at AS 'Commandé le',
-                                    c.updated_at AS `Cloturée le`
+                                    DATE_FORMAT(c.created_at, '%d/%m/%Y')AS 'Commandé le',
+                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `Cloturée le`
                                 FROM commandes c
                                 JOIN factures f ON f.commande_id = c.id
                                 WHERE c.created_at BETWEEN :from AND :to

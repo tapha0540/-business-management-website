@@ -91,4 +91,18 @@ class Facture
 
         return $stmt->execute([':id' => $this->id]);
     }
+
+    static public function getMonthlyRevenues(PDO &$pdo) {
+        $stmt = $pdo->prepare("SELECT 
+                                        DATE_FORMAT(f.created_at, '%Y-%m') AS mois_annee,
+                                        MONTHNAME(f.created_at) AS mois_nom,
+                                        SUM(f.montant_total) AS chiffre_affaire
+                                    FROM factures f
+                                    WHERE f.created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+                                    GROUP BY mois_annee
+                                    ORDER BY mois_annee;
+                                    ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -145,7 +145,7 @@ class Produit
 
         return $stmt->execute(["id" => $this->id]);
     }
-    static public function mostSoldProduct(PDO $pdo, int $limit, string $from, string $to): array
+    static public function mostSoldProduct(PDO &$pdo, int $limit, string $from, string $to): array
     {
         $stmt = $pdo->prepare("SELECT 
                                         p.id,
@@ -153,7 +153,7 @@ class Produit
                                         p.imgUrl,
                                         p.quantite,
                                         p.prix_vente,
-                                        c.nom AS categorie_produit,
+                                        c.nom AS `Catégorie du produit`,
                                         COALESCE(SUM(d.quantite), 0) AS `Quantités commandées`
                                     FROM produits p
                                     LEFT JOIN details_commande d ON p.id = d.produit_id
@@ -177,6 +177,25 @@ class Produit
             ->modify('+1 day')
             ->format('Y-m-d'), PDO::PARAM_STR);
 
+        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    static public function productsAtRiskOfOutOfStock(PDO &$pdo, int $limit): array
+    {
+        $stmt = $pdo->prepare("SELECT
+                                        p.id,
+                                        p.imgUrl,
+                                        p.nom,
+                                        p.quantite AS `Stock`,
+                                        p.seuil_critique AS `Seuil Critique`, 
+                                        ca.nom AS `Catégorie du produit`,
+                                        p.prix_vente AS `Prix du produit`
+                                    FROM produits p
+                                    JOIN categories ca ON p.categorie_id = ca.id
+                                    WHERE p.quantite <= p.seuil_critique
+                                    LIMIT :limit");
         $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
         $stmt->execute();
 

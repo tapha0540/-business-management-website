@@ -18,14 +18,13 @@ class DashboardController
                 require_once __DIR__ . '/../models/Utilisateur.php';
                 return Utilisateur::bestSellers($this->pdo, $limit, $from, $to);
             case 'most-sold-products':
-                return [
-                    ['id' => 1, 'nom' => 'most-sold-products']
-                ];
+                require_once __DIR__ . '/../models/Produit.php';
+                return Produit::mostSoldProduct($this->pdo, $limit, $from, $to);
             case 'best-customers':
-                return [
-                    ['id' => 1, 'nom' => 'best-customers']
-                ];
+                require_once __DIR__ . '/../models/Client.php';
+                return  Client::bestCustomers($this->pdo, $limit, $from, $to);
             case 'product-at-risk-of-out-of-stock':
+                require_once __DIR__ . '/../models/Produit.php';
                 return [
                     ['id' => 1, 'nom' => 'product-at-risk-of-out-of-stock']
                 ];

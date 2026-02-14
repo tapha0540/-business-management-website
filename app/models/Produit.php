@@ -145,4 +145,41 @@ class Produit
 
         return $stmt->execute(["id" => $this->id]);
     }
+    static public function mostSoldProduct(PDO $pdo, int $limit, string $from, string $to): array
+    {
+        $stmt = $pdo->prepare("SELECT 
+                                        p.id,
+                                        p.nom,
+                                        p.imgUrl,
+                                        p.quantite,
+                                        p.prix_vente,
+                                        c.nom AS categorie_produit,
+                                        COALESCE(SUM(d.quantite), 0) AS `Quantités commandées`
+                                    FROM produits p
+                                    LEFT JOIN details_commande d ON p.id = d.produit_id
+                                    LEFT JOIN categories c ON p.categorie_id = c.id
+                                    WHERE d.created_at BETWEEN :from AND :to
+                                    GROUP BY 
+                                        p.id,
+                                        p.nom,
+                                        p.imgUrl,
+                                        p.quantite,
+                                        p.prix_vente,
+                                        c.nom
+                                    ORDER BY `Quantités commandées` DESC
+                                    LIMIT :limit");
+
+        $stmt->bindValue(':from', (new DateTime($from))
+            ->modify('-1 day')
+            ->format('Y-m-d'), PDO::PARAM_STR);
+
+        $stmt->bindValue(':to', (new DateTime($to))
+            ->modify('+1 day')
+            ->format('Y-m-d'), PDO::PARAM_STR);
+
+        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

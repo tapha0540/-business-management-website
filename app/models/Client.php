@@ -95,4 +95,38 @@ class Client
 
         return $stmt->execute([$this->id]);
     }
+    static public function bestCustomers(PDO &$pdo, int $limit, string $from, string $to) {
+        $stmt = $pdo->prepare("SELECT
+                                        cl.id,
+                                        cl.prenom,
+                                        cl.nom,
+                                        cl.email,
+                                        cl.telephone,
+                                        cl.created_at AS 'Compte crée le',
+                                        COUNT(co.id) AS `Nombre de commandes faites`
+                                    FROM clients cl
+                                    LEFT JOIN commandes co ON cl.id = co.client_id
+                                    WHERE co.created_at BETWEEN :from AND :to
+                                    GROUP BY cl.id,
+                                        cl.prenom,
+                                        cl.nom,
+                                        cl.email,
+                                        cl.telephone,
+                                        cl.created_at
+                                    ORDER BY `Nombre de commandes faites` DESC
+                                    LIMIT :limit");
+
+        $stmt->bindValue(':from', (new DateTime($from))
+            ->modify('-1 day')
+            ->format('Y-m-d'), PDO::PARAM_STR);
+
+        $stmt->bindValue(':to', (new DateTime($to))
+            ->modify('+1 day')
+            ->format('Y-m-d'), PDO::PARAM_STR);
+
+        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

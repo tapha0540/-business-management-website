@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode([
             'message' => 'Operation réussie',
             'success' => true,
-            'data' => $dashboardController->monthlyRevenues()
+            'data' => $dashboardController->getMonthlyRevenues()
         ]);
     } catch (Exception $e) {
         error_log("\n " . $e->getFile() . ' -> ' . $e->getMessage(), 3, $erro_log_path);

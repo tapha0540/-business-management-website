@@ -16,7 +16,7 @@
 
     <?php
     $date = new DateTime();
-    $date->modify("-7 day");
+    $date->modify("-1 year");
     ?>
 
     <input type="date" name="from" value="<?= $date->format('Y-m-d') ?>" max="<?= date('Y-m-d'); ?>"

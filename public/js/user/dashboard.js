@@ -1,4 +1,4 @@
-function renderTable(data, tableId) {
+function renderTable(data, tableId, addCheckboxes = false) {
   const table = document.getElementById(tableId);
   table.innerHTML = "";
 
@@ -6,6 +6,21 @@ function renderTable(data, tableId) {
 
   const thead = document.createElement("thead");
   const headerRow = document.createElement("tr");
+
+  // Checkbox header
+  if (addCheckboxes) {
+    const thCheck = document.createElement("th");
+    const selectAll = document.createElement("input");
+    selectAll.type = "checkbox";
+
+    selectAll.addEventListener("change", function () {
+      const checkboxes = table.querySelectorAll("tbody input[type='checkbox']");
+      checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+
+    thCheck.appendChild(selectAll);
+    headerRow.appendChild(thCheck);
+  }
 
   if ("imgUrl" in data[0]) {
     const thImg = document.createElement("th");
@@ -35,10 +50,19 @@ function renderTable(data, tableId) {
     </svg>
   `;
 
-  data.forEach((row) => {
+  data.forEach((row, index) => {
     const tr = document.createElement("tr");
     tr.classList.add("border-3", "border-primary");
-    tr.style.cursor = "pointer";
+
+    // Checkbox column
+    if (addCheckboxes) {
+      const tdCheck = document.createElement("td");
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = index; // ou row.id si disponible
+      tdCheck.appendChild(checkbox);
+      tr.appendChild(tdCheck);
+    }
 
     if ("imgUrl" in row) {
       const tdImg = document.createElement("td");
@@ -75,6 +99,7 @@ function renderTable(data, tableId) {
 
   table.appendChild(tbody);
 }
+
 
 function drawChart(
   canvasId,
@@ -115,7 +140,12 @@ function drawChart(
                   color: "#ff4d00", // X-axis labels color
                 },
               },
-              y: { beginAtZero: true, color: "purple" },
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: "#", // Y-axis labels color
+                },
+              },
             }
           : {},
     },

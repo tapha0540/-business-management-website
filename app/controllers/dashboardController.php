@@ -9,7 +9,6 @@ class DashboardController
     }
     public function getHomeTableData(int $limit, string $search, string $from, string $to)
     {
-
         switch ($search) {
             case 'best-orders':
                 require_once __DIR__ . '/../models/Commandes.php';
@@ -32,7 +31,7 @@ class DashboardController
                 return Commandes::latestOrders($this->pdo, $limit, $from, $to);
         }
     }
-    public function monthlyRevenues()
+    public function getMonthlyRevenues()
     {
         require_once __DIR__ . '/../models/Facture.php';
         return Facture::getMonthlyRevenues($this->pdo);

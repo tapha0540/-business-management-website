@@ -205,10 +205,7 @@
 
 <div class="home-container w-100">
     <!-- Chart Section -->
-    <div class="chart-card flex-fill">
-        <canvas id="home-canvas" width="700"></canvas>
-    </div>
-
+    
     <!-- Filter Section -->
     <div class="filter-card">
         <form id="dashboard-form" class="filter-form">
@@ -266,5 +263,8 @@
             </table>
         </div>
         <div id="error-message"></div>
+    </div>
+    <div class="chart-card flex-fill">
+        <canvas id="home-canvas" width="700"></canvas>
     </div>
 </div>

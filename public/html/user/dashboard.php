@@ -72,27 +72,27 @@ $estAdmin = $user['role'] == 'admin';
       </div>
     </section>
 
-    <section class="col-10 h-100 p-0 m-0 rounded-2">
+    <section class="col-10 p-0 m-0 rounded-2">
       <?php require_once '../component/header.php' ?>
 
       <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active p-3 d-flex flex-column row-gap-2  flex-fill" id="v-pills-dashboard"
+        <div class="tab-pane fade show active p-3 d-flex flex-column row-gap-2" id="v-pills-dashboard"
           role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
           <?php require_once 'dashboard_tabs/home.php' ?>
         </div>
 
-        <div class="tab-pane fade p-3 d-flex flex-column row-gap-2  flex-fill align-content-start justify-content-start"
+        <div class="tab-pane fade p-3 d-flex flex-column row-gap-2 "
           id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
           <?php require_once 'dashboard_tabs/commandes.php' ?>
         </div>
 
-        <div class="tab-pane fade p-3 d-flex flex-column row-gap-2  flex-fill" id="v-pills-clients" role="tabpanel"
+        <div class="tab-pane fade p-3 d-flex flex-column row-gap-2" id="v-pills-clients" role="tabpanel"
           aria-labelledby="v-pills-clients-tab">
           Clients
           <?php require_once 'dashboard_tabs/clients.php' ?>
         </div>
 
-        <div class="tab-pane fade p-3 d-flex flex-column row-gap-2  flex-fill" id="v-pills-products" role="tabpanel"
+        <div class="tab-pane fade p-3 d-flex flex-column row-gap-2" id="v-pills-products" role="tabpanel"
           aria-labelledby="v-pills-products-tab">
           <?php require_once 'dashboard_tabs/produits.php' ?>
         </div>
@@ -100,13 +100,13 @@ $estAdmin = $user['role'] == 'admin';
         <!-- Les Onglets pour les admins seulement. Quand un utilisateur n'est pas un admin, 
          il ne sera pas autorisé à accéder à ces fonctionnalités. -->
         <?php if ($estAdmin): ?>
-          <div class="tab-pane fade p-3 d-flex flex-column row-gap-2  flex-fill" id="v-pills-users" role="tabpanel"
+          <div class="tab-pane fade p-3 d-flex flex-column row-gap-2" id="v-pills-users" role="tabpanel"
             aria-labelledby="v-pills-users-tab">
             <?php require_once 'dashboard_tabs/users.php' ?>
           </div>
         <?php endif; ?>
 
-        <div class="tab-pane fade p-3 d-flex flex-column row-gap-2  flex-fill" id="v-pills-settings" role="tabpanel"
+        <div class="tab-pane fade p-3 d-flex flex-column row-gap-2" id="v-pills-settings" role="tabpanel"
           aria-labelledby="v-pills-settings-tab">
           <?php require_once 'dashboard_tabs/settings.php' ?>
         </div>
@@ -122,6 +122,9 @@ $estAdmin = $user['role'] == 'admin';
   <script src="../../js/user/dashboard.js"></script>
   <script src="../../js/user/dashboard_tabs/home.js"></script>
   <script src="../../js/user/dashboard_tabs/commandes.js"></script>
+  <script src="../../js/user/dashboard_tabs/produits.js"></script>
+  <script src="../../js/user/dashboard_tabs/clients.js"></script>
+  <script src="../../js/user/dashboard_tabs/users.js"></script>
   <script src="../../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -44,7 +44,7 @@ const getMonthlyRevenue = async () => {
     "http://localhost:8081/routes/dashboard/monthly_revenue.php",
     "GET",
   );
-  console.log(serverRes);
+
    if (!serverRes.success) {
       errorMsg.textContent =
         serverRes.message || "Erreur le serveur ne repond pas.";

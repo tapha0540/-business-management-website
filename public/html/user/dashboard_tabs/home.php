@@ -1,4 +1,4 @@
-<canvas id="home-canvas" class="align-self-start m-1 p-2 w-75"></canvas>
+<canvas id="home-canvas" class="align-self-center m-1 p-2 w-75"></canvas>
 
 <form id="dashboard-form"
     class="w-100 bg-lighter d-flex flex-row justify-content-around align-content-center p-2 border-3 border-primary shadow-sm rounded-2">

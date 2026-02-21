@@ -52,6 +52,13 @@ class Commandes
         }
         return $data;
     }
+    public function getAll(int $limit)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM commandes LIMIT :limit");
+        $stmt->bindValue("limit", $limit, PDO::PARAM_INT);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function create()
     {
         $stmt = $this->pdo->prepare("INSERT INTO commandes (vendeur_id, client_id, date_commande, etat) VALUES (:vendeur_id, :client_id, :date_commande, :etat)");

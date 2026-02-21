@@ -6,6 +6,7 @@ function renderTable(data, tableId, addCheckboxes = false) {
 
   const thead = document.createElement("thead");
   const headerRow = document.createElement("tr");
+ 
 
   // Checkbox header
   if (addCheckboxes) {
@@ -59,7 +60,7 @@ function renderTable(data, tableId, addCheckboxes = false) {
       const tdCheck = document.createElement("td");
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.value = index; // ou row.id si disponible
+      checkbox.value = row.id; // ou row.id si disponible
       tdCheck.appendChild(checkbox);
       tr.appendChild(tdCheck);
     }
@@ -98,6 +99,8 @@ function renderTable(data, tableId, addCheckboxes = false) {
   });
 
   table.appendChild(tbody);
+   headerRow.classList.add('bg-primary', 'text-primary');
+  headerRow.style.color = 'red';
 }
 
 

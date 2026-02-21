@@ -1,0 +1,21 @@
+    .cmd-card .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .cmd-card .search-input {
+        max-width: 420px;
+    }
+
+    .cmd-card .table thead th {
+        vertical-align: middle;
+    }
+
+    .cmd-empty {
+        padding: 48px 24px;
+        color: #6c757d;
+    }
+
+    .table-actions .btn+.btn {
+        margin-left: 8px;
+    }

@@ -6,7 +6,6 @@ function renderTable(data, tableId, addCheckboxes = false) {
 
   const thead = document.createElement("thead");
   const headerRow = document.createElement("tr");
- 
 
   // Checkbox header
   if (addCheckboxes) {
@@ -16,7 +15,7 @@ function renderTable(data, tableId, addCheckboxes = false) {
 
     selectAll.addEventListener("change", function () {
       const checkboxes = table.querySelectorAll("tbody input[type='checkbox']");
-      checkboxes.forEach(cb => cb.checked = this.checked);
+      checkboxes.forEach((cb) => (cb.checked = this.checked));
     });
 
     thCheck.appendChild(selectAll);
@@ -99,10 +98,9 @@ function renderTable(data, tableId, addCheckboxes = false) {
   });
 
   table.appendChild(tbody);
-   headerRow.classList.add('bg-primary', 'text-primary');
-  headerRow.style.color = 'red';
+  headerRow.classList.add("bg-primary", "text-primary");
+  headerRow.style.color = "red";
 }
-
 
 function drawChart(
   canvasId,

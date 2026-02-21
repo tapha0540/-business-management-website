@@ -56,7 +56,8 @@ class Commandes
     {
         $stmt = $this->pdo->prepare("SELECT * FROM commandes LIMIT :limit");
         $stmt->bindValue("limit", $limit, PDO::PARAM_INT);
-
+        $stmt->execute();
+        
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function create()

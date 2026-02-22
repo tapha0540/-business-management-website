@@ -2,7 +2,7 @@
   .dashboard-header {
     background: white;
     border-bottom: 2px solid #f0f0f0;
-    padding: 1rem 2rem;
+    padding: 0.25rem 0.7rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,7 +12,6 @@
   .header-title {
     font-weight: 700;
     color: #111827;
-    font-size: 1.5rem;
     margin: 0;
     letter-spacing: 0.3px;
   }
@@ -167,7 +166,7 @@
 </style>
 
 <nav class="dashboard-header">
-  <h1 class="header-title">📊 Dashboard</h1>
+  <h5 class="header-title">📊 Dashboard</h5>
 
   <div class="header-search">
     <input type="search" class="form-control" placeholder="🔍 Rechercher...">

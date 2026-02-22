@@ -191,7 +191,7 @@
             flex-direction: column;
             align-items: flex-start;
         }
-
+        
         .filter-group input,
         .filter-group select {
             width: 100%;
@@ -201,10 +201,13 @@
             width: 100%;
         }
     }
-</style>
+    </style>
 
 <div class="home-container w-100">
     <!-- Chart Section -->
+    <div class="chart-card flex-fill">
+        <canvas id="home-canvas" width="700"></canvas>
+    </div>
     
     <!-- Filter Section -->
     <div class="filter-card">
@@ -263,8 +266,5 @@
             </table>
         </div>
         <div id="error-message"></div>
-    </div>
-    <div class="chart-card flex-fill">
-        <canvas id="home-canvas" width="700"></canvas>
     </div>
 </div>

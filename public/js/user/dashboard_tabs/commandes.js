@@ -1,20 +1,27 @@
 const commandesTable = document.getElementById("commandes-table");
-const thead = commandesTable.querySelector("thead");
-const tbody = commandesTable.querySelector("tbody");
+const commandesTableThead = commandesTable.querySelector("thead");
+const commandesTableTbody = commandesTable.querySelector("tbody");
+const commandesTableLimit = document.getElementById("commandes-table-limit");
+const commandesFilterStatus = document.getElementById(
+  "commandes-filter-status",
+);
+let commandes = [];
 
 const fetchCommandesTableDonnee = async () => {
   const serverRes = await fetchApi(
     "http://localhost:8081/routes/commandes/get_all.php",
     "POST",
     {
-      limit: 10,
+      limit: Number(commandesTableLimit.value),
     },
   );
-  console.log(serverRes);
-
-  if (serverRes.data && serverRes.data.length > 0) {
-    tbody.innerHTML = '';
-    serverRes.data.forEach((commande) => {
+  commandes = serverRes.data;
+  afficherCommandesTableDonnee(commandes);
+};
+const afficherCommandesTableDonnee = (data) => {
+  commandesTableTbody.innerHTML = "";
+  if (data && data.length > 0) {
+    data.forEach((commande) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td><input type="checkbox" value="${commande.id}" /> </td>
@@ -29,7 +36,7 @@ const fetchCommandesTableDonnee = async () => {
           <button class="btn btn-primary btn-sm" id="commandes-delete-selected">Modifier</button>
         </td>
       `;
-      tbody.appendChild(tr);
+      commandesTableTbody.appendChild(tr);
     });
   } else {
     const tr = document.createElement("tr");
@@ -47,12 +54,23 @@ const fetchCommandesTableDonnee = async () => {
             </div>
         </td>
     </tr>`;
-    tbody.appendChild(tr);
+    commandesTableTbody.appendChild(tr);
   }
 };
 fetchCommandesTableDonnee();
-const selectAll = thead.querySelector("input[type='checkbox']");
+const selectAll = commandesTableThead.querySelector("input[type='checkbox']");
+
 selectAll.addEventListener("change", () => {
-  const checkboxes = tbody.querySelectorAll("input[type='checkbox']");
+  const checkboxes = commandesTableTbody.querySelectorAll("input[type='checkbox']");
   checkboxes.forEach((each) => (each.checked = selectAll.checked));
 });
+
+commandesTableLimit.onchange = () => fetchCommandesTableDonnee();
+commandesFilterStatus.onchange = () =>
+  afficherCommandesTableDonnee(
+    commandes.filter(
+      (commande) =>
+        commandesFilterStatus.value == "all" ||
+        commande.etat == commandesFilterStatus.value,
+    ),
+  );

@@ -1,25 +1,18 @@
-// Add animation styles dynamically
-const style = document.createElement("style");
-style.textContent = `
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-`;
-document.head.appendChild(style);
-
 const produitsTable = document.getElementById("produits-table");
-const tbody = produitsTable.querySelector("tbody");
-const rowTemplate = document.getElementById("produits-row-template");
-const emptyState = document.getElementById("produits-empty-state");
-const selectAllBtn = document.getElementById("select-all-produits");
-const deleteSelectedBtn = document.getElementById("produits-delete-selected");
+const produitsTableTbody = produitsTable.querySelector("tbody");
+const produitsTableRowTemplate = document.getElementById(
+  "produits-row-template",
+);
+const produitsTableEmptyState = document.getElementById("produits-empty-state");
+const produitsTableSelectAllBtn = document.getElementById(
+  "select-all-produits",
+);
+const produitsTableDeleteSelectedBtn = document.getElementById(
+  "produits-delete-selected",
+);
+const produitsTableLimit = document.getElementById("produits-table-limit");
+const produitsTableFilter = document.querySelectorAll(".produits-filter");
+
 
 // Fetch and populate produits
 const fetchProduitsTableData = async () => {
@@ -27,61 +20,11 @@ const fetchProduitsTableData = async () => {
     const serverRes = await fetchApi(
       "http://localhost:8081/routes/produits/get_all.php",
       "POST",
-      { limit: 10 },
+      { limit: Number(produitsTableLimit.value) },
     );
-    console.log(serverRes);
+    produits = serverRes.data;
 
-    if (serverRes.data && serverRes.data.length > 0) {
-      emptyState.classList.add("d-none");
-      let delay = 0;
-
-      serverRes.data.forEach((produit) => {
-        const newRow = rowTemplate.cloneNode(true);
-        newRow.classList.remove("d-none");
-        newRow.dataset.id = produit.id;
-        newRow.style.animation = `slideIn 0.4s ease forwards ${delay}ms`;
-
-        newRow.querySelector(".col-reference").textContent =
-          produit.reference || "--";
-        newRow.querySelector(".col-name").textContent = produit.nom || "--";
-        newRow.querySelector(".col-category").textContent =
-          produit.categorie || "--";
-        newRow.querySelector(".col-price").textContent =
-          `${parseFloat(produit.prix || 0).toFixed(2)} €`;
-
-        const stockEl = newRow.querySelector(".col-stock span");
-        const stock = parseInt(produit.stock || 0);
-        stockEl.textContent = stock + " unités";
-
-        if (stock <= 10) {
-          stockEl.className = "stock-badge stock-low";
-        } else if (stock <= 50) {
-          stockEl.className = "stock-badge stock-medium";
-        } else {
-          stockEl.className = "stock-badge stock-high";
-        }
-
-        newRow.querySelector(".col-status").textContent =
-          produit.statut || "Actif";
-
-        const editBtn = newRow.querySelector(".btn-edit");
-        editBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          console.log("Edit produit:", produit.id);
-        });
-
-        const deleteBtn = newRow.querySelector(".btn-delete");
-        deleteBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          deleteProduit(produit.id, newRow);
-        });
-
-        tbody.appendChild(newRow);
-        delay += 50;
-      });
-    } else {
-      emptyState.classList.remove("d-none");
-    }
+    afficherProduitsTableDonnee(produits);
   } catch (error) {
     console.error("Error fetching produits:", error);
     const errorMsg = document.getElementById("produits-table-error-message");
@@ -89,64 +32,43 @@ const fetchProduitsTableData = async () => {
   }
 };
 
-const deleteProduit = async (produitId, rowElement) => {
-  if (!confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) return;
+const afficherProduitsTableDonnee = (data) => {
+  produitsTableTbody.innerHTML = "";
+  if (data && data.length > 0) {
+    data.forEach((produit) => {
+      console.log(produit.id);
 
-  try {
-    rowElement.classList.add("fade-out");
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    rowElement.remove();
-    updateDeleteButtonState();
-
-    const allRows = tbody.querySelectorAll("tr:not(.d-none)").length;
-    if (allRows === 0) {
-      emptyState.classList.remove("d-none");
-    }
-  } catch (error) {
-    console.error("Error deleting produit:", error);
-    rowElement.classList.remove("fade-out");
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="checkbox" value="${produit.id}" /> </td>
+        <td><img src="${produit.imgUrl}" width="100" height="100"/></td>
+        <td>${produit.nom}</td>
+        <td>${produit.categorie}</td>
+        <td>${produit.prix_vente}</td>
+        <td>${produit.quantite}</td>
+        <td>${produit.seuil_critique}</td>
+        <td>${produit.created_at}</td>
+        <td>${produit.updated_at}</td>
+        <td class="d-flex column-gap-2">
+          <button class="btn btn-outline-danger btn-sm" id="commandes-delete-selected">Supprimer</button>
+          <button class="btn btn-primary btn-sm" id="commandes-delete-selected">Modifier</button>
+        </td>
+      `;
+      produitsTableTbody.appendChild(tr);
+    });
+  } else {
+    produitsTableEmptyState.classList.remove("d-none");
   }
 };
 
-const deleteSelectedProduits = async () => {
-  const checkedBoxes = tbody.querySelectorAll(".row-check:checked");
-  if (checkedBoxes.length === 0) return;
-
-  if (
-    !confirm(
-      `Êtes-vous sûr de vouloir supprimer ${checkedBoxes.length} produit(s) ?`,
-    )
-  )
-    return;
-
-  checkedBoxes.forEach((checkbox) => {
-    const row = checkbox.closest("tr");
-    const produitId = row.dataset.id;
-    deleteProduit(produitId, row);
-  });
-};
-
-const updateDeleteButtonState = () => {
-  const anyChecked = tbody.querySelectorAll(".row-check:checked").length > 0;
-  deleteSelectedBtn.disabled = !anyChecked;
-};
-
-selectAllBtn.addEventListener("change", () => {
-  const checkboxes = tbody.querySelectorAll(".row-check");
-  checkboxes.forEach((cb) => (cb.checked = selectAllBtn.checked));
+produitsTableSelectAllBtn.addEventListener("change", () => {
+  const checkboxes = produitsTableTbody.querySelectorAll(".row-check");
+  checkboxes.forEach((cb) => (cb.checked = produitsTableSelectAllBtn.checked));
   updateDeleteButtonState();
 });
 
-tbody.addEventListener("change", (e) => {
-  if (e.target.classList.contains("row-check")) {
-    const allChecked =
-      tbody.querySelectorAll(".row-check:not(:checked)").length === 0;
-    selectAllBtn.checked =
-      allChecked && tbody.querySelectorAll(".row-check").length > 0;
-    updateDeleteButtonState();
-  }
-});
-
-deleteSelectedBtn.addEventListener("click", deleteSelectedProduits);
-
 fetchProduitsTableData();
+
+produitsTableFilter.forEach(
+  (each) => (each.onchange = () => fetchProduitsTableData()),
+);

@@ -96,7 +96,7 @@ class Utilisateur
     public function getAll(): array
     {
         $stmt = $this->pdo->query(
-            'SELECT id, prenom, nom, email, role, created_at, updated_at FROM utilisateurs'
+            'SELECT id, prenom, nom, email, role, imgUrl, created_at, updated_at FROM utilisateurs'
         );
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -168,6 +168,7 @@ class Utilisateur
                                         u.prenom AS `Prénom`,
                                         u.nom AS `Nom`,
                                         u.email AS `Email`,
+                                        u.imgUrl,
                                         DATE_FORMAT(u.created_at, '%d/%m/%Y') AS `Compte crée le`,
                                         COUNT(c.id) AS `Nombre de commandes réalisées`
                                     FROM utilisateurs u

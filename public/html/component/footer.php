@@ -1,7 +1,6 @@
 <style>
     .dashboard-footer {
-        background: linear-gradient(180deg, #1f1f1f 0%, #0f0f0f 100%);
-        color: #f0f0f0;
+        color: var(--text-dark-color);
         padding: 2rem 2rem 1.25rem;
         margin-top: auto;
         border-top: 2px solid #ff4d00;
@@ -33,7 +32,7 @@
     }
 
     .footer-section a {
-        color: #aaa;
+        color: var(--text-dark-color);
         text-decoration: none;
         transition: all 0.2s ease;
         font-size: 0.9rem;
@@ -58,7 +57,6 @@
     }
 
     .footer-copyright {
-        color: #666;
         font-size: 0.85rem;
     }
 
@@ -150,7 +148,7 @@
     }
 </style>
 
-<footer class="dashboard-footer">
+<footer class="card dashboard-footer bg-lighter">
     <div class="footer-content">
         <!-- À Propos -->
         <div class="footer-section">

@@ -72,9 +72,6 @@
                                 <p class="mb-2"><strong>Aucun utilisateur trouvé</strong></p>
                                 <p class="small">Vous devez ajouter au moins un utilisateur. Cliquez sur "Ajouter un
                                     utilisateur" pour en créer un.</p>
-                                <div class="mt-4">
-                                    <button class="btn btn-primary btn-sm">➕ Ajouter un utilisateur</button>
-                                </div>
                             </div>
                         </td>
                     </tr>

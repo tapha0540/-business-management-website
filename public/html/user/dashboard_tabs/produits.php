@@ -23,13 +23,14 @@
             </div>
 
             <div class="d-flex gap-2">
-                <select id="produits-filter-stock" class="form-select form-select-sm">
+                <select id="produits-filter-stock" class="produits-filter form-select form-select-sm">
                     <option value="">Tout le stock</option>
                     <option value="low">Stock faible</option>
                     <option value="medium">Stock normal</option>
                     <option value="high">Stock élevé</option>
                 </select>
-                <button class="btn btn-outline-secondary btn-sm">Exporter</button>
+                <input type="number" name="produits-table-limit" id="produits-table-limit" min="1" value="10" required
+                    class="produits-filter form-control form-control-sm" />
             </div>
         </div>
 
@@ -39,32 +40,18 @@
                     <tr>
                         <th style="width:36px;"><input type="checkbox" id="select-all-produits" class="form-check-input"
                                 title="Sélectionner tout" /></th>
-                        <th>Référence</th>
+                        <th>Image</th>
                         <th>Nom</th>
                         <th>Catégorie</th>
                         <th>Prix</th>
                         <th>Stock</th>
-                        <th>Statut</th>
+                        <th>Seuil critique</th>
+                        <th>Crée le</th>
+                        <th>Modifié le</th>
                         <th style="width:140px;" class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Row template (hidden) to clone when populating rows via JS -->
-                    <tr id="produits-row-template" class="d-none">
-                        <td><input type="checkbox" class="row-check form-check-input" /></td>
-                        <td class="col-reference">--</td>
-                        <td class="col-name">--</td>
-                        <td class="col-category">--</td>
-                        <td class="col-price">--</td>
-                        <td class="col-stock"><span class="stock-badge stock-high">--</span></td>
-                        <td class="col-status">--</td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-outline-info btn-action btn-edit" title="Éditer ce produit">✏️
-                                Éditer</button>
-                            <button class="btn btn-sm btn-outline-danger btn-action btn-delete"
-                                title="Supprimer ce produit">🗑️ Supprimer</button>
-                        </td>
-                    </tr>
 
                     <!-- Empty state row shown when no data -->
                     <tr id="produits-empty-state" class="table-empty">
@@ -74,9 +61,6 @@
                                 <p class="mb-2"><strong>Aucun produit trouvé</strong></p>
                                 <p class="small">Vous n'avez pas encore de produits. Cliquez sur "Ajouter un produit"
                                     pour en créer un.</p>
-                                <div class="mt-4">
-                                    <button class="btn btn-primary btn-sm">➕ Ajouter un produit</button>
-                                </div>
                             </div>
                         </td>
                     </tr>

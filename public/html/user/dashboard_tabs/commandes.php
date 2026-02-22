@@ -1,4 +1,3 @@
-
 <div class="card cmd-card shadow-sm mb-4 rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
@@ -9,7 +8,8 @@
             <button class="btn btn-outline-secondary btn-sm">Statistiques</button>
             <button class="btn btn-outline-danger btn-sm" id="commandes-delete-selected" disabled>Supprimer
                 sélection</button>
-            <button class="btn btn-primary btn-sm">Ajouter une commande</button>
+            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+                data-bs-target="#ajouter-commande">Ajouter une commande</button>
         </div>
     </div>
 
@@ -24,13 +24,13 @@
 
             <div class="d-flex gap-2">
                 <select id="commandes-filter-status" class="form-select form-select-sm">
-                    <option value="">Tous les statuts</option>
-                    <option value="pending">En attente</option>
-                    <option value="processing">En cours</option>
-                    <option value="shipped">Expédiée</option>
-                    <option value="delivered">Livrée</option>
+                    <option value="all">Tous les statuts</option>
+                    <option value="en_cours">En cours</option>
+                    <option value="annulee">Annulée</option>
+                    <option value="cloturee">Cloturée</option>
                 </select>
-                <button class="btn btn-outline-secondary btn-sm">Exporter</button>
+                <input type="number" name="commandes-table-limit" id="commandes-table-limit" min="1" value="10" required
+                    class="form-control form-control-sm" />
             </div>
         </div>
 
@@ -49,20 +49,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Row template (hidden) to clone when populating rows via JS -->
-                    <tr id="commandes-row-template" class="d-none">
-                        <td><input type="checkbox" class="row-check" /></td>
-                        <td class="col-id">#ID</td>
-                        <td class="col-seller">Vendeur</td>
-                        <td class="col-client">Client</td>
-                        <td class="col-status"><span class="badge bg-secondary">Statut</span></td>
-                        <td class="col-created">--</td>
-                        <td class="col-updated">--</td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-outline-secondary btn-edit" title="Éditer">✏️</button>
-                            <button class="btn btn-sm btn-outline-danger btn-delete" title="Supprimer">🗑️</button>
-                        </td>
-                    </tr>
 
                     <!-- Empty state row shown when no data -->
                     <tr class="table-empty">
@@ -71,9 +57,6 @@
                                 <p class="mb-2"><strong>Aucune commande trouvée</strong></p>
                                 <p class="small">Vous n'avez pas encore de commandes. Cliquez sur "Ajouter une commande"
                                     pour en créer une.</p>
-                                <div class="mt-3">
-                                    <button class="btn btn-primary btn-sm">Ajouter une commande</button>
-                                </div>
                             </div>
                         </td>
                     </tr>
@@ -82,5 +65,44 @@
         </div>
 
         <div id="commandes-table-error-message" class="text-danger text-center mt-3"></div>
+    </div>
+</div>
+
+
+<!-- Popover pour ajouter commande -->
+<div class="modal fade" id="ajouter-commande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter Une commande</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label for="client_id">Choisi un client:</label>
+                    <input list="clients" id="client_id" name="client_id" />
+                    <datalist id="clients">
+                        <option value="Chrome">gg</option>
+                        <option value="Firefox"></option>
+                        <option value="Opera"></option>
+                        <option value="Safari"></option>
+                        <option value="Microsoft Edge"></option>
+                    </datalist>
+
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="add-commande-form">
+                    <div class="mb-3">
+                        <label for="commande_date" class="form-label">Date de commande:</label>
+                        <input type="date" class="form-control" id="commande_date" name="commande_date" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
 </div>

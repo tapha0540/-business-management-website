@@ -12,6 +12,7 @@ CREATE TABLE
         email VARCHAR(100) UNIQUE NOT NULL,
         mot_de_passe VARCHAR(255) NOT NULL,
         role ENUM ('admin', 'vendeur') NOT NULL,
+        imgUrl VARCHAR(255) NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
@@ -86,6 +87,7 @@ CREATE TABLE
         nom VARCHAR(100) NOT NULL,
         email VARCHAR(100),
         telephone VARCHAR(20),
+        imgUrl VARCHAR(255) NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );

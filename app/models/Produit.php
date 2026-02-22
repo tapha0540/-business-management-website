@@ -3,41 +3,41 @@
 class Produit
 {
     private PDO $pdo;
-    public int $id;
-    public string $nom;
-    public string $description;
-    public string $imgUrl;
-    public int $categorie_id;
-    public int $prix_vente;
-    public int $quantite;
-    public int $seuil_critique;
-    public string $created_at;
-    public string $updated_at;
+    public ?int $id;
+    public ?string $nom;
+    public ?string $description;
+    public ?string $imgUrl;
+    public ?int $categorie_id;
+    public ?int $prix_vente;
+    public ?int $quantite;
+    public ?int $seuil_critique;
+    public ?string $created_at;
+    public ?string $updated_at;
 
     public function __construct(
         PDO $pdo,
-        int $id,
-        string $nom,
-        string $description,
-        string $imgUrl,
-        int $categorie_id,
-        int $prix_vente,
-        int $quantite,
-        int $seuil_critique,
-        string $created_at,
-        string $updated_at
+        ?int $id = null,
+        ?string $nom = null,
+        ?string $description = null,
+        ?string $imgUrl = null,
+        ?int $categorie_id = null,
+        ?int $prix_vente = null,
+        ?int $quantite = null,
+        ?int $seuil_critique = null,
+        ?string $created_at = null,
+        ?string $updated_at = null
     ) {
         $this->pdo = $pdo;
-        $this->id = (int) $id;
-        $this->nom = (string) $nom;
-        $this->description = (string) $description;
-        $this->imgUrl = (string) $imgUrl;
-        $this->categorie_id = (int) $categorie_id;
-        $this->prix_vente = (float) $prix_vente;
-        $this->quantite = (int) $quantite;
-        $this->seuil_critique = (int) $seuil_critique;
-        $this->created_at = (string) $created_at;
-        $this->updated_at = (string) $updated_at;
+        $this->id = $id;
+        $this->nom = $nom;
+        $this->description = $description;
+        $this->imgUrl = $imgUrl;
+        $this->categorie_id = $categorie_id;
+        $this->prix_vente = $prix_vente;
+        $this->quantite = $quantite;
+        $this->seuil_critique = $seuil_critique;
+        $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
     }
 
     public function create()
@@ -91,12 +91,6 @@ class Produit
      * Summary of 
      * @return array<array{id: int, nom: string, description: string, imgUrl: string, categorie_id: int, prix_vente: float, quantite: int, seuil_critique: int, created_at: string, updated_at: string}>
      */
-    public function getAll(): array
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM produits");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
     public function update(
         string $new_nom,
         string $new_description,
@@ -145,7 +139,7 @@ class Produit
 
         return $stmt->execute(["id" => $this->id]);
     }
-    static public function mostSoldProduct(PDO &$pdo, int $limit, string $from, string $to): array
+    public static function mostSoldProduct(PDO &$pdo, int $limit, string $from, string $to): array
     {
         $stmt = $pdo->prepare("SELECT 
                                         p.id,
@@ -182,7 +176,7 @@ class Produit
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    static public function productsAtRiskOfOutOfStock(PDO &$pdo, int $limit): array
+    public static function productsAtRiskOfOutOfStock(PDO &$pdo, int $limit): array
     {
         $stmt = $pdo->prepare("SELECT
                                         p.id,
@@ -199,6 +193,26 @@ class Produit
         $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
         $stmt->execute();
 
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function getAll(PDO &$pdo, int $limit): array
+    {
+        $stmt = $pdo->prepare("SELECT 
+                                        p.id,
+                                        p.imgUrl,
+                                        p.nom, 
+                                        p.quantite,
+                                        p.prix_vente, 
+                                        p.seuil_critique , 
+                                        p.description, 
+                                        p.created_at, 
+                                        p.updated_at, 
+                                        c.nom AS categorie 
+                                        FROM produits p
+                                        JOIN categories c 
+                                            ON p.categorie_id = c.id LIMIT :limit");
+        $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

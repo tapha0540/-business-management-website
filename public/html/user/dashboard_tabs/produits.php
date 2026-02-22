@@ -1,4 +1,3 @@
-
 <div class="card cmd-card shadow-sm mb-4 rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
@@ -9,13 +8,14 @@
             <button class="btn btn-outline-secondary btn-sm">📊 Statistiques</button>
             <button class="btn btn-outline-danger btn-sm" id="produits-delete-selected" disabled>🗑️ Supprimer
                 sélection</button>
-            <button class="btn btn-primary btn-sm">➕ Ajouter un produit</button>
+            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+                data-bs-target="#ajouter-produit">➕ Ajouter un produit</button>
         </div>
     </div>
 
     <div class="card-body">
         <div
-           class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
             <div class="input-group search-input mb-2 mb-md-0">
                 <span class="input-group-text">🔍</span>
                 <input id="produits-search" type="search" class="form-control"
@@ -69,5 +69,61 @@
         </div>
 
         <div id="produits-table-error-message" class="text-danger text-center mt-3"></div>
+    </div>
+</div>
+
+<!-- Popover pour ajouter une Produit -->
+<div class="modal fade" id="ajouter-produit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un produit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="ajouter-produit-form">
+                    <div class="form-group p-2">
+                        <label for="produit-nom">Nom du produit</label>
+                        <input type="text" class="form-control border-primary border-1" id="produit-nom"
+                            name="produit-nom" placeholder="Nom du produit" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-prix">Prix en FCFA</label>
+                        <input type="number" class="form-control border-primary border-1" id="produit-prix"
+                            name="produit-prix" placeholder="Prix" min="1" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-quantite">Quantité</label>
+                        <input type="number" class="form-control border-primary border-1" id="produit-quantite"
+                            name="produit-quantite" placeholder="Quantité" min="1" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-seuil-critique">Seuil Critique</label>
+                        <input type="number" class="form-control border-primary border-1" id="produit-seuil-critique"
+                            name="produit-seuil-critique" placeholder="Seuil critque" min="0" value="0" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-categorie">Categorie</label>
+                        <select name="produit-categorie" id="produit-categorie" required>
+                            <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour le produit</option>  
+                        </select>
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-img">Image du produit</label>
+                        <input type="file" class="form-control border-primary border-1" id="produit-img"
+                            name="produit-img" placeholder="Seuil critque" accept="image/*" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-description">Description</label>
+                        <textarea class="form-control border-primary border-1" id="produit-description"
+                            name="produit-description" placeholder="Décrit le produit" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary" form="ajouter-produit-form">Ajouter</button>
+            </div>
+        </div>
     </div>
 </div>

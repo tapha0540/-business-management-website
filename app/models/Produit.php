@@ -205,12 +205,14 @@ class Produit
                                         p.prix_vente, 
                                         p.seuil_critique , 
                                         p.description, 
-                                        p.created_at, 
-                                        p.updated_at, 
+                                        DATE_FORMAT(p.created_at, '%d/%m/%Y') AS created_at, 
+                                        DATE_FORMAT(p.updated_at, '%d/%m/%Y') AS updated_at,
                                         c.nom AS categorie 
                                         FROM produits p
                                         JOIN categories c 
-                                            ON p.categorie_id = c.id LIMIT :limit");
+                                            ON p.categorie_id = c.id
+                                        ORDER BY p.created_at ASC
+                                        LIMIT :limit");
         $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

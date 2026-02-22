@@ -12,6 +12,7 @@ const produitsTableDeleteSelectedBtn = document.getElementById(
 );
 const produitsTableLimit = document.getElementById("produits-table-limit");
 const produitsTableFilter = document.querySelectorAll(".produits-filter");
+const produitCategorieSelect = document.getElementById('produit-categorie');
 
 
 // Fetch and populate produits
@@ -36,8 +37,6 @@ const afficherProduitsTableDonnee = (data) => {
   produitsTableTbody.innerHTML = "";
   if (data && data.length > 0) {
     data.forEach((produit) => {
-      console.log(produit.id);
-
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td><input type="checkbox" value="${produit.id}" /> </td>
@@ -61,6 +60,14 @@ const afficherProduitsTableDonnee = (data) => {
   }
 };
 
+const getProduitsSelectTagData = async () => {
+  const data = await fetchProduitsCategorie();
+  data.forEach( categorie => {
+    const option = document.createElement('option');
+    option.innerText = categorie.nom;
+    produitCategorieSelect.appendChild(option);
+  });
+}
 produitsTableSelectAllBtn.addEventListener("change", () => {
   const checkboxes = produitsTableTbody.querySelectorAll(".row-check");
   checkboxes.forEach((cb) => (cb.checked = produitsTableSelectAllBtn.checked));
@@ -68,7 +75,7 @@ produitsTableSelectAllBtn.addEventListener("change", () => {
 });
 
 fetchProduitsTableData();
-
+getProduitsSelectTagData();
 produitsTableFilter.forEach(
   (each) => (each.onchange = () => fetchProduitsTableData()),
 );

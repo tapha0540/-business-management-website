@@ -75,4 +75,15 @@ class Category
         $stmt = $this->pdo->prepare("DELETE FROM categories WHERE id = ?");
         return $stmt->execute([$id]);
     }
+    public static function getAll(PDO $pdo) {
+        $stmt = $pdo->prepare("SELECT 
+                                    id,
+                                    nom, 
+                                    description, 
+                                    DATE_FORMAT(created_at, '%Y/%m/%d'), 
+                                    DATE_FORMAT(updated_at, '%Y/%m/%d') 
+                                    FROM categories");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

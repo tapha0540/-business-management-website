@@ -32,7 +32,7 @@
         </div>
 
         <div class="table-responsive">
-            <table id="users-table" class="table table-striped table-hover align-middle mb-0">
+            <table id="users-table" class="table table-striped table-sm table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
                         <th style="width:36px;"><input type="checkbox" id="select-all-users" class="form-check-input"

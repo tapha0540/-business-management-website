@@ -31,7 +31,7 @@ $estAdmin = $user['role'] == 'admin';
 
     <section class="col h-100 p-0 m-0 border-5 border-primary shadow-sm rounded-2 bg-lighter">
       <h5 class="text-center my-3 text-lighter rounded-3">Gestion Commerciale</h5>
-      <div class="nav flex-column nav-pills m-1 justify-content-center align-items-center row-gap-3 bg-lighter" id="v-pills-tab"
+      <div class="nav flex-column nav-pills m-1 justify-content-center align-items-center row-gap-3 bg-lighter mt-4" id="v-pills-tab"
         role="tablist" aria-orientation="vertical">
         <button class="nav-link active w-75 p-2 text-dark fs-6" id="v-pills-dashboard-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard"

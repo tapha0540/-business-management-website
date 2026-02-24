@@ -12,9 +12,11 @@ const produitsTableDeleteSelectedBtn = document.getElementById(
 );
 const produitsTableLimit = document.getElementById("produits-table-limit");
 const produitsTableFilter = document.querySelectorAll(".produits-filter");
-const produitCategorieSelect = document.getElementById('produit-categorie');
-
-
+const produitCategorieSelect = document.getElementById("produit-categorie");
+const ajouterProduitForm = document.getElementById("ajouter-produit-form");
+const ajouterProduitFormMessage = document.getElementById(
+  "ajouter-produit-form-message",
+);
 // Fetch and populate produits
 const fetchProduitsTableData = async () => {
   try {
@@ -39,7 +41,7 @@ const afficherProduitsTableDonnee = (data) => {
     data.forEach((produit) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td><input type="checkbox" value="${produit.id}" /> </td>
+        <td><input type="checkbox" value="${produit.id}" class="produit-table-checkboxes" /> </td>
         <td><img src="${produit.imgUrl}" width="100" height="100"/></td>
         <td>${produit.nom}</td>
         <td>${produit.categorie}</td>
@@ -62,20 +64,54 @@ const afficherProduitsTableDonnee = (data) => {
 
 const getProduitsSelectTagData = async () => {
   const data = await fetchProduitsCategorie();
-  data.forEach( categorie => {
-    const option = document.createElement('option');
+  data.forEach((categorie) => {
+    const option = document.createElement("option");
     option.innerText = categorie.nom;
+    option.value = categorie.id;
     produitCategorieSelect.appendChild(option);
   });
-}
+};
 produitsTableSelectAllBtn.addEventListener("change", () => {
-  const checkboxes = produitsTableTbody.querySelectorAll(".row-check");
+  const checkboxes = produitsTableTbody.querySelectorAll(
+    ".produit-table-checkboxes",
+  );
   checkboxes.forEach((cb) => (cb.checked = produitsTableSelectAllBtn.checked));
   updateDeleteButtonState();
 });
+
+const ajouterProduit = async (e) => {
+  e.preventDefault();
+  const formData = {
+    nom: ajouterProduitForm["produit-nom"].value,
+    description: ajouterProduitForm["produit-description"].value,
+    img_url: ajouterProduitForm["produit-img"].value,
+    categorie_id: ajouterProduitForm["produit-categorie"].value,
+    prix_vente: ajouterProduitForm["produit-prix"].value,
+    quantite: ajouterProduitForm["produit-quantite"].value,
+    seuil_critique: ajouterProduitForm["produit-seuil-critique"].value,
+  };
+
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/produits/create.php",
+    "POST",
+    formData,
+  );
+  console.log(serverRes);
+  ajouterProduitFormMessage.classList.remove("text-success", "text-danger");
+
+  ajouterProduitFormMessage.innerText =
+    serverRes.message || "Erreur, Le serveur ne repond pas !";
+  if (serverRes.success) {
+    ajouterProduitFormMessage.classList.add("text-success");
+    fetchProduitsTableData();
+  } else {
+    ajouterProduitFormMessage.classList.add("text-danger");
+  }
+};
 
 fetchProduitsTableData();
 getProduitsSelectTagData();
 produitsTableFilter.forEach(
   (each) => (each.onchange = () => fetchProduitsTableData()),
 );
+ajouterProduitForm.onsubmit = ajouterProduit;

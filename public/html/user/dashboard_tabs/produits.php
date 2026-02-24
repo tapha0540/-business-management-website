@@ -35,10 +35,10 @@
         </div>
 
         <div class="table-responsive">
-            <table id="produits-table" class="table table-striped table-hover align-middle mb-0">
+            <table id="produits-table" class="table table-striped table-sm table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th style="width:36px;"><input type="checkbox" id="select-all-produits" class="form-check-input"
+                        <th style="width:36px;"><input type="checkbox" id="select-all-produits"
                                 title="Sélectionner tout" /></th>
                         <th>Image</th>
                         <th>Nom</th>
@@ -118,6 +118,7 @@
                         <textarea class="form-control border-primary border-1" id="produit-description"
                             name="produit-description" placeholder="Décrit le produit" required></textarea>
                     </div>
+                    <p id="ajouter-produit-form-message" class="text-center mt-3"></p>
                 </form>
             </div>
             <div class="modal-footer">

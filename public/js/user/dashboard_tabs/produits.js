@@ -42,7 +42,7 @@ const afficherProduitsTableDonnee = (data) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td><input type="checkbox" value="${produit.id}" class="produit-table-checkboxes" /> </td>
-        <td><img src="${produit.imgUrl}" width="100" height="100"/></td>
+        <td><img src="http://localhost:8081/storage/uploads/images/produits/${produit.imgUrl}" width="100" height="100"/></td>
         <td>${produit.nom}</td>
         <td>${produit.categorie}</td>
         <td>${produit.prix_vente}</td>
@@ -81,10 +81,19 @@ produitsTableSelectAllBtn.addEventListener("change", () => {
 
 const ajouterProduit = async (e) => {
   e.preventDefault();
+
+  const file = document.getElementById("produit-img").files[0];
+
+    let base64Image = null;
+
+    if (file) {
+        base64Image = await toBase64(file);
+    }
+
   const formData = {
     nom: ajouterProduitForm["produit-nom"].value,
     description: ajouterProduitForm["produit-description"].value,
-    img_url: ajouterProduitForm["produit-img"].value,
+    image: base64Image,  // image en base64
     categorie_id: ajouterProduitForm["produit-categorie"].value,
     prix_vente: ajouterProduitForm["produit-prix"].value,
     quantite: ajouterProduitForm["produit-quantite"].value,
@@ -96,7 +105,6 @@ const ajouterProduit = async (e) => {
     "POST",
     formData,
   );
-  console.log(serverRes);
   ajouterProduitFormMessage.classList.remove("text-success", "text-danger");
 
   ajouterProduitFormMessage.innerText =

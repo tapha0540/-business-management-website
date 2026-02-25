@@ -81,7 +81,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="ajouter-produit-form">
+                <form id="ajouter-produit-form" enctype="multipart/form-data">
                     <div class="form-group p-2">
                         <label for="produit-nom">Nom du produit</label>
                         <input type="text" class="form-control border-primary border-1" id="produit-nom"

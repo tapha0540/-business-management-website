@@ -211,7 +211,7 @@ class Produit
                                         FROM produits p
                                         JOIN categories c 
                                             ON p.categorie_id = c.id
-                                        ORDER BY p.created_at ASC
+                                        ORDER BY p.created_at DESC
                                         LIMIT :limit");
         $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
         $stmt->execute();

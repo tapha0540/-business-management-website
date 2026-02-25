@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $quantite = $reqBody['quantite'];
         $seuil_critique = $reqBody['seuil_critique'];
         $base64Image = $reqBody['image'];
-
+        require_once __DIR__ . "/../../utils/produits/enregistrerProduitImg.php";
         $imageName = EnregistrerProduitImg($base64Image);
 
         if (!$imageName) {
@@ -55,31 +55,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ]);
 }
 
-function EnregistrerProduitImg($base64Image)
-{
-    if (!$base64Image) return null;
-
-    // Extraire type + data
-    list($type, $data) = explode(';', $base64Image);
-    list(, $data) = explode(',', $data);
-
-    // Extraire extension
-    preg_match('/data:image\/(.*)/', $type, $matches);
-    $ext = $matches[1];
-
-    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'];
-
-    if (!in_array($ext, $allowed)) {
-        return null;
-    }
-
-    $data = base64_decode($data);
-
-    $newName = 'produit_' . uniqid('', true) . "." . $ext;
-
-    $destination = __DIR__ . "/../../storage/uploads/images/produits/" . $newName;
-
-    file_put_contents($destination, $data);
-
-    return $newName;
-}

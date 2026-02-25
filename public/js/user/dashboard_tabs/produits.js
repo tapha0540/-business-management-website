@@ -51,7 +51,7 @@ const afficherProduitsTableDonnee = (data) => {
         <td>${produit.created_at}</td>
         <td>${produit.updated_at}</td>
         <td class="d-flex column-gap-2">
-          <button class="btn btn-outline-danger btn-sm" id="commandes-delete-selected">Supprimer</button>
+          <button class="btn btn-outline-danger btn-sm" onclick="supprimerProduits([${produit.id}])">Supprimer</button>
           <button class="btn btn-primary btn-sm" id="commandes-delete-selected">Modifier</button>
         </td>
       `;
@@ -84,16 +84,16 @@ const ajouterProduit = async (e) => {
 
   const file = document.getElementById("produit-img").files[0];
 
-    let base64Image = null;
+  let base64Image = null;
 
-    if (file) {
-        base64Image = await toBase64(file);
-    }
+  if (file) {
+    base64Image = await toBase64(file);
+  }
 
   const formData = {
     nom: ajouterProduitForm["produit-nom"].value,
     description: ajouterProduitForm["produit-description"].value,
-    image: base64Image,  // image en base64
+    image: base64Image, // image en base64
     categorie_id: ajouterProduitForm["produit-categorie"].value,
     prix_vente: ajouterProduitForm["produit-prix"].value,
     quantite: ajouterProduitForm["produit-quantite"].value,
@@ -116,10 +116,42 @@ const ajouterProduit = async (e) => {
     ajouterProduitFormMessage.classList.add("text-danger");
   }
 };
+const supprimerProduits = async (produits_ids) => {
+  if (!confirm("Est ce que tu veux vraiment supprimmer ces produits")) {
+    return;
+  }
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/produits/delete.php",
+    "POST",
+    {
+      produits_ids,
+    },
+  );
+  alert(serverRes.message || "L'opération a échoué. Erreur coté serveur !");
+  if (serverRes.success) {
+    fetchProduitsTableData();
+  }
+};
 
 fetchProduitsTableData();
 getProduitsSelectTagData();
 produitsTableFilter.forEach(
   (each) => (each.onchange = () => fetchProduitsTableData()),
 );
+
 ajouterProduitForm.onsubmit = ajouterProduit;
+
+produitsTableDeleteSelectedBtn.onclick = async () => {
+  const checkboxes = produitsTableTbody.querySelectorAll(
+    "input[type='checkbox']",
+  );
+  const produits_ids = [];
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      produits_ids.push(Number(checkbox.value));
+    }
+  });
+  if (produits_ids.length > 0) {
+    await supprimerProduits(produits_ids);
+  }
+};

@@ -6,7 +6,7 @@
         </div>
         <div class="table-actions">
             <button class="btn btn-outline-secondary btn-sm">📊 Statistiques</button>
-            <button class="btn btn-outline-danger btn-sm" id="produits-delete-selected" disabled>🗑️ Supprimer
+            <button class="btn btn-outline-danger btn-sm" id="produits-delete-selected">🗑️ Supprimer
                 sélection</button>
             <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
                 data-bs-target="#ajouter-produit">➕ Ajouter un produit</button>

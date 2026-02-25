@@ -6,11 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $reqData = json_decode(file_get_contents('php://input'), true);
         $limit = $reqData['limit'];
+        $search = $reqData['search'];
 
         require_once '../../config/database.php';
         require_once '../../controllers/produitsController.php';
         $produitController = new produitsController($pdo);
-        $produits = $produitController->getAll($limit);
+        $produits = $produitController->getAll($limit, $search);
         echo json_encode([
             'message' => 'Opération réussie',
             'success' => true,

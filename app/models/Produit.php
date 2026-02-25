@@ -195,26 +195,44 @@ class Produit
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public static function getAll(PDO &$pdo, int $limit): array
+    public static function getAll(PDO &$pdo, int $limit, string $search): array
     {
-        $stmt = $pdo->prepare("SELECT 
-                                        p.id,
-                                        p.imgUrl,
-                                        p.nom, 
-                                        p.quantite,
-                                        p.prix_vente, 
-                                        p.seuil_critique , 
-                                        p.description, 
-                                        DATE_FORMAT(p.created_at, '%d/%m/%Y') AS created_at, 
-                                        DATE_FORMAT(p.updated_at, '%d/%m/%Y') AS updated_at,
-                                        c.nom AS categorie 
-                                        FROM produits p
-                                        JOIN categories c 
-                                            ON p.categorie_id = c.id
-                                        ORDER BY p.created_at DESC
-                                        LIMIT :limit");
-        $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
+        $filter = "";
+        $searchNotEmpty = $search && trim($search);
+
+        if ($searchNotEmpty) {
+            $filter = "WHERE p.nom LIKE :search OR c.nom LIKE :search";
+        }
+
+        $sql = "SELECT 
+                p.id,
+                p.imgUrl,
+                p.nom, 
+                p.quantite,
+                p.prix_vente, 
+                p.seuil_critique,
+                p.description, 
+                DATE_FORMAT(p.created_at, '%d/%m/%Y') AS created_at, 
+                DATE_FORMAT(p.updated_at, '%d/%m/%Y') AS updated_at,
+                c.nom AS categorie 
+            FROM produits p
+            JOIN categories c 
+                ON p.categorie_id = c.id
+            $filter
+            ORDER BY p.created_at DESC
+            LIMIT :limit";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+
+        if ($searchNotEmpty) {
+            $searchValue = "%" . trim($search) . "%";
+            $stmt->bindValue(':search', $searchValue, PDO::PARAM_STR);
+        }
+
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

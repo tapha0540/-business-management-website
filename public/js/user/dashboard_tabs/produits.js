@@ -17,13 +17,15 @@ const ajouterProduitForm = document.getElementById("ajouter-produit-form");
 const ajouterProduitFormMessage = document.getElementById(
   "ajouter-produit-form-message",
 );
+const produitsSearchInput = document.getElementById('produits-search');
+
 // Fetch and populate produits
 const fetchProduitsTableData = async () => {
   try {
     const serverRes = await fetchApi(
       "http://localhost:8081/routes/produits/get_all.php",
       "POST",
-      { limit: Number(produitsTableLimit.value) },
+      { limit: Number(produitsTableLimit.value), search: produitsSearchInput.value },
     );
     produits = serverRes.data;
 
@@ -133,15 +135,7 @@ const supprimerProduits = async (produits_ids) => {
   }
 };
 
-fetchProduitsTableData();
-getProduitsSelectTagData();
-produitsTableFilter.forEach(
-  (each) => (each.onchange = () => fetchProduitsTableData()),
-);
-
-ajouterProduitForm.onsubmit = ajouterProduit;
-
-produitsTableDeleteSelectedBtn.onclick = async () => {
+const supprimmerProduitsSelectionner = async () => {
   const checkboxes = produitsTableTbody.querySelectorAll(
     "input[type='checkbox']",
   );
@@ -155,3 +149,23 @@ produitsTableDeleteSelectedBtn.onclick = async () => {
     await supprimerProduits(produits_ids);
   }
 };
+
+fetchProduitsTableData();
+getProduitsSelectTagData();
+produitsTableFilter.forEach(
+  (each) => (each.onchange = () => fetchProduitsTableData()),
+);
+
+ajouterProduitForm.onsubmit = ajouterProduit;
+
+produitsTableDeleteSelectedBtn.onclick = supprimmerProduitsSelectionner;
+
+let isSearching = false;
+produitsSearchInput.onchange = async () => {
+  if (isSearching) {
+    return;
+  }
+  await fetchProduitsTableData();
+  setTimeout(() => isSearching = false, 250);
+}
+

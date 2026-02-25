@@ -11,9 +11,9 @@ class produitsController
         $this->pdo = $pdo;
         $this->produitModel = new Produit($this->pdo);
     }
-    public function getAll(int $limit)
+    public function getAll(int $limit, string $search)
     {
-        return $this->produitModel::getAll($this->pdo, $limit);
+        return $this->produitModel::getAll($this->pdo, $limit, $search);
     }
     public function SupprimmerProduits(array $produitsIds)
     {

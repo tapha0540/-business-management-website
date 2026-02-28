@@ -75,4 +75,4 @@ clientsTableSelectAllBtn.addEventListener("change", () => {
 });
 
 
-// fetchClientsTableData();
+fetchClientsTableData();

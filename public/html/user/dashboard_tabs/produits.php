@@ -72,7 +72,7 @@
     </div>
 </div>
 
-<!-- Popover pour ajouter une Produit -->
+<!-- Popover pour ajouter un Produit -->
 <div class="modal fade" id="ajouter-produit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -105,7 +105,8 @@
                     <div class="form-group p-2">
                         <label for="produit-categorie">Categorie</label>
                         <select name="produit-categorie" id="produit-categorie" required>
-                            <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour le produit</option>  
+                            <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour
+                                le produit</option>
                         </select>
                     </div>
                     <div class="form-group p-2">
@@ -124,6 +125,66 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                 <button type="submit" class="btn btn-primary" form="ajouter-produit-form">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popover pour Modifier un Produit -->
+<div class="modal fade" id="modifier-produit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">modifier un produit</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="modifier-produit-form" enctype="multipart/form-data">
+                    <div class="form-group p-2">
+                        <label for="produit-nom">Nom du produit</label>
+                        <input type="text" class="form-control border-primary border-1" name="produit-nom"
+                            placeholder="Nom du produit" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-prix">Prix en FCFA</label>
+                        <input type="number" class="form-control border-primary border-1" name="produit-prix"
+                            placeholder="Prix" min="1" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-quantite">Quantité</label>
+                        <input type="number" class="form-control border-primary border-1" name="produit-quantite"
+                            placeholder="Quantité" min="1" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-seuil-critique">Seuil Critique</label>
+                        <input type="number" class="form-control border-primary border-1" name="produit-seuil-critique"
+                            placeholder="Seuil critque" min="0" value="0" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-categorie">Categorie</label>
+                        <select name="produit-categorie" id="produit-categorie" required>
+                            <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour
+                                le produit</option>
+                        </select>
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-img">Image du produit</label>
+                        <input type="file" class="form-control border-primary border-1" id="produit-img"
+                            name="produit-img" placeholder="Seuil critque" accept="image/*" required />
+                        <img id="modifier-produit-img"
+                            width="100" height="100" class="m-2" />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="produit-description">Description</label>
+                        <textarea class="form-control border-primary border-1" id="produit-description"
+                            name="produit-description" placeholder="Décrit le produit" required></textarea>
+                    </div>
+                    <p id="modifier-produit-form-message" class="text-center mt-3"></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary" form="modifier-produit-form">Modifier</button>
             </div>
         </div>
     </div>

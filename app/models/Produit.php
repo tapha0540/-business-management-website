@@ -135,6 +135,15 @@ class Produit
 
     public function delete()
     {
+        $this->get($this->id);
+        require_once __DIR__ . "/../utils/produits/deleteProduitImg.php";
+        if (!deleteImage($this->imgUrl)) {
+            error_log(
+                '\n ' . __DIR__ . '/Produit.php' . ' -> Erreur produit avec imgurl ' . $this->imgUrl . " n'a pas pu être supprimmé.",
+                3,
+                __DIR__ . "/../storage/logs/error_log.log"
+            );
+        }
         $stmt = $this->pdo->prepare("DELETE FROM produits WHERE id = :id");
 
         return $stmt->execute(["id" => $this->id]);

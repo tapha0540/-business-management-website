@@ -24,4 +24,7 @@ class produitsController
         }
         return $success;
     }
+    public function getProduit(int $id) {
+        return $this->produitModel->get($id);
+    } 
 }

@@ -48,23 +48,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Row template (hidden) to clone when populating rows via JS -->
-                    <tr id="clients-row-template" class="d-none">
-                        <td><input type="checkbox" class="row-check form-check-input" /></td>
-                        <td class="col-name">--</td>
-                        <td class="col-email">--</td>
-                        <td class="col-phone">--</td>
-                        <td class="col-address">--</td>
-                        <td class="col-status"><span class="activity-badge activity-active">Actif</span></td>
-                        <td class="col-created">--</td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-outline-info btn-action btn-edit" title="Éditer ce client">✏️
-                                Éditer</button>
-                            <button class="btn btn-sm btn-outline-danger btn-action btn-delete"
-                                title="Supprimer ce client">🗑️ Supprimer</button>
-                        </td>
-                    </tr>
-
                     <!-- Empty state row shown when no data -->
                     <tr id="clients-empty-state" class="table-empty">
                         <td colspan="8">
@@ -73,9 +56,6 @@
                                 <p class="mb-2"><strong>Aucun client trouvé</strong></p>
                                 <p class="small">Vous n'avez pas encore de clients. Cliquez sur "Ajouter un client" pour
                                     en créer un.</p>
-                                <div class="mt-4">
-                                    <button class="btn btn-primary btn-sm">➕ Ajouter un client</button>
-                                </div>
                             </div>
                         </td>
                     </tr>

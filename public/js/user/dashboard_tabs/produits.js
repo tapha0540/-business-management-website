@@ -17,7 +17,9 @@ const ajouterProduitForm = document.getElementById("ajouter-produit-form");
 const ajouterProduitFormMessage = document.getElementById(
   "ajouter-produit-form-message",
 );
-const produitsSearchInput = document.getElementById('produits-search');
+const modifierProduitForm = document.getElementById("modifier-produit-form");
+const modifierProduitImg = document.getElementById("modifier-produit-img");
+const produitsSearchInput = document.getElementById("produits-search");
 
 // Fetch and populate produits
 const fetchProduitsTableData = async () => {
@@ -25,7 +27,10 @@ const fetchProduitsTableData = async () => {
     const serverRes = await fetchApi(
       "http://localhost:8081/routes/produits/get_all.php",
       "POST",
-      { limit: Number(produitsTableLimit.value), search: produitsSearchInput.value },
+      {
+        limit: Number(produitsTableLimit.value),
+        search: produitsSearchInput.value,
+      },
     );
     produits = serverRes.data;
 
@@ -54,7 +59,8 @@ const afficherProduitsTableDonnee = (data) => {
         <td>${produit.updated_at}</td>
         <td class="d-flex column-gap-2">
           <button class="btn btn-outline-danger btn-sm" onclick="supprimerProduits([${produit.id}])">Supprimer</button>
-          <button class="btn btn-primary btn-sm" id="commandes-delete-selected">Modifier</button>
+          <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+                data-bs-target="#modifier-produit" onclick="modifierProduit(${produit.id})">Modifier</button>
         </td>
       `;
       produitsTableTbody.appendChild(tr);
@@ -150,6 +156,42 @@ const supprimmerProduitsSelectionner = async () => {
   }
 };
 
+const getProduit = async (id) => {
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/produits/get.php",
+    "POST",
+    {
+      id,
+    },
+  );
+  if (serverRes.success) {
+    return serverRes.data;
+  } else {
+    alert(serverRes.message || "Erreur, serveur injoignable !");
+    return null;
+  }
+};
+const modifierProduit = async (produitId) => {
+  const produit = await getProduit(produitId);
+  const produitNom = modifierProduitForm["produit-nom"];
+  const produitPrix = modifierProduitForm["produit-prix"];
+  const produitQuantite = modifierProduitForm["produit-quantite"];
+  const produitSeuilCritique = modifierProduitForm["produit-seuil-critique"];
+  const produitCategorie = modifierProduitForm["produit-categorie"];
+  const produitDescription = modifierProduitForm["produit-description"];
+
+  produitNom.value = produit.nom;
+  produitPrix.value = produit.prix_vente;
+  produitQuantite.value = produit.quantite;
+  produitSeuilCritique.value = produit.seuil_critique;
+  produitCategorie.value = produit.categorie;
+  produitDescription.value = produit.description;
+
+  modifierProduitImg.src = `http://localhost:8081/storage/uploads/images/produits/${produit.imgUrl}`;
+  
+};
+
+
 fetchProduitsTableData();
 getProduitsSelectTagData();
 produitsTableFilter.forEach(
@@ -166,6 +208,5 @@ produitsSearchInput.onchange = async () => {
     return;
   }
   await fetchProduitsTableData();
-  setTimeout(() => isSearching = false, 250);
-}
-
+  setTimeout(() => (isSearching = false), 250);
+};

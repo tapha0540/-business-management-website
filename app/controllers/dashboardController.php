@@ -21,7 +21,7 @@ class DashboardController
                 return Produit::mostSoldProduct($this->pdo, $limit, $from, $to);
             case 'best-customers':
                 require_once __DIR__ . '/../models/Client.php';
-                return Client::bestCustomers($this->pdo, $limit, $from, $to);
+                return Clients::bestCustomers($this->pdo, $limit, $from, $to);
             case 'product-at-risk-of-out-of-stock':
                 require_once __DIR__ . '/../models/Produit.php';
                 return Produit::productsAtRiskOfOutOfStock($this->pdo, $limit);

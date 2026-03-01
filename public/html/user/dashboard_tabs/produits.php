@@ -46,7 +46,7 @@
                         <th>Prix</th>
                         <th>Stock</th>
                         <th>Seuil critique</th>
-                        <th>Crée le</th>
+                        <th>Créé le</th>
                         <th>Modifié le</th>
                         <th style="width:140px;" class="text-end">Actions</th>
                     </tr>

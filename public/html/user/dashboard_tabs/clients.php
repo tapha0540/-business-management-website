@@ -1,15 +1,15 @@
-
 <div class="card cmd-card shadow-sm mb-4 rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
             <h5 class="mb-0">👥 Clients</h5>
-            <small  class="text-muted">Gestion de votre portefeuille clients</small>
+            <small class="text-muted">Gestion de votre portefeuille clients</small>
         </div>
         <div class="table-actions">
             <button class="btn btn-outline-secondary btn-sm">📊 Statistiques</button>
             <button class="btn btn-outline-danger btn-sm" id="clients-delete-selected" disabled>🗑️ Supprimer
                 sélection</button>
-            <button class="btn btn-primary btn-sm">➕ Ajouter un client</button>
+            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+                data-bs-target="#ajouter-client">➕ Ajouter un client</button>
         </div>
     </div>
 
@@ -18,17 +18,13 @@
             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
             <div class="input-group search-input mb-2 mb-md-0">
                 <span class="input-group-text">🔍</span>
-                <input id="clients-search" type="search" class="form-control"
-                    placeholder="Rechercher par nom, email, téléphone...">
+                <input id="clients-search" type="search" class="form-control form-control-sm"
+                    placeholder="Rechercher par prenom, nom, email, téléphone...">
             </div>
 
             <div class="d-flex gap-2">
-                <select id="clients-filter-status" class="form-select form-select-sm">
-                    <option value="">Tous les clients</option>
-                    <option value="active">Actifs</option>
-                    <option value="inactive">Inactifs</option>
-                </select>
-                <button class="btn btn-outline-secondary btn-sm">Exporter</button>
+                <input type="number" name="clients-table-limit" id="clients-table-limit" min="1" value="10" required
+                    class="clients-filter form-control form-control-sm" />
             </div>
         </div>
 
@@ -38,19 +34,39 @@
                     <tr>
                         <th style="width:36px;"><input type="checkbox" id="select-all-clients" class="form-check-input"
                                 title="Sélectionner tout" /></th>
+                        <th>Profile</th>
+                        <th>Prénom</th>
                         <th>Nom</th>
-                        <th>Email</th>
                         <th>Téléphone</th>
-                        <th>Adresse</th>
-                        <th>Statut</th>
-                        <th>Inscription</th>
+                        <th>Email</th>
+                        <th>créé le</th>
+                        <th>Modifiéé le</th>
                         <th style="width:140px;" class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Row template (hidden) to clone when populating rows via JS -->
+                    <tr id="clients-row-template" class="d-none">
+                        <td><input type="checkbox" class="client-checkbox" /></td>
+                        <td><img class="client-img" width="100" height="100" /></td>
+                        <td class="client-prenom">--</td>
+                        <td class="client-nom">--</td>
+                        <td class="client-telephone">--</td>
+                        <td class="client-email">--</td>
+                        <td class="client-created-at">--</td>
+                        <td class="client-updated-at">--</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-info btn-action btn-edit" title="Éditer ce client"
+                                type="button" data-bs-toggle="modal" data-bs-target="#modifier-client">✏️
+                                Éditer</button>
+                            <button class="btn btn-sm btn-outline-danger btn-action btn-delete"
+                                title="Supprimer ce client">🗑️ Supprimer</button>
+                        </td>
+                    </tr>
+
                     <!-- Empty state row shown when no data -->
                     <tr id="clients-empty-state" class="table-empty">
-                        <td colspan="8">
+                        <td colspan="9">
                             <div class="text-center cli-empty">
                                 <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
                                 <p class="mb-2"><strong>Aucun client trouvé</strong></p>
@@ -64,5 +80,122 @@
         </div>
 
         <div id="clients-table-error-message" class="text-danger text-center mt-3"></div>
+    </div>
+</div>
+
+<!-- Popover pour ajouter un client -->
+<div class="modal fade" id="ajouter-client" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un client</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="ajouter-client-form" enctype="multipart/form-data">
+                    <div class="form-group p-2">
+                        <label for="client-prenom">Prénom</label>
+                        <input type="text" class="form-control border-primary border-1" id="client-prenom"
+                            name="client-prenom" placeholder="Prénom" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="client-nom">Nom</label>
+                        <input type="text" class="form-control border-primary border-1" id="client-nom"
+                            name="client-nom" placeholder="Nom" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="client-telephone">Téléphone</label>
+                        <input type="tel" class="form-control border-primary border-1" id="client-telephone"
+                            name="client-telephone" placeholder="Téléphone" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="client-email">Email</label>
+                        <input type="email" class="form-control border-primary border-1" id="client-email"
+                            name="client-email" placeholder="Email" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="client-categorie">Categorie</label>
+                        <select name="client-categorie" id="client-categorie" required>
+                            <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour
+                                le client</option>
+                        </select>
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="client-img">Image du client</label>
+                        <input type="file" class="form-control border-primary border-1" id="client-img"
+                            name="client-img" accept="image/*" />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="client-description">Description</label>
+                        <textarea class="form-control border-primary border-1" id="client-description"
+                            name="client-description" placeholder="Décrit le client"></textarea>
+                    </div>
+                    <p id="ajouter-client-form-message" class="text-center mt-3"></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary" form="ajouter-client-form">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popover pour Modifier un client -->
+<div class="modal fade" id="modifier-client" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">modifier un client</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="modifier-client-form" enctype="multipart/form-data">
+                    <div class="form-group p-2">
+                        <label for="modifier-client-prenom">Prénom</label>
+                        <input type="text" class="form-control border-primary border-1" name="client-prenom"
+                            placeholder="Prénom" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="modifier-client-nom">Nom</label>
+                        <input type="text" class="form-control border-primary border-1" name="client-nom"
+                            placeholder="Nom" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="modifier-client-telephone">Téléphone</label>
+                        <input type="tel" class="form-control border-primary border-1" name="client-telephone"
+                            placeholder="Téléphone" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="modifier-client-email">Email</label>
+                        <input type="email" class="form-control border-primary border-1" name="client-email"
+                            placeholder="Email" required />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="modifier-client-categorie">Categorie</label>
+                        <select name="client-categorie" id="modifier-client-categorie" required>
+                            <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour
+                                le client</option>
+                        </select>
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="modifier-client-img-input">Image du client</label>
+                        <input type="file" class="form-control border-primary border-1" id="modifier-client-img-input"
+                            name="client-img" accept="image/*" />
+                        <img id="modifier-client-img" width="100" height="100" class="m-2" />
+                    </div>
+                    <div class="form-group p-2">
+                        <label for="modifier-client-description">Description</label>
+                        <textarea class="form-control border-primary border-1" id="modifier-client-description"
+                            name="client-description" placeholder="Décrit le client"></textarea>
+                    </div>
+                    <p id="modifier-client-form-message" class="text-center mt-3"></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary" form="modifier-client-form">Modifier</button>
+            </div>
+        </div>
     </div>
 </div>

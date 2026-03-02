@@ -9,6 +9,7 @@ class Utilisateur
     private ?string $email;
     private ?string $mot_de_passe;
     private string $role;
+    private ?string $imgUrl;
     private ?string $created_at;
     private ?string $updated_at;
 
@@ -20,6 +21,7 @@ class Utilisateur
         ?string $email = null,
         ?string $mot_de_passe = null,
         string $role = 'vendeur',
+        ?string $imgUrl = null,
         ?string $created_at = null,
         ?string $updated_at = null
     ) {
@@ -34,6 +36,7 @@ class Utilisateur
         $this->email = $email;
         $this->mot_de_passe = $mot_de_passe;
         $this->role = $role;
+        $this->imgUrl = $imgUrl;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
     }
@@ -41,8 +44,8 @@ class Utilisateur
     public function create(): bool
     {
         $stmt = $this->pdo->prepare(
-            'INSERT INTO utilisateurs (prenom, nom, email, mot_de_passe, role)
-             VALUES (:prenom, :nom, :email, :mot_de_passe, :role)'
+            'INSERT INTO utilisateurs (prenom, nom, email, mot_de_passe, role, imgUrl)
+             VALUES (:prenom, :nom, :email, :mot_de_passe, :role, :imgUrl)'
         );
 
         $ok = $stmt->execute([
@@ -50,7 +53,8 @@ class Utilisateur
             'nom' => $this->nom,
             'email' => $this->email,
             'mot_de_passe' => password_hash($this->mot_de_passe, PASSWORD_BCRYPT),
-            'role' => $this->role
+            'role' => $this->role,
+            'imgUrl' => $this->imgUrl
         ]);
 
         if ($ok) {
@@ -63,14 +67,10 @@ class Utilisateur
     public function get(?int $id = null, ?string $email = null): ?array
     {
         if ($id !== null) {
-            $stmt = $this->pdo->prepare(
-                'SELECT * FROM utilisateurs WHERE id = ?'
-            );
+            $stmt = $this->pdo->prepare('SELECT * FROM utilisateurs WHERE id = ?');
             $stmt->execute([$id]);
         } elseif ($email !== null) {
-            $stmt = $this->pdo->prepare(
-                'SELECT * FROM utilisateurs WHERE email = ?'
-            );
+            $stmt = $this->pdo->prepare('SELECT * FROM utilisateurs WHERE email = ?');
             $stmt->execute([$email]);
         } else {
             return null;
@@ -87,6 +87,7 @@ class Utilisateur
         $this->email = $row['email'];
         $this->mot_de_passe = $row['mot_de_passe'];
         $this->role = $row['role'];
+        $this->imgUrl = $row['imgUrl'] ?? null;
         $this->created_at = $row['created_at'];
         $this->updated_at = $row['updated_at'];
 
@@ -95,9 +96,7 @@ class Utilisateur
 
     public function getAll(): array
     {
-        $stmt = $this->pdo->query(
-            'SELECT id, prenom, nom, email, role, imgUrl, created_at, updated_at FROM utilisateurs'
-        );
+        $stmt = $this->pdo->query('SELECT id, prenom, nom, email, role, imgUrl, created_at, updated_at FROM utilisateurs');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -105,7 +104,8 @@ class Utilisateur
         ?string $prenom = null,
         ?string $nom = null,
         ?string $email = null,
-        ?string $mot_de_passe = null
+        ?string $mot_de_passe = null,
+        ?string $imgUrl = null
     ): bool {
         if ($this->id === null) {
             return false;
@@ -139,6 +139,12 @@ class Utilisateur
             $this->mot_de_passe = $hash;
         }
 
+        if ($imgUrl !== null) {
+            $fields[] = 'imgUrl = :imgUrl';
+            $params['imgUrl'] = $imgUrl;
+            $this->imgUrl = $imgUrl;
+        }
+
         if (empty($fields)) {
             return false;
         }
@@ -155,12 +161,10 @@ class Utilisateur
             return false;
         }
 
-        $stmt = $this->pdo->prepare(
-            'DELETE FROM utilisateurs WHERE id = ?'
-        );
-
+        $stmt = $this->pdo->prepare('DELETE FROM utilisateurs WHERE id = ?');
         return $stmt->execute([$this->id]);
     }
+
     static public function bestSellers(PDO &$pdo, int $limit, string $from, string $to): array
     {
         $stmt = $pdo->prepare("SELECT 
@@ -178,14 +182,8 @@ class Utilisateur
                                     ORDER BY `Nombre de commandes réalisées` DESC
                                     LIMIT :limit");
 
-        $stmt->bindValue(':from', (new DateTime($from))
-            ->modify('-1 day')
-            ->format('Y-m-d'), PDO::PARAM_STR);
-
-        $stmt->bindValue(':to', (new DateTime($to))
-            ->modify('+1 day')
-            ->format('Y-m-d'), PDO::PARAM_STR);
-
+        $stmt->bindValue(':from', (new DateTime($from))->modify('-1 day')->format('Y-m-d'), PDO::PARAM_STR);
+        $stmt->bindValue(':to', (new DateTime($to))->modify('+1 day')->format('Y-m-d'), PDO::PARAM_STR);
         $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
         $stmt->execute();
 

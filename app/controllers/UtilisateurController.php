@@ -32,6 +32,17 @@ class UtilisateurController
         }
 
         $user = new Utilisateur($this->pdo, null, $prenom, $nom, $email, $mot_de_passe, $role);
+
+        $image = $data['image'] ?? null;
+        $imgUrl = null;
+
+        if ($image) {
+            require_once __DIR__ . '/../utils/utilisateurs/enregistrerUtilisateurImg.php';
+            $imgUrl = EnregistrerUtilisateurImg($image);
+        }
+
+        // Create new Utilisateur with image
+        $user = new Utilisateur($this->pdo, null, $prenom, $nom, $email, $mot_de_passe, $role, $imgUrl);
         return $user->create();
     }
 
@@ -66,7 +77,23 @@ class UtilisateurController
         }
 
         $userModel = new Utilisateur($this->pdo, $id);
-        return $userModel->update($prenom, $nom, $email, $mot_de_passe);
+
+        $image = $data['image'] ?? null;
+        $imgUrl = null;
+
+        if ($image) {
+            require_once __DIR__ . '/../utils/utilisateurs/enregistrerUtilisateurImg.php';
+            require_once __DIR__ . '/../utils/utilisateurs/deleteUtilisateurImg.php';
+
+            // Delete old image if exists
+            if ($user['imgUrl']) {
+                deleteUtilisateurImage($user['imgUrl']);
+            }
+
+            $imgUrl = EnregistrerUtilisateurImg($image);
+        }
+
+        return $userModel->update($prenom, $nom, $email, $mot_de_passe, $imgUrl);
     }
 
     public function delete(int $id)

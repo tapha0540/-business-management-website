@@ -66,7 +66,35 @@ class Fournisseur
     public function getAll()
     {
         $stmt = $this->pdo->prepare('SELECT id, nom, email, telephone, adresse, created_at, updated_at FROM fournisseurs');
-        
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getAllWithSearch(PDO &$pdo, int $limit, string $search): array
+    {
+        $filter = "";
+        $searchNotEmpty = $search && trim($search);
+
+        if ($searchNotEmpty) {
+            $filter = "WHERE nom LIKE :search OR email LIKE :search";
+        }
+
+        $sql = "SELECT id, nom, email, telephone, adresse, created_at, updated_at FROM fournisseurs
+            $filter
+            ORDER BY created_at DESC
+            LIMIT :limit";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+
+        if ($searchNotEmpty) {
+            $searchValue = "%" . trim($search) . "%";
+            $stmt->bindValue(':search', $searchValue, PDO::PARAM_STR);
+        }
+
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -92,7 +120,8 @@ class Fournisseur
             "id" => $this->id
         ]);
     }
-    public function delete() {
+    public function delete()
+    {
         $stmt = $this->pdo->prepare("DELETE FROM fournisseurs WHERE id = :id");
         return $stmt->execute(["id" => $this->id]);
     }

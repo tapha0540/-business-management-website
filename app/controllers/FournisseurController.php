@@ -31,6 +31,11 @@ class FournisseurController
         return $this->model->getAll();
     }
 
+    public function getAllWithSearch(int $limit, string $search)
+    {
+        return Fournisseur::getAllWithSearch($this->pdo, $limit, $search);
+    }
+
     public function get(int $id)
     {
         return $this->model->get($id);

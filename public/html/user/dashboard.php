@@ -22,6 +22,7 @@ $estAdmin = $user['role'] == 'admin';
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="../../css/user/dashboard.css">
   <link rel="stylesheet" href="../../css/user/dashboard_tabs/commandes.css">
+  <link rel="stylesheet" href="../../css/user/dashboard_tabs/home.css">
   <title>Dashboard</title>
 </head>
 
@@ -31,8 +32,8 @@ $estAdmin = $user['role'] == 'admin';
 
     <section class="col h-100 p-0 m-0 border-5 border-primary shadow-sm rounded-2 bg-lighter">
       <h5 class="text-center my-3 text-lighter rounded-3">Gestion Commerciale</h5>
-      <div class="nav flex-column nav-pills m-1 justify-content-center align-items-center row-gap-3 bg-lighter mt-4" id="v-pills-tab"
-        role="tablist" aria-orientation="vertical">
+      <div class="nav flex-column nav-pills m-1 justify-content-center align-items-center row-gap-3 bg-lighter mt-4"
+        id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <button class="nav-link active w-75 p-2 text-dark fs-6" id="v-pills-dashboard-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard"
           aria-selected="true">
@@ -45,12 +46,6 @@ $estAdmin = $user['role'] == 'admin';
           <img src="../../assets/images/icons/shoppin_bag.svg" width="24px" height="24px" class="" />
           Commandes
         </button>
-        <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-products-tab" data-bs-toggle="pill"
-          data-bs-target="#v-pills-products" type="button" role="tab" aria-controls="v-pills-products"
-          aria-selected="false">
-          <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
-          Produits
-        </button>
         <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-clients-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-clients" type="button" role="tab" aria-controls="v-pills-clients"
           aria-selected="false">
@@ -58,6 +53,24 @@ $estAdmin = $user['role'] == 'admin';
           Clients
         </button>
         <?php if ($estAdmin): ?>
+          <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-products-tab" data-bs-toggle="pill"
+            data-bs-target="#v-pills-products" type="button" role="tab" aria-controls="v-pills-products"
+            aria-selected="false">
+            <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
+            Produits
+          </button>
+          <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-fournisseurs-tab" data-bs-toggle="pill"
+            data-bs-target="#v-pills-fournisseurs" type="button" role="tab" aria-controls="v-pills-fournisseurs"
+            aria-selected="false">
+            <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
+            Fournisseurs
+          </button>
+          <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-approv-tab" data-bs-toggle="pill"
+            data-bs-target="#v-pills-approv" type="button" role="tab" aria-controls="v-pills-approv"
+            aria-selected="false">
+            <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
+            Approvisionnements
+          </button>
           <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-users-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-users" aria-selected="false">
             <img src="../../assets/images/icons/users.svg" width="24px" height="24px" class="" />
@@ -82,36 +95,38 @@ $estAdmin = $user['role'] == 'admin';
           <?php require_once 'dashboard_tabs/home.php' ?>
         </div>
 
-        <div class="tab-pane fade p-3 " id="v-pills-orders" role="tabpanel"
-          aria-labelledby="v-pills-orders-tab">
+        <div class="tab-pane fade p-3 " id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
           <?php require_once 'dashboard_tabs/commandes.php' ?>
         </div>
 
-        <div class="tab-pane fade p-3" id="v-pills-clients" role="tabpanel"
-          aria-labelledby="v-pills-clients-tab">
+        <div class="tab-pane fade p-3" id="v-pills-clients" role="tabpanel" aria-labelledby="v-pills-clients-tab">
           <?php require_once 'dashboard_tabs/clients.php' ?>
         </div>
 
-        <div class="tab-pane fade p-3" id="v-pills-products" role="tabpanel"
-          aria-labelledby="v-pills-products-tab">
-          <?php require_once 'dashboard_tabs/produits.php' ?>
-        </div>
 
         <!-- Les Onglets pour les admins seulement. Quand un utilisateur n'est pas un admin, 
-         il ne sera pas autorisé à accéder à ces fonctionnalités. -->
+        il ne sera pas autorisé à accéder à ces fonctionnalités. -->
         <?php if ($estAdmin): ?>
-          <div class="tab-pane fade p-3" id="v-pills-users" role="tabpanel"
-            aria-labelledby="v-pills-users-tab">
+          <div class="tab-pane fade p-3" id="v-pills-products" role="tabpanel" aria-labelledby="v-pills-products-tab">
+            <?php require_once 'dashboard_tabs/produits.php' ?>
+          </div>
+          <div class="tab-pane fade p-3" id="v-pills-fournisseurs" role="tabpanel" aria-labelledby="v-pills-fournisseurs-tab">
+            <?php require_once 'dashboard_tabs/fournisseurs.php' ?>
+          </div>
+          <div class="tab-pane fade p-3" id="v-pills-approv" role="tabpanel" aria-labelledby="v-pills-approv-tab">
+            <?php require_once 'dashboard_tabs/approvisionnements.php' ?>
+          </div>
+          <div class="tab-pane fade p-3" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
             <?php require_once 'dashboard_tabs/users.php' ?>
           </div>
         <?php endif; ?>
 
-        <div class="tab-pane fade p-3" id="v-pills-settings" role="tabpanel"
-          aria-labelledby="v-pills-settings-tab">
+        <div class="tab-pane fade p-3" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
           <?php require_once 'dashboard_tabs/settings.php' ?>
         </div>
         <?php require_once '../component/footer.php' ?>
       </div>
+
     </section>
   </main>
 
@@ -124,6 +139,8 @@ $estAdmin = $user['role'] == 'admin';
   <script src="../../js/user/dashboard_tabs/commandes.js"></script>
   <script src="../../js/user/dashboard_tabs/produits.js"></script>
   <script src="../../js/user/dashboard_tabs/clients.js"></script>
+  <script src="../../js/user/dashboard_tabs/approvisionnements.js"></script>
+  <script src="../../js/user/dashboard_tabs/fournisseurs.js"></script>
   <script src="../../js/user/dashboard_tabs/users.js"></script>
   <script src="../../bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 </body>

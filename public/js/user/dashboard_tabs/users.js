@@ -19,7 +19,7 @@ const modifierUtilisateurForm = document.getElementById(
   "modifier-utilisateur-form",
 );
 
-const updateDeleteButtonState = () => {
+const utilisateursUpdateDeleteButtonState = () => {
   const checkboxes = utilisateursTableTbody.querySelectorAll(".row-check");
   const anyChecked = Array.from(checkboxes).some((cb) => cb.checked);
   utilisateursTableDeleteSelectedBtn.disabled = !anyChecked;
@@ -45,7 +45,7 @@ const fetchUtilisateursTableData = async () => {
 
         const checkbox = newRow.querySelector(".row-check");
         checkbox.value = user.id;
-        checkbox.onchange = updateDeleteButtonState;
+        checkbox.onchange = utilisateursUpdateDeleteButtonState;
 
         newRow.querySelector(".col-prenom").textContent = user.prenom || "--";
         newRow.querySelector(".col-nom").textContent = user.nom || "--";
@@ -79,7 +79,7 @@ const fetchUtilisateursTableData = async () => {
         utilisateursTableTbody.appendChild(newRow);
       });
 
-      updateDeleteButtonState();
+      utilisateursUpdateDeleteButtonState();
     } else {
       utilisateursTableTbody.innerHTML = "";
       utilisateursTableEmptyState.classList.remove("d-none");
@@ -99,7 +99,7 @@ utilisateursTableSelectAllBtn.addEventListener("change", () => {
   checkboxes.forEach(
     (cb) => (cb.checked = utilisateursTableSelectAllBtn.checked),
   );
-  updateDeleteButtonState();
+  utilisateursUpdateDeleteButtonState();
 });
 
 const ajouterUtilisateur = async (e) => {

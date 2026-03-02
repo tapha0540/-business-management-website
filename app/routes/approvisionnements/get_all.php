@@ -9,15 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $search = $reqData['search'] ?? '';
 
         require_once '../../config/database.php';
-        require_once '../../controllers/FournisseurController.php';
-        $ctrl = new FournisseurController($pdo);
+        require_once '../../controllers/ApprovisionnementController.php';
+
+        $controller = new ApprovisionnementController($pdo);
+        $approvisionnements = $controller->getAll($limit, $search);
+
         echo json_encode([
             'message' => 'Opération réussie',
             'success' => true,
-            'data' => $ctrl->getAllWithSearch($limit, $search)
+            'data' => $approvisionnements
         ]);
     } catch (Exception $e) {
-        error_log('\n ' . $e->getFile() . ' -> ' . $e->getMessage(), 3, __DIR__ . '/../../storage/logs/error_log.log');
+        error_log('\n ' . $e->getFile() . ' -> ' . $e->getMessage(), 3, $erro_log_path);
         echo json_encode([
             'message' => 'Erreur cote serveur',
             'success' => false

@@ -188,9 +188,44 @@ const modifierProduit = async (produitId) => {
   produitDescription.value = produit.description;
 
   modifierProduitImg.src = `http://localhost:8081/storage/uploads/images/produits/${produit.imgUrl}`;
-  
+
+  // store current id on form for submit handler
+  modifierProduitForm.dataset.currentId = produit.id;
 };
 
+// handle form submission for updating produit
+const modifierProduitSubmit = async (e) => {
+  e.preventDefault();
+  const id = modifierProduitForm.dataset.currentId;
+  const file = document.getElementById("produit-img").files[0];
+  let base64Image = null;
+  if (file) base64Image = await toBase64(file);
+
+  const formData = {
+    id,
+    nom: modifierProduitForm["produit-nom"].value,
+    description: modifierProduitForm["produit-description"].value,
+    categorie_id: modifierProduitForm["produit-categorie"].value,
+    prix_vente: modifierProduitForm["produit-prix"].value,
+    quantite: modifierProduitForm["produit-quantite"].value,
+    seuil_critique: modifierProduitForm["produit-seuil-critique"].value,
+    image: base64Image,
+  };
+
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/produits/update.php",
+    "POST",
+    formData,
+  );
+  // show some message? reuse ajouterProduitFormMessage maybe
+  if (serverRes.success) {
+    fetchProduitsTableData();
+  } else {
+    alert(serverRes.message || "Erreur lors de la mise à jour du produit.");
+  }
+};
+
+modifierProduitForm.onsubmit = modifierProduitSubmit;
 
 fetchProduitsTableData();
 getProduitsSelectTagData();

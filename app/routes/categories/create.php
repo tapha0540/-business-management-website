@@ -4,17 +4,17 @@ require_once '../../config/app.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
-        $reqBody = json_decode(file_get_contents('php://input'), true);
+        $reqData = json_decode(file_get_contents('php://input'), true);
         require_once '../../config/database.php';
-        require_once '../../controllers/produitsController.php';
-        $controller = new produitsController($pdo);
-        $success = $controller->create($reqBody);
+        require_once '../../controllers/CategorieController.php';
+        $controller = new CategorieController($pdo);
+        $success = $controller->create($reqData);
         echo json_encode([
-            'message' => $success ? 'Opération réussie' : 'Erreur lors de la création',
+            'message' => $success ? 'Catégorie créée' : 'Erreur lors de la création',
             'success' => (bool) $success
         ]);
     } catch (Exception $e) {
-        error_log('\n ' . $e->getFile() . ' -> ' . $e->getMessage(), 3, $erro_log_path);
+        error_log('\n ' . $e->getFile() . ' -> ' . $e->getMessage(), 3, __DIR__ . '/../../storage/logs/error_log.log');
         echo json_encode([
             'message' => 'Erreur cote serveur',
             'success' => false
@@ -26,4 +26,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'success' => false
     ]);
 }
-

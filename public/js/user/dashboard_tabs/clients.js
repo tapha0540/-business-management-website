@@ -9,6 +9,10 @@ const clientsTablDeleteSelectedBtn = document.getElementById(
 const clientsTableLimit = document.getElementById("clients-table-limit");
 const clientsSearch = document.getElementById("clients-search");
 const clientsFilter = document.querySelectorAll(".clients-filter");
+const ajouterClientForm = document.getElementById("ajouter-client-form");
+const ajouterClientFormMessage = document.getElementById(
+  "ajouter-client-form-message",
+);
 // Fetch and populate clients
 const fetchClientsTableData = async () => {
   try {
@@ -29,7 +33,8 @@ const fetchClientsTableData = async () => {
         newRow.dataset.id = client.id;
 
         newRow.querySelector(".client-checkbox").value = client.id;
-        newRow.querySelector(".client-img").src =`http://localhost:8081/storage/uploads/images/clients/${client.imgUrl}`;
+        newRow.querySelector(".client-img").src =
+          `http://localhost:8081/storage/uploads/images/clients/${client.imgUrl}`;
         newRow.querySelector(".client-prenom").textContent =
           client.prenom || "--";
         newRow.querySelector(".client-nom").textContent = client.nom || "--";
@@ -43,19 +48,20 @@ const fetchClientsTableData = async () => {
         ).toLocaleDateString("fr-FR");
 
         newRow.querySelector(".client-updated-at").textContent = new Date(
-          client.created_at,
+          client.updated_at,
         ).toLocaleDateString("fr-FR");
 
         const editBtn = newRow.querySelector(".btn-edit");
-        editBtn.addEventListener("click", (e) => {
+        editBtn.addEventListener("click", async (e) => {
           e.preventDefault();
-          console.log("Edit client:", client.id);
+          const newClient = await getClient(client.id);
+          populateModifierClientModal(newClient);
         });
 
         const deleteBtn = newRow.querySelector(".btn-delete");
         deleteBtn.addEventListener("click", (e) => {
           e.preventDefault();
-          deleteClient(client.id, newRow);
+          supprimmerClient([client.id]);
         });
 
         clientsTableTbody.appendChild(newRow);
@@ -83,3 +89,88 @@ clientsFilter.forEach((item) => {
 clientsSearch.onchange = () => {
   fetchClientsTableData();
 };
+
+const ajouterClient = async () => {
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/clients/create.php",
+    "POST",
+    {
+      prenom: ajouterClientForm["client-prenom"].value,
+      nom: ajouterClientForm["client-nom"].value,
+      telephone: ajouterClientForm["client-telephone"].value,
+      email: ajouterClientForm["client-email"].value,
+      image: ajouterClientForm["client-img"].files[0]
+        ? await toBase64(ajouterClientForm["client-img"].files[0])
+        : null,
+    },
+  );
+
+  ajouterClientFormMessage.textContent = serverRes.message;
+  ajouterClientFormMessage.classList.remove("text-danger", "text-success");
+  if (serverRes.success) {
+    ajouterClientFormMessage.classList.add("text-success");
+    ajouterClientForm.reset();
+    fetchClientsTableData();
+  } else {
+    ajouterClientFormMessage.classList.add("text-danger");
+  }
+};
+
+const supprimmerClient = async (clientIds) => {
+  if (!confirm("Êtes-vous sûr de vouloir supprimer ce(s) client(s) ?")) {
+    return;
+  }
+  const serverRes = await fetchApi(
+    `http://localhost:8081/routes/clients/delete.php`,
+    "POST",
+    { clients_ids: clientIds },
+  );
+
+  if (serverRes.success) {
+    fetchClientsTableData();
+  }
+};
+
+const getClient = async (clientId) => {
+  const serverRes = await fetchApi(
+    `http://localhost:8081/routes/clients/get.php`,
+    "POST",
+    { client_id: clientId },
+  );
+
+  if (serverRes.success) {
+    return serverRes.data;
+  } else {
+    alert("Erreur lors de la récupération des données du client.");
+    return null;
+  }
+};
+
+const populateModifierClientModal = (client) => {
+  if (!client) return;
+  const modifierClientForm = document.getElementById("modifier-client-form");
+  modifierClientForm["client-prenom"].value = client.prenom || "";
+  modifierClientForm["client-nom"].value = client.nom || "";
+  modifierClientForm["client-telephone"].value = client.telephone || "";
+  modifierClientForm["client-email"].value = client.email || "";
+  if (client.imgUrl) {
+    document.getElementById("modifier-client-img").src =
+      `http://localhost:8081/storage/uploads/images/clients/${client.imgUrl}`;
+  } else {
+    document.getElementById("modifier-client-img").src = "";
+  }
+};
+
+ajouterClientForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  ajouterClient();
+});
+clientsTablDeleteSelectedBtn.addEventListener("click", () => {
+  const selectedClientIds = Array.from(
+    clientsTableTbody.querySelectorAll(".client-checkbox:checked"),
+  ).map((cb) => cb.value);
+
+  if (selectedClientIds.length > 0) {
+    supprimmerClient(selectedClientIds);
+  }
+});

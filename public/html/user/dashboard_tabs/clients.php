@@ -6,7 +6,7 @@
         </div>
         <div class="table-actions">
             <button class="btn btn-outline-secondary btn-sm">📊 Statistiques</button>
-            <button class="btn btn-outline-danger btn-sm" id="clients-delete-selected" disabled>🗑️ Supprimer
+            <button class="btn btn-outline-danger btn-sm" id="clients-delete-selected">🗑️ Supprimer
                 sélection</button>
             <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
                 data-bs-target="#ajouter-client">➕ Ajouter un client</button>
@@ -114,21 +114,9 @@
                             name="client-email" placeholder="Email" required />
                     </div>
                     <div class="form-group p-2">
-                        <label for="client-categorie">Categorie</label>
-                        <select name="client-categorie" id="client-categorie" required>
-                            <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour
-                                le client</option>
-                        </select>
-                    </div>
-                    <div class="form-group p-2">
                         <label for="client-img">Image du client</label>
                         <input type="file" class="form-control border-primary border-1" id="client-img"
                             name="client-img" accept="image/*" />
-                    </div>
-                    <div class="form-group p-2">
-                        <label for="client-description">Description</label>
-                        <textarea class="form-control border-primary border-1" id="client-description"
-                            name="client-description" placeholder="Décrit le client"></textarea>
                     </div>
                     <p id="ajouter-client-form-message" class="text-center mt-3"></p>
                 </form>
@@ -172,22 +160,10 @@
                             placeholder="Email" required />
                     </div>
                     <div class="form-group p-2">
-                        <label for="modifier-client-categorie">Categorie</label>
-                        <select name="client-categorie" id="modifier-client-categorie" required>
-                            <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour
-                                le client</option>
-                        </select>
-                    </div>
-                    <div class="form-group p-2">
-                        <label for="modifier-client-img-input">Image du client</label>
+                        <label for="modifier-client-img-input">Image profile du client</label>
                         <input type="file" class="form-control border-primary border-1" id="modifier-client-img-input"
                             name="client-img" accept="image/*" />
                         <img id="modifier-client-img" width="100" height="100" class="m-2" />
-                    </div>
-                    <div class="form-group p-2">
-                        <label for="modifier-client-description">Description</label>
-                        <textarea class="form-control border-primary border-1" id="modifier-client-description"
-                            name="client-description" placeholder="Décrit le client"></textarea>
                     </div>
                     <p id="modifier-client-form-message" class="text-center mt-3"></p>
                 </form>

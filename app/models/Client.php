@@ -8,6 +8,7 @@ class Clients
     private ?string $nom;
     private ?string $email;
     private ?string $telephone;
+    private ?string $imgUrl;
     private ?string $created_at;
     private ?string $updated_at;
 
@@ -18,11 +19,13 @@ class Clients
         ?string $nom = null,
         ?string $email = null,
         ?string $telephone = null,
+        ?string $imgUrl = null,
         ?string $created_at = null,
         ?string $updated_at = null
     ) {
         $this->pdo = $pdo;
         $this->id = $id;
+        $this->imgUrl = $imgUrl;
         $this->prenom = $prenom;
         $this->nom = $nom;
         $this->email = $email;
@@ -31,20 +34,27 @@ class Clients
         $this->updated_at = $updated_at;
     }
 
+    public function setImgUrl(string $imgUrl): void
+    {
+        $this->imgUrl = $imgUrl;
+    }
+
     public function create()
     {
-        $stmt = $this->pdo->prepare("INSERT INTO clients (prenom, nom, email, telephone) VALUES (:prenom,:nom, :email, :telephone)");
+        $stmt = $this->pdo->prepare("INSERT INTO clients (prenom, nom, email, telephone, imgUrl) VALUES (:prenom,:nom, :email, :telephone, :imgUrl)");
         $isCreated = $stmt->execute([
             "prenom" => $this->prenom,
             "nom" => $this->nom,
             "email" => $this->email,
-            "telephone" => $this->telephone
+            "telephone" => $this->telephone,
+            "imgUrl" => $this->imgUrl
         ]);
         if ($isCreated) {
             $this->id = (int) $this->pdo->lastInsertId();
         }
         return $isCreated;
     }
+
     /**
      * 
      * 
@@ -53,8 +63,8 @@ class Clients
      */
     public function get(int $id): array
     {
-        $stmt = $this->pdo->prepare('SELECT   FROM clients WHERE id = ?');
-        $success = $stmt->execute([$this->id]);
+        $stmt = $this->pdo->prepare('SELECT id, prenom, nom, email, telephone, created_at, updated_at FROM clients WHERE id = ?');
+        $success = $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     /**
@@ -138,7 +148,7 @@ class Clients
         }
 
         $sql = "SELECT 
-               id, prenom, nom, email, telephone, created_at, updated_at
+               id, prenom, nom, email, telephone, imgUrl, created_at, updated_at
             FROM clients
             $filter
             ORDER BY created_at DESC

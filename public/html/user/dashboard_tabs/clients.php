@@ -139,6 +139,7 @@
             </div>
             <div class="modal-body">
                 <form id="modifier-client-form" enctype="multipart/form-data">
+                    <input type="hidden" name="client-id" />
                     <div class="form-group p-2">
                         <label for="modifier-client-prenom">Prénom</label>
                         <input type="text" class="form-control border-primary border-1" name="client-prenom"

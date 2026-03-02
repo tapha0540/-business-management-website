@@ -13,6 +13,7 @@ const ajouterClientForm = document.getElementById("ajouter-client-form");
 const ajouterClientFormMessage = document.getElementById(
   "ajouter-client-form-message",
 );
+const modifierClientForm = document.getElementById("modifier-client-form");
 // Fetch and populate clients
 const fetchClientsTableData = async () => {
   try {
@@ -54,8 +55,7 @@ const fetchClientsTableData = async () => {
         const editBtn = newRow.querySelector(".btn-edit");
         editBtn.addEventListener("click", async (e) => {
           e.preventDefault();
-          const newClient = await getClient(client.id);
-          populateModifierClientModal(newClient);
+          populateModifierClientModal(client);
         });
 
         const deleteBtn = newRow.querySelector(".btn-delete");
@@ -148,7 +148,7 @@ const getClient = async (clientId) => {
 
 const populateModifierClientModal = (client) => {
   if (!client) return;
-  const modifierClientForm = document.getElementById("modifier-client-form");
+  modifierClientForm["client-id"].value = client.id;
   modifierClientForm["client-prenom"].value = client.prenom || "";
   modifierClientForm["client-nom"].value = client.nom || "";
   modifierClientForm["client-telephone"].value = client.telephone || "";
@@ -158,6 +158,28 @@ const populateModifierClientModal = (client) => {
       `http://localhost:8081/storage/uploads/images/clients/${client.imgUrl}`;
   } else {
     document.getElementById("modifier-client-img").src = "";
+  }
+};
+
+const modifierClient = async () => {
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/clients/update.php",
+    "POST",
+    {
+      id: modifierClientForm["client-id"].value,
+      prenom: modifierClientForm["client-prenom"].value,
+      nom: modifierClientForm["client-nom"].value,
+      telephone: modifierClientForm["client-telephone"].value,
+      email: modifierClientForm["client-email"].value,
+      image: modifierClientForm["client-img"].files[0]
+        ? await toBase64(modifierClientForm["client-img"].files[0])
+        : null,
+    },
+  );
+  console.log(serverRes);
+  
+  if (serverRes.success) {
+    fetchClientsTableData();
   }
 };
 
@@ -173,4 +195,9 @@ clientsTablDeleteSelectedBtn.addEventListener("click", () => {
   if (selectedClientIds.length > 0) {
     supprimmerClient(selectedClientIds);
   }
+});
+
+modifierClientForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  modifierClient();
 });

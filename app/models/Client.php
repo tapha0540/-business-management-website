@@ -72,16 +72,17 @@ class Clients
      * @return array{array{id: int, prenom: string, nom: string, email: string, telephone: string, created_at: string, updated_at: string}}
      */
 
-    public function update(string $new_prenom, string $new_nom, string $new_email, string $new_telephone): bool
+    public function update(string $new_prenom, string $new_nom, string $new_email, string $new_telephone, string $new_imgUrl): bool
     {
 
-        $stmt = $this->pdo->prepare('UPDATE clients SET prenom = :prenom, nom = :nom, email = :email, telephone = :telephone WHERE id = :id');
+        $stmt = $this->pdo->prepare('UPDATE clients SET prenom = :prenom, nom = :nom, email = :email, telephone = :telephone, imgUrl = :imgUrl WHERE id = :id');
 
         $isUpdated = $stmt->execute([
             'prenom' => $new_prenom,
             'nom' => $new_nom,
             'email' => $new_email,
             'telephone' => $new_telephone,
+            'imgUrl' => $new_imgUrl,
             'id' => $this->id
         ]);
 

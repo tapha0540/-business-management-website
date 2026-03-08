@@ -1,6 +1,7 @@
 const commandesTable = document.getElementById("commandes-table");
 const commandesTableThead = commandesTable.querySelector("thead");
 const commandesTableTbody = commandesTable.querySelector("tbody");
+const commandesTableEmptyState = commandesTable.querySelector(".table-empty");
 const commandesTableLimit = document.getElementById("commandes-table-limit");
 const commandesFilterStatus = document.getElementById(
   "commandes-filter-status",
@@ -15,53 +16,59 @@ const fetchCommandesTableDonnee = async () => {
       limit: Number(commandesTableLimit.value),
     },
   );
+
   commandes = serverRes.data;
   afficherCommandesTableDonnee(commandes);
 };
+
 const afficherCommandesTableDonnee = (data) => {
   commandesTableTbody.innerHTML = "";
+
   if (data && data.length > 0) {
+    commandesTableEmptyState.style.display = "none";
+
     data.forEach((commande) => {
+      let statusBadge = "";
+
+      if (commande.etat === "en_cours")
+        statusBadge = `<span class="badge bg-warning">En cours</span>`;
+      if (commande.etat === "cloturee")
+        statusBadge = `<span class="badge bg-success">Cloturée</span>`;
+      if (commande.etat === "annulee")
+        statusBadge = `<span class="badge bg-danger">Annulée</span>`;
+
       const tr = document.createElement("tr");
+
       tr.innerHTML = `
-        <td><input type="checkbox" value="${commande.id}" /> </td>
-        <td>${commande.id}</td>
-        <td>${commande.vendeur_id}</td>
-        <td>${commande.client_id}</td>
-        <td>${commande.etat}</td>
+        <td>#${commande.id}</td>
+        <td>${commande.vendeur_nom ?? commande.vendeur_id}</td>
+        <td>${commande.client_nom ?? commande.client_id}</td>
         <td>${commande.created_at}</td>
-        <td>${commande.updated_at}</td>
+        <td>${statusBadge}</td>
         <td class="d-flex column-gap-2">
-          <button class="btn btn-outline-danger btn-sm" id="commandes-delete-selected">Supprimer</button>
-          <button class="btn btn-primary btn-sm" id="commandes-delete-selected">Modifier</button>
+            <button class="btn btn-outline-primary btn-sm voir-commande" data-id="${commande.id}" data-bs-toggle="modal" data-bs-target="#modal-details-commande">
+                Voir
+            </button>
+            <button class="btn btn-outline-danger btn-sm supprimer-commande" data-id="${commande.id}">
+                Supprimer
+            </button>
         </td>
       `;
+
       commandesTableTbody.appendChild(tr);
     });
   } else {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-    <!-- Empty state row shown when no data -->
-    <tr class="table-empty">
-        <td colspan="8">
-            <div class="text-center cmd-empty">
-                <p class="mb-2"><strong>Aucune commande trouvée</strong></p>
-                <p class="small">Vous n'avez pas encore de commandes. Cliquez sur "Ajouter une commande"
-                    pour en créer une.</p>
-                <div class="mt-3">
-                    <button class="btn btn-primary btn-sm">Ajouter une commande</button>
-                </div>
-            </div>
-        </td>
-    </tr>`;
-    commandesTableTbody.appendChild(tr);
+    commandesTableTbody.appendChild(commandesTableEmptyState);
+    commandesTableEmptyState.style.display = "table-row";
   }
 };
 fetchCommandesTableDonnee();
 const selectAll = commandesTableThead.querySelector("input[type='checkbox']");
 
 selectAll.addEventListener("change", () => {
-  const checkboxes = commandesTableTbody.querySelectorAll("input[type='checkbox']");
+  const checkboxes = commandesTableTbody.querySelectorAll(
+    "input[type='checkbox']",
+  );
   checkboxes.forEach((each) => (each.checked = selectAll.checked));
 });
 

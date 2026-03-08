@@ -87,10 +87,6 @@ class Produit
 
         return $row;
     }
-    /**
-     * Summary of 
-     * @return array<array{id: int, nom: string, description: string, imgUrl: string, categorie_id: int, prix_vente: float, quantite: int, seuil_critique: int, created_at: string, updated_at: string}>
-     */
     public function update(
         string $new_nom,
         string $new_description,

@@ -54,7 +54,17 @@ class Commandes
     }
     public function getAll(int $limit)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM commandes LIMIT :limit");
+        $stmt = $this->pdo->prepare("SELECT 
+                                            commandes.id,
+                                            commandes.etat,
+                                            commandes.created_at,
+                                            CONCAT(utilisateurs.prenom,' ',utilisateurs.nom) AS vendeur_nom,
+                                            CONCAT(clients.prenom,' ',clients.nom) AS client_nom
+                                            FROM commandes
+                                            JOIN utilisateurs ON utilisateurs.id = commandes.vendeur_id
+                                            JOIN clients ON clients.id = commandes.client_id
+                                            ORDER BY commandes.created_at DESC
+                                            LIMIT :limit");
         $stmt->bindValue("limit", $limit, PDO::PARAM_INT);
         $stmt->execute();
         

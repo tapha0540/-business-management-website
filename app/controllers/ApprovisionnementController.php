@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../models/Approvisionnement.php';
 require_once __DIR__ . '/../models/DetailsApprovisionnement.php';
+require_once __DIR__ . '/../models/Produit.php';
 
 class ApprovisionnementController
 {
@@ -34,7 +35,7 @@ class ApprovisionnementController
             $approv->create();
             $approv_id = $this->pdo->lastInsertId();
 
-            // Create details
+            // Create details and update stock
             foreach ($details as $detail) {
                 $produit_id = $detail['produit_id'] ?? null;
                 $quantite = $detail['quantite'] ?? null;
@@ -44,7 +45,9 @@ class ApprovisionnementController
                     throw new Exception('Données de détail invalides');
                 }
 
+                // Create detail
                 $det = new DetailsApprovisionnement(
+                    $this->pdo,
                     0,
                     $approv_id,
                     $produit_id,
@@ -54,6 +57,11 @@ class ApprovisionnementController
                     ''
                 );
                 $det->create();
+
+                // Update product stock (increment)
+                $produit = new Produit($this->pdo);
+                $produit->get($produit_id);
+                $produit->updateQuantity((int) $quantite);
             }
 
             $this->pdo->commit();
@@ -129,13 +137,27 @@ class ApprovisionnementController
         try {
             $this->pdo->beginTransaction();
 
+            // Get old details to calculate stock changes
+            $sql = "SELECT produit_id, quantite FROM details_approvisionnement WHERE approvisionnement_id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $oldDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Restore stock for old details
+            foreach ($oldDetails as $old) {
+                $produit = new Produit($this->pdo);
+                $produit->get($old['produit_id']);
+                $produit->updateQuantity(-(int) $old['quantite']);
+            }
+
             // Delete old details
             $sql = "DELETE FROM details_approvisionnement WHERE approvisionnement_id = :id";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
 
-            // Create new details
+            // Create new details and update stock
             foreach ($details as $detail) {
                 $produit_id = $detail['produit_id'] ?? null;
                 $quantite = $detail['quantite'] ?? null;
@@ -146,6 +168,7 @@ class ApprovisionnementController
                 }
 
                 $det = new DetailsApprovisionnement(
+                    $this->pdo,
                     0,
                     $id,
                     $produit_id,
@@ -155,6 +178,11 @@ class ApprovisionnementController
                     ''
                 );
                 $det->create();
+
+                // Update product stock (increment)
+                $produit = new Produit($this->pdo);
+                $produit->get($produit_id);
+                $produit->updateQuantity((int) $quantite);
             }
 
             $this->pdo->commit();

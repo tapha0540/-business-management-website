@@ -11,6 +11,7 @@ class DetailsApprovisionnement
     private string $created_at;
     private string $updated_at;
     public function __construct(
+        PDO $pdo,
         int $id,
         int $approvisionnement_id,
         int $produit_id,
@@ -19,6 +20,7 @@ class DetailsApprovisionnement
         string $created_at,
         string $updated_at
     ) {
+        $this->pdo = $pdo;
         $this->id = (int) $id;
         $this->approvisionnement_id = (int) $approvisionnement_id;
         $this->produit_id = (int) $produit_id;
@@ -28,7 +30,8 @@ class DetailsApprovisionnement
         $this->updated_at = (string) $updated_at;
     }
 
-    public function create() {
+    public function create()
+    {
         $stmt = $this->pdo->prepare('INSERT INTO details_approvisionnements (approvisionnement_id, produit_id, quantite, prix_achat) VALUES (:approvisionnement_id, :produit_id, :quantite, :prix_achat)');
 
         $success = $stmt->execute([
@@ -52,6 +55,7 @@ class DetailsApprovisionnement
             return null;
         }
         $this->__construct(
+            $this->pdo,
             (int) $details['id'],
             (int) $details['approvisionnement_id'],
             (int) $details['produit_id'],

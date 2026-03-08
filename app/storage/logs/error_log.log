@@ -1,0 +1,49 @@
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[08-Mar-2026 17:36:49 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\dashboard\get_data.php on line 22
+[08-Mar-2026 17:36:49 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: DashboardController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\dashboard\get_data.php on line 22 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\dashboardController.php:6
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\dashboard\get_data.php(22): DashboardController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\dashboardController.php on line 6
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[08-Mar-2026 17:36:53 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\get_all.php on line 12
+[08-Mar-2026 17:36:53 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: CommandeController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\get_all.php on line 12 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\CommandesController.php:8
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\get_all.php(12): CommandeController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\CommandesController.php on line 8
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[08-Mar-2026 17:36:57 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\dashboard\monthly_revenue.php on line 9
+[08-Mar-2026 17:36:57 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: DashboardController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\dashboard\monthly_revenue.php on line 9 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\dashboardController.php:6
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\dashboard\monthly_revenue.php(9): DashboardController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\dashboardController.php on line 6
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[08-Mar-2026 17:37:01 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\produits\get_all.php on line 13
+[08-Mar-2026 17:37:01 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: produitsController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\produits\get_all.php on line 13 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\produitsController.php:9
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\produits\get_all.php(13): produitsController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\produitsController.php on line 9
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[08-Mar-2026 17:37:09 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\categories\get_all.php on line 12
+[08-Mar-2026 17:37:09 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: CategorieController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\categories\get_all.php on line 12 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\CategorieController.php:9
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\categories\get_all.php(12): CategorieController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\CategorieController.php on line 9
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[08-Mar-2026 17:37:13 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: ClientsController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\clients\get_all.php on line 8 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\ClientsController.php:10
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\clients\get_all.php(8): ClientsController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\ClientsController.php on line 10
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[08-Mar-2026 17:37:17 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\get_all.php on line 9
+[08-Mar-2026 17:37:17 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: UtilisateurController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\get_all.php on line 9 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php:10
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\get_all.php(9): UtilisateurController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php on line 10

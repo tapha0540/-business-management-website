@@ -86,4 +86,36 @@ class DetailsCommande
             ':id' => $this->id
         ]);
     }
+
+    /**
+     * Getters pour accéder aux propriétés privées
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    public function getCommandeId(): int
+    {
+        return $this->commande_id;
+    }
+    public function getProduitId(): int
+    {
+        return $this->produit_id;
+    }
+    public function getQuantite(): int
+    {
+        return $this->quantite;
+    }
+    public function getPrixVente(): float
+    {
+        return $this->prix_vente;
+    }
+    public function getCreatedAt(): string
+    {
+        return $this->created_at;
+    }
+    public function getUpdatedAt(): string
+    {
+        return $this->updated_at;
+    }
 }

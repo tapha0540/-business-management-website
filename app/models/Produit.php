@@ -244,4 +244,30 @@ class Produit
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Mettre à jour la quantité en stock d'un produit
+     * @param int $quantite_change Nombre positif ou négatif à ajouter/retirer du stock
+     * @return bool True si succès
+     * @throws Exception Si le stock devient négatif
+     */
+    public function updateQuantity(int $quantite_change): bool
+    {
+        // Vérifier que le nouveau stock ne sera pas négatif
+        if ($this->quantite + $quantite_change < 0) {
+            throw new Exception("Stock insuffisant pour le produit '{$this->nom}'");
+        }
+
+        $stmt = $this->pdo->prepare("UPDATE produits SET quantite = quantite + :change, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
+        $success = $stmt->execute([
+            'change' => $quantite_change,
+            'id' => $this->id
+        ]);
+
+        if ($success) {
+            $this->quantite += $quantite_change;
+        }
+
+        return $success;
+    }
 }

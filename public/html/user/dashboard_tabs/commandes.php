@@ -78,8 +78,10 @@
                         <div class="col-md-6 mb-3">
                             <label for="commande-client-id" class="form-label">Client <span
                                     class="text-danger">*</span></label>
-                            <input list="ajouter-commande-client" class="form-control" name="commande-client" placeholder="ID ou nom du client"
-                                required>
+                            <input type="hidden" class="d-none" name="commande-vendeur"
+                                value="<?= (int) $_SESSION['user']['id'] ?>" />
+                            <input list="ajouter-commande-client" class="form-control" name="commande-client"
+                                placeholder="ID ou nom du client" required>
                             <datalist id="ajouter-commande-client" class="commande-client-datalists">
                                 <option value="" disabled>-- Sélectionner un client --</option>
                             </datalist>
@@ -88,10 +90,9 @@
 
                     <div class="mb-3">
                         <label class="form-label">Produits <span class="text-danger">*</span></label>
-                        <div id="commande-produits-container" class="p-3"
-                            style="max-height: 300px; overflow-y: auto;">
+                        <div id="commande-produits-container" class="p-3" style="max-height: 300px; overflow-y: auto;">
                             <!-- Les produits seront ajoutés ici -->
-                            
+
                         </div>
                     </div>
 
@@ -104,7 +105,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="submit" form="form-ajouter-commande" class="btn btn-primary" id="btn-creer-commande">Créer la commande</button>
+                <button type="submit" form="form-ajouter-commande" class="btn btn-primary" id="btn-creer-commande">Créer
+                    la commande</button>
             </div>
         </div>
     </div>

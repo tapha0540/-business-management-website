@@ -104,12 +104,15 @@ class CommandeController
             foreach ($details as $detail) {
                 $produit_id = $detail['produit_id'] ?? null;
                 $quantite = $detail['quantite'] ?? null;
-                $prix_vente = $detail['prix_vente'] ?? null;
+
+
+                $produit = new Produit($this->pdo);
+                $produit->get($produit_id);
+                $prix_vente = $produit->getPrixVente() ?? null;
 
                 if ($prix_vente === null) {
                     throw new Exception('prix_vente requis pour chaque produit');
                 }
-
                 // Créer détail commande
                 $detCmd = new DetailsCommande(
                     $this->pdo,
@@ -117,15 +120,13 @@ class CommandeController
                     $commande_id,
                     $produit_id,
                     $quantite,
-                    $prix_vente,
+                    $prix_vente, // Utiliser le prix de vente actuel du produit pour plus de sécurité
                     '',
                     ''
                 );
                 $detCmd->create($this->pdo);
 
                 // Décrémenter stock du produit
-                $produit = new Produit($this->pdo);
-                $produit->get($produit_id);
                 $produit->updateQuantity(-(int) $quantite);
             }
 

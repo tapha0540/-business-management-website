@@ -78,7 +78,7 @@ class Fournisseur
         $searchNotEmpty = $search && trim($search);
 
         if ($searchNotEmpty) {
-            $filter = "WHERE nom LIKE :search OR email LIKE :search";
+            $filter = "WHERE nom LIKE :search OR email LIKE :search OR telephone LIKE :search";
         }
 
         $sql = "SELECT id, nom, email, telephone, adresse, created_at, updated_at FROM fournisseurs

@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         require_once '../../config/database.php';
         require_once '../../controllers/CommandesController.php';
         
-        $vendeur_id = $_SESSION['user']['id'] ?? null;
+        $vendeur_id = $reqData['vendeur_id'] ?? null;
         $client_id = $reqData['client_id'] ?? null;
         $details = $reqData['details'] ?? [];
 

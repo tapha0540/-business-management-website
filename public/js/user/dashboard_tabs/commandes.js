@@ -100,6 +100,7 @@ commandesTableTbody.addEventListener("click", async (e) => {
     "http://localhost:8081/routes/commandes/get_details.php",
     "POST",
     { commande_id: Number(commandeId) },
+    true
   );
   console.log(res.data);
 
@@ -240,6 +241,7 @@ const AjouterCommande = async () => {
     "http://localhost:8081/routes/commandes/create.php",
     "POST",
     {
+      vendeur_id: formAjouterCommande["commande-vendeur"].value,
       client_id: formAjouterCommande["commande-client"].value,
       details,
     },

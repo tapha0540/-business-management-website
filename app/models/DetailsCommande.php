@@ -32,7 +32,7 @@ class DetailsCommande
     }
     public function create(PDO $pdo)
     {
-        $stmt = $pdo->prepare('INSERT INTO details_commandes (commande_id, produit_id, quantite, prix_vente) VALUES (:commande_id, :produit_id, :quantite, :prix_vente)');
+        $stmt = $pdo->prepare('INSERT INTO details_commande (commande_id, produit_id, quantite, prix_vente) VALUES (:commande_id, :produit_id, :quantite, :prix_vente)');
 
         $success = $stmt->execute([
             ':commande_id' => $this->commande_id,
@@ -46,7 +46,7 @@ class DetailsCommande
     }
     public function get()
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM details_commandes WHERE id = :id');
+        $stmt = $this->pdo->prepare('SELECT * FROM details_commande WHERE id = :id');
 
         $stmt->execute([':id' => $this->id]);
 
@@ -70,7 +70,7 @@ class DetailsCommande
     {
         $this->quantite = $new_quantite;
         $this->prix_vente = $new_prix_vente;
-        $stmt = $this->pdo->prepare('UPDATE details_commandes SET quantite = :quantite, prix_vente = :prix_vente WHERE id = :id');
+        $stmt = $this->pdo->prepare('UPDATE details_commande SET quantite = :quantite, prix_vente = :prix_vente WHERE id = :id');
 
         return $stmt->execute([
             ':quantite' => $this->quantite,
@@ -80,7 +80,7 @@ class DetailsCommande
     }
     public function delete(PDO $pdo)
     {
-        $stmt = $pdo->prepare('DELETE FROM details_commandes WHERE id = :id');
+        $stmt = $pdo->prepare('DELETE FROM details_commande WHERE id = :id');
 
         return $stmt->execute([
             ':id' => $this->id

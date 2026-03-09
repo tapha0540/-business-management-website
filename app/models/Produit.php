@@ -266,4 +266,7 @@ class Produit
 
         return $success;
     }
+    public function getPrixVente() {
+        return $this->prix_vente;
+    }
 }

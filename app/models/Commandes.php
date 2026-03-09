@@ -135,19 +135,17 @@ class Commandes
                 throw new Exception("Echec de la mise a jour du client de la commande");
             }
 
-            $currentDetailsStmt = $this->pdo->prepare("SELECT produit_id, quantite FROM details_commande WHERE commande_id = :commande_id");
+            // Quantites actuelles de la commande, agregees par produit.
+            $currentDetailsStmt = $this->pdo->prepare("SELECT produit_id, SUM(quantite) AS quantite FROM details_commande WHERE commande_id = :commande_id GROUP BY produit_id");
             $currentDetailsStmt->execute([':commande_id' => $this->id]);
             $currentDetails = $currentDetailsStmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (empty($currentDetails)) {
-                throw new Exception("Aucun detail trouve pour cette commande");
-            }
 
             $currentByProduit = [];
             foreach ($currentDetails as $detail) {
                 $currentByProduit[(int) $detail['produit_id']] = (int) $detail['quantite'];
             }
 
+            // Quantites soumises (on fusionne les doublons au besoin).
             $submittedByProduit = [];
             foreach ($details as $detail) {
                 $produitId = (int) ($detail['produit_id'] ?? 0);
@@ -156,48 +154,60 @@ class Commandes
                 if ($produitId <= 0 || $quantite <= 0) {
                     throw new InvalidArgumentException("Donnees details invalides");
                 }
-                if (isset($submittedByProduit[$produitId])) {
-                    throw new InvalidArgumentException("Produit duplique dans details");
-                }
-                if (!array_key_exists($produitId, $currentByProduit)) {
-                    throw new InvalidArgumentException("Produit hors commande");
-                }
 
-                $submittedByProduit[$produitId] = $quantite;
+                if (!isset($submittedByProduit[$produitId])) {
+                    $submittedByProduit[$produitId] = 0;
+                }
+                $submittedByProduit[$produitId] += $quantite;
             }
 
-            if (count($submittedByProduit) !== count($currentByProduit)) {
-                throw new InvalidArgumentException("Tous les produits de la commande doivent etre envoyes");
+            if (empty($submittedByProduit)) {
+                throw new InvalidArgumentException("details requis");
             }
 
-            foreach ($currentByProduit as $produitId => $_) {
-                if (!array_key_exists($produitId, $submittedByProduit)) {
-                    throw new InvalidArgumentException("Produit manquant dans details");
-                }
-            }
-
-            $updateDetailStmt = $this->pdo->prepare("UPDATE details_commande SET quantite = :quantite, updated_at = CURRENT_TIMESTAMP WHERE commande_id = :commande_id AND produit_id = :produit_id");
-
-            foreach ($submittedByProduit as $produitId => $newQuantite) {
-                $oldQuantite = $currentByProduit[$produitId];
+            // Ajustement des stocks selon le delta entre ancien et nouveau contenu de commande.
+            $allProduitIds = array_unique(array_merge(array_keys($currentByProduit), array_keys($submittedByProduit)));
+            foreach ($allProduitIds as $produitId) {
+                $oldQuantite = $currentByProduit[$produitId] ?? 0;
+                $newQuantite = $submittedByProduit[$produitId] ?? 0;
                 $delta = $newQuantite - $oldQuantite;
 
-                if ($delta !== 0) {
-                    $produit = new Produit($this->pdo);
-                    $produitData = $produit->get((int) $produitId);
-                    if (!$produitData) {
-                        throw new Exception("Produit introuvable pour mise a jour stock");
-                    }
-                    // Increase order quantity => decrease stock, and vice-versa.
-                    $produit->updateQuantity(-$delta);
+                if ($delta === 0) {
+                    continue;
                 }
 
-                $updated = $updateDetailStmt->execute([
-                    ':quantite' => $newQuantite,
+                $produit = new Produit($this->pdo);
+                $produitData = $produit->get((int) $produitId);
+                if (!$produitData) {
+                    throw new Exception("Produit introuvable pour mise a jour stock");
+                }
+
+                // delta > 0 => on retire du stock ; delta < 0 => on restitue au stock.
+                $produit->updateQuantity(-$delta);
+            }
+
+            // On remplace les details de commande par la nouvelle liste agregee.
+            $deleteDetailsStmt = $this->pdo->prepare("DELETE FROM details_commande WHERE commande_id = :commande_id");
+            if (!$deleteDetailsStmt->execute([':commande_id' => $this->id])) {
+                throw new Exception("Echec suppression anciens details commande");
+            }
+
+            $insertDetailStmt = $this->pdo->prepare("INSERT INTO details_commande (commande_id, produit_id, quantite, prix_vente) VALUES (:commande_id, :produit_id, :quantite, :prix_vente)");
+            foreach ($submittedByProduit as $produitId => $quantite) {
+                $produit = new Produit($this->pdo);
+                $produitData = $produit->get((int) $produitId);
+                if (!$produitData) {
+                    throw new Exception("Produit introuvable pour creation details commande");
+                }
+
+                $inserted = $insertDetailStmt->execute([
                     ':commande_id' => $this->id,
-                    ':produit_id' => $produitId,
+                    ':produit_id' => (int) $produitId,
+                    ':quantite' => (int) $quantite,
+                    ':prix_vente' => (float) ($produitData['prix_vente'] ?? 0),
                 ]);
-                if (!$updated) {
+
+                if (!$inserted) {
                     throw new Exception("Echec de la mise a jour des details commande");
                 }
             }
@@ -275,3 +285,4 @@ class Commandes
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+

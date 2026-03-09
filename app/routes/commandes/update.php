@@ -6,12 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $reqData = json_decode(file_get_contents('php://input'), true);
         $id = $reqData['id'] ?? null;
+        if (!$id) {
+            throw new Exception('id requis');
+        }
         require_once '../../config/database.php';
         require_once '../../controllers/CommandesController.php';
         $ctrl = new CommandeController($pdo);
         $success = $ctrl->update($id, $reqData);
         echo json_encode([
-            'message' => $success ? 'Commande mise à jour' : 'Erreur lors de la mise à jour',
+            'message' => $success ? 'Commande mise a jour' : 'Erreur lors de la mise a jour',
             'success' => (bool) $success
         ]);
     } catch (Exception $e) {

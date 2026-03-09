@@ -13,6 +13,8 @@ const selecetAllCheckbox = commandesTableThead.querySelector(
 );
 const voirsCommandesBtns = document.querySelectorAll(".voir-commande");
 const formAjouterCommande = document.getElementById("form-ajouter-commande");
+const formModifierCommande = document.getElementById("form-modifier-commande");
+const modifierCommandeMessage = document.getElementById("modifier-commande-message");
 const btnAjouterProduit = formAjouterCommande.querySelector(
   "#btn-ajouter-produit",
 );
@@ -104,46 +106,94 @@ if (commandesSearchInput) {
   });
 }
 
+const mettreAJourTotalCommandeModal = () => {
+  const totalElement = document.getElementById("commande-montant-total");
+  const lignes = document.querySelectorAll("#details-produits-liste tr");
+
+  let total = 0;
+  lignes.forEach((ligne) => {
+    const quantiteInput = ligne.querySelector(".quantite-input");
+    const prixCell = ligne.querySelector(".prix-unitaire");
+    const totalCell = ligne.querySelector(".ligne-total");
+
+    const quantite = Number(quantiteInput?.value || 0);
+    const prixUnitaire = Number(prixCell?.dataset.prix || 0);
+    const ligneTotal = quantite * prixUnitaire;
+
+    if (totalCell) {
+      totalCell.textContent = ligneTotal.toFixed(2);
+    }
+    total += ligneTotal;
+  });
+
+  if (totalElement) {
+    totalElement.textContent = total.toFixed(2);
+  }
+};
+
 commandesTableTbody.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("voir-commande")) return;
 
-  const commandeId = e.target.getAttribute("data-id");
+  const commandeId = Number(e.target.getAttribute("data-id"));
 
-  const res = await fetchApi(
-    "http://localhost:8081/routes/commandes/get_details.php",
-    "POST",
-    { commande_id: Number(commandeId) },
-    true
-  );
-  console.log(res.data);
+  const [detailsRes, commandeRes] = await Promise.all([
+    fetchApi(
+      "http://localhost:8081/routes/commandes/get_details.php",
+      "POST",
+      { commande_id: commandeId },
+      true,
+    ),
+    fetchApi("http://localhost:8081/routes/commandes/get.php", "POST", {
+      id: commandeId,
+    }),
+  ]);
 
-  const produits = res.data;
+  if (!detailsRes.success || !commandeRes.success) {
+    alert("Erreur lors du chargement des details de la commande");
+    return;
+  }
+
+  const produits = detailsRes.data || [];
+  const commande = commandeRes.data || {};
 
   const tbody = document.getElementById("details-produits-liste");
-  const totalElement = document.getElementById("commande-montant-total");
-
   tbody.innerHTML = "";
 
-  let total = 0;
+  if (formModifierCommande) {
+    formModifierCommande["commande-id"].value = commandeId;
+    formModifierCommande["commande-client"].value = commande.client_id || "";
+  }
 
   produits.forEach((p) => {
-    const ligneTotal = p.quantite * p.prix_vente;
-    total += ligneTotal;
-
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
       <td>${p.produit}</td>
-      <td><input type="number" class="quantite-input" value="${p.quantite}"></td>
-      <td>${p.prix_vente}</td>
-      <td class="ligne-total">${ligneTotal}</td>
+      <td>
+        <input
+          type="number"
+          class="quantite-input form-control form-control-sm"
+          min="1"
+          value="${p.quantite}"
+          data-produit-id="${p.produit_id}"
+          required
+        >
+      </td>
+      <td class="prix-unitaire" data-prix="${p.prix_vente}">${p.prix_vente}</td>
+      <td class="ligne-total">0</td>
     `;
 
     tbody.appendChild(tr);
   });
 
-  totalElement.textContent = total;
+  mettreAJourTotalCommandeModal();
 });
+
+document.getElementById("details-produits-liste")?.addEventListener("input", (e) => {
+  if (!e.target.classList.contains("quantite-input")) return;
+  mettreAJourTotalCommandeModal();
+});
+
 
 clientDatalists.forEach(async (datalist) => {
   const input = document.querySelector(`input[list="${datalist.id}"]`);
@@ -300,6 +350,58 @@ const supprimerCommandesSelectionner = () => {
   }
   supprimerCommandes(ids);
 };
+
+const modifierCommande = async () => {
+  if (!formModifierCommande) return;
+
+  const commandeId = Number(formModifierCommande["commande-id"].value);
+  const clientId = Number(formModifierCommande["commande-client"].value);
+
+  const details = Array.from(
+    document.querySelectorAll("#details-produits-liste .quantite-input"),
+  ).map((input) => ({
+    produit_id: Number(input.dataset.produitId),
+    quantite: Number(input.value),
+  }));
+
+  if (!commandeId || !clientId || details.length === 0) {
+    alert("Veuillez renseigner le client et les quantites.");
+    return;
+  }
+
+  if (details.some((detail) => !detail.produit_id || detail.quantite <= 0)) {
+    alert("Chaque produit doit avoir une quantite superieure a 0.");
+    return;
+  }
+
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/commandes/update.php",
+    "POST",
+    {
+      id: commandeId,
+      client_id: clientId,
+      details,
+    },
+  );
+
+  if (modifierCommandeMessage) {
+    modifierCommandeMessage.textContent = serverRes.message || "";
+    modifierCommandeMessage.classList.remove("text-danger", "text-success");
+    modifierCommandeMessage.classList.add(serverRes.success ? "text-success" : "text-danger");
+  }
+
+  if (serverRes.success) {
+    fetchCommandesTableDonnee();
+    const modalEl = document.getElementById("modal-details-commande");
+    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+    modalInstance?.hide();
+  }
+};
+
+formModifierCommande?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  modifierCommande();
+});
 
 formAjouterCommande.addEventListener("submit", (e) => {
   e.preventDefault();

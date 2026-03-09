@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/Produit.php';
+
 
 class Commandes
 {
@@ -6,7 +8,6 @@ class Commandes
     private ?int $id;
     private ?int $vendeur_id;
     private ?int $client_id;
-    private ?string $date_commande;
     private string $etat;
     private ?string $created_at;
     private ?string $updated_at;
@@ -118,6 +119,106 @@ class Commandes
         return $isUpdated;
 
     }
+    public function updateClientAndDetails(int $new_client_id, array $details): bool
+    {
+        if ($new_client_id <= 0) {
+            throw new InvalidArgumentException("client_id invalide");
+        }
+        if (empty($details)) {
+            throw new InvalidArgumentException("details requis");
+        }
+
+        try {
+            $this->pdo->beginTransaction();
+
+            $updateCommandeStmt = $this->pdo->prepare("UPDATE commandes SET client_id = :client_id, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
+            $isCommandeUpdated = $updateCommandeStmt->execute([
+                'client_id' => $new_client_id,
+                'id' => $this->id,
+            ]);
+
+            if (!$isCommandeUpdated) {
+                throw new Exception("Echec de la mise a jour du client de la commande");
+            }
+
+            $currentDetailsStmt = $this->pdo->prepare("SELECT produit_id, quantite FROM details_commande WHERE commande_id = :commande_id");
+            $currentDetailsStmt->execute([':commande_id' => $this->id]);
+            $currentDetails = $currentDetailsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (empty($currentDetails)) {
+                throw new Exception("Aucun detail trouve pour cette commande");
+            }
+
+            $currentByProduit = [];
+            foreach ($currentDetails as $detail) {
+                $currentByProduit[(int) $detail['produit_id']] = (int) $detail['quantite'];
+            }
+
+            $submittedByProduit = [];
+            foreach ($details as $detail) {
+                $produitId = (int) ($detail['produit_id'] ?? 0);
+                $quantite = (int) ($detail['quantite'] ?? 0);
+
+                if ($produitId <= 0 || $quantite <= 0) {
+                    throw new InvalidArgumentException("Donnees details invalides");
+                }
+                if (isset($submittedByProduit[$produitId])) {
+                    throw new InvalidArgumentException("Produit duplique dans details");
+                }
+                if (!array_key_exists($produitId, $currentByProduit)) {
+                    throw new InvalidArgumentException("Produit hors commande");
+                }
+
+                $submittedByProduit[$produitId] = $quantite;
+            }
+
+            if (count($submittedByProduit) !== count($currentByProduit)) {
+                throw new InvalidArgumentException("Tous les produits de la commande doivent etre envoyes");
+            }
+
+            foreach ($currentByProduit as $produitId => $_) {
+                if (!array_key_exists($produitId, $submittedByProduit)) {
+                    throw new InvalidArgumentException("Produit manquant dans details");
+                }
+            }
+
+            $updateDetailStmt = $this->pdo->prepare("UPDATE details_commande SET quantite = :quantite, updated_at = CURRENT_TIMESTAMP WHERE commande_id = :commande_id AND produit_id = :produit_id");
+
+            foreach ($submittedByProduit as $produitId => $newQuantite) {
+                $oldQuantite = $currentByProduit[$produitId];
+                $delta = $newQuantite - $oldQuantite;
+
+                if ($delta !== 0) {
+                    $produit = new Produit($this->pdo);
+                    $produitData = $produit->get((int) $produitId);
+                    if (!$produitData) {
+                        throw new Exception("Produit introuvable pour mise a jour stock");
+                    }
+                    // Increase order quantity => decrease stock, and vice-versa.
+                    $produit->updateQuantity(-$delta);
+                }
+
+                $updated = $updateDetailStmt->execute([
+                    ':quantite' => $newQuantite,
+                    ':commande_id' => $this->id,
+                    ':produit_id' => $produitId,
+                ]);
+                if (!$updated) {
+                    throw new Exception("Echec de la mise a jour des details commande");
+                }
+            }
+
+            $this->client_id = $new_client_id;
+            $this->pdo->commit();
+            return true;
+        } catch (Exception $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $e;
+        }
+    }
+
     public function delete()
     {
         $stmt = $this->pdo->prepare("DELETE FROM commandes WHERE id = :id");
@@ -130,8 +231,8 @@ class Commandes
                                     c.id AS `Id`,
                                     f.montant_total AS `Montant Total`,
                                     c.etat AS `Etat`,
-                                    DATE_FORMAT(c.created_at, '%d/%m/%Y') AS 'Commandé le',
-                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `Cloturée le`
+                                    DATE_FORMAT(c.created_at, '%d/%m/%Y') AS 'CommandÃ© le',
+                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `CloturÃ©e le`
                                 FROM commandes c
                                 JOIN factures f ON f.commande_id = c.id
                                 WHERE c.etat = 'cloturee'
@@ -158,8 +259,8 @@ class Commandes
                                     c.id AS `Id`,
                                     f.montant_total AS `Montant Total`,
                                     c.etat AS `Etat`,
-                                    DATE_FORMAT(c.created_at, '%d/%m/%Y')AS 'Commandé le',
-                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `Cloturée le`
+                                    DATE_FORMAT(c.created_at, '%d/%m/%Y')AS 'CommandÃ© le',
+                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `CloturÃ©e le`
                                 FROM commandes c
                                 JOIN factures f ON f.commande_id = c.id
                                 WHERE c.created_at BETWEEN :from AND :to

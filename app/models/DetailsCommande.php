@@ -91,6 +91,7 @@ class DetailsCommande
 
 
         $stmt = $pdo->prepare('SELECT 
+                                        details_commande.produit_id,
                                         produits.nom AS produit,
                                         details_commande.quantite,
                                         details_commande.prix_vente
@@ -105,7 +106,7 @@ class DetailsCommande
         return $details;
     }
     /**
-     * Getters pour accéder aux propriétés privées
+     * Getters pour accÃ©der aux propriÃ©tÃ©s privÃ©es
      */
     public function getId(): int
     {

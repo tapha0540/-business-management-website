@@ -32,7 +32,7 @@ class DetailsApprovisionnement
 
     public function create()
     {
-        $stmt = $this->pdo->prepare('INSERT INTO details_approvisionnements (approvisionnement_id, produit_id, quantite, prix_achat) VALUES (:approvisionnement_id, :produit_id, :quantite, :prix_achat)');
+        $stmt = $this->pdo->prepare('INSERT INTO details_approvisionnement (approvisionnement_id, produit_id, quantite, prix_achat) VALUES (:approvisionnement_id, :produit_id, :quantite, :prix_achat)');
 
         $success = $stmt->execute([
             ':approvisionnement_id' => $this->approvisionnement_id,
@@ -46,7 +46,7 @@ class DetailsApprovisionnement
 
     public function get(int $id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM details_approvisionnements WHERE id = :id");
+        $stmt = $this->pdo->prepare("SELECT * FROM details_approvisionnement WHERE id = :id");
 
         $stmt->execute(['id' => $id]);
         $details = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -68,7 +68,7 @@ class DetailsApprovisionnement
     }
     public function getAll()
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM details_approvisionnements");
+        $stmt = $this->pdo->prepare("SELECT * FROM details_approvisionnement");
 
         $stmt->execute();
 
@@ -80,7 +80,7 @@ class DetailsApprovisionnement
     {
         $this->quantite = $new_quantite;
         $this->prix_achat = $new_prix_achat;
-        $stmt = $this->pdo->prepare('UPDATE details_approvisionnements SET quantite = :quantite, prix_achat = :prix_achat WHERE id = :id');
+        $stmt = $this->pdo->prepare('UPDATE details_approvisionnement SET quantite = :quantite, prix_achat = :prix_achat WHERE id = :id');
 
         return $stmt->execute([
             ':quantite' => $this->quantite,
@@ -90,7 +90,7 @@ class DetailsApprovisionnement
     }
     public function delete(int $id)
     {
-        $stmt = $this->pdo->prepare('DELETE FROM details_approvisionnements WHERE id = :id');
+        $stmt = $this->pdo->prepare('DELETE FROM details_approvisionnement WHERE id = :id');
 
         return $stmt->execute([
             ':id' => $id

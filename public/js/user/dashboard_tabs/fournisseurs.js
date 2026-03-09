@@ -1,4 +1,4 @@
-const fournisseurFetchUrl = "http://localhost:8081/routes/fournisseurs/get_all.php";
+﻿const fournisseurFetchUrl = "http://localhost:8081/routes/fournisseurs/get_all.php";
 const fournisseurGetUrl = "http://localhost:8081/routes/fournisseurs/get.php";
 const fournisseurCreateUrl = "http://localhost:8081/routes/fournisseurs/create.php";
 const fournisseurUpdateUrl = "http://localhost:8081/routes/fournisseurs/update.php";
@@ -81,9 +81,9 @@ function renderFournisseurTable() {
             <td>${fournisseur.adresse || "-"}</td>
             <td>${fournisseur.created_at ? new Date(fournisseur.created_at).toLocaleDateString() : "-"}</td>
             <td>${fournisseur.updated_at ? new Date(fournisseur.updated_at).toLocaleDateString() : "-"}</td>
-            <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary" title="Éditer" onclick="modifierFournisseur(this)" type="button">✏️</button>
-                <button class="btn btn-sm btn-outline-danger" title="Supprimer" onclick="supprimerFournisseur(this)" type="button">🗑️</button>
+            <td class="text-end table-actions-cell">
+                <button class="btn btn-sm btn-outline-primary icon-btn" title="Éditer" aria-label="Éditer" onclick="modifierFournisseur(this)" type="button"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg></span></button>
+                <button class="btn btn-sm btn-outline-danger icon-btn" title="Supprimer" aria-label="Supprimer" onclick="supprimerFournisseur(this)" type="button"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span></button>
             </td>
         `;
 
@@ -324,3 +324,4 @@ setInterval(() => {
     fetchFournisseurTableData();
   }
 }, 30000);
+

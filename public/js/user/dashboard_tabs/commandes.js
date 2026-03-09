@@ -1,4 +1,4 @@
-const commandesTable = document.getElementById("commandes-table");
+﻿const commandesTable = document.getElementById("commandes-table");
 const commandesTableThead = commandesTable.querySelector("thead");
 const commandesTableTbody = commandesTable.querySelector("tbody");
 const commandesTableEmptyState = commandesTable.querySelector(".table-empty");
@@ -67,13 +67,9 @@ const afficherCommandesTableDonnee = (data) => {
         <td>${commande.client_nom ?? commande.client_id}</td>
         <td>${commande.created_at}</td>
         <td>${statusBadge}</td>
-        <td class="d-flex column-gap-2">
-            <button class="btn btn-outline-primary btn-sm voir-commande" data-id="${commande.id}" data-bs-toggle="modal" data-bs-target="#modal-details-commande">
-                Voir
-            </button>
-            <button class="btn btn-outline-danger btn-sm supprimer-commande" data-id="${commande.id}">
-                Supprimer
-            </button>
+        <td class="table-actions-cell">
+            <button class="btn btn-outline-primary btn-sm voir-commande icon-btn" data-id="${commande.id}" title="Voir" aria-label="Voir" data-bs-toggle="modal" data-bs-target="#modal-details-commande"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></span></button>
+            <button class="btn btn-outline-danger btn-sm supprimer-commande icon-btn" data-id="${commande.id}" title="Supprimer" aria-label="Supprimer"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span></button>
         </td>
       `;
 
@@ -132,9 +128,18 @@ const mettreAJourTotalCommandeModal = () => {
 };
 
 commandesTableTbody.addEventListener("click", async (e) => {
-  if (!e.target.classList.contains("voir-commande")) return;
+  const viewBtn = e.target.closest(".voir-commande");
+  const deleteBtn = e.target.closest(".supprimer-commande");
 
-  const commandeId = Number(e.target.getAttribute("data-id"));
+  if (deleteBtn) {
+    const commandeIdToDelete = Number(deleteBtn.getAttribute("data-id"));
+    supprimerCommandes([commandeIdToDelete]);
+    return;
+  }
+
+  if (!viewBtn) return;
+
+  const commandeId = Number(viewBtn.getAttribute("data-id"));
 
   const [detailsRes, commandeRes] = await Promise.all([
     fetchApi(
@@ -263,8 +268,10 @@ btnAjouterProduit.addEventListener("click", async () => {
 
   const deleteBtn = document.createElement("button");
   deleteBtn.type = "button";
-  deleteBtn.className = "btn btn-sm btn-outline-danger";
-  deleteBtn.textContent = "🗑️";
+  deleteBtn.className = "btn btn-sm btn-outline-danger icon-btn";
+  deleteBtn.title = "Supprimer la ligne";
+  deleteBtn.setAttribute("aria-label", "Supprimer la ligne");
+  deleteBtn.innerHTML = `<span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span>`;
   const div = document.createElement("div");
   deleteBtn.onclick = (e) => {
     e.preventDefault();
@@ -343,7 +350,7 @@ const supprimerCommandesSelectionner = () => {
   const checkboxes = commandesTableTbody.querySelectorAll(
     "input[type='checkbox']:checked",
   );
-  const ids = Array.from(checkboxes).map((cb) => cb.dataset.id);
+  const ids = Array.from(checkboxes).map((cb) => cb.value);
   if (ids.length === 0) {
     alert("Veuillez sélectionner au moins une commande à supprimer.");
     return;
@@ -407,3 +414,6 @@ formAjouterCommande.addEventListener("submit", (e) => {
   e.preventDefault();
   AjouterCommande();
 });
+
+
+

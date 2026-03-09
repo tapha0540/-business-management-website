@@ -1,15 +1,15 @@
-<div class="card cmd-card shadow-sm mb-4 rounded-3">
+﻿<div class="card cmd-card shadow-sm mb-4 rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-            <h5 class="mb-0">📦 Produits</h5>
+            <h5 class="mb-0"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-2-2H5l-2 4v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"></path><path d="M3 10h18"></path></svg></span> Produits</h5>
             <small class="text-muted">Gestion complète de vos produits</small>
         </div>
         <div class="table-actions">
-            <button class="btn btn-outline-secondary btn-sm">📊 Statistiques</button>
-            <button class="btn btn-outline-danger btn-sm" id="produits-delete-selected">🗑️ Supprimer
+            <button class="btn btn-outline-secondary btn-sm"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"></path><rect x="7" y="11" width="3" height="6"></rect><rect x="12" y="8" width="3" height="9"></rect><rect x="17" y="6" width="3" height="11"></rect></svg></span> Statistiques</button>
+            <button class="btn btn-outline-danger btn-sm" id="produits-delete-selected"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span> Supprimer
                 sélection</button>
             <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
-                data-bs-target="#ajouter-produit">➕ Ajouter un produit</button>
+                data-bs-target="#ajouter-produit"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span> Ajouter un produit</button>
         </div>
     </div>
 
@@ -17,7 +17,7 @@
         <div
             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
             <div class="input-group search-input mb-2 mb-md-0">
-                <span class="input-group-text">🔍</span>
+                <span class="input-group-text"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></span></span>
                 <input id="produits-search" type="search" class="form-control"
                     placeholder="Rechercher par nom, référence, catégorie...">
             </div>
@@ -57,7 +57,7 @@
                     <tr id="produits-empty-state" class="table-empty">
                         <td colspan="8">
                             <div class="text-center prod-empty">
-                                <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                                <div style="margin-bottom: 1rem;"><span class="app-icon" style="width:3rem;height:3rem;" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h18v10H3z"></path><path d="m3 7 9 7 9-7"></path></svg></span></div>
                                 <p class="mb-2"><strong>Aucun produit trouvé</strong></p>
                                 <p class="small">Vous n'avez pas encore de produits. Cliquez sur "Ajouter un produit"
                                     pour en créer un.</p>

@@ -1,18 +1,18 @@
-<div class="card cmd-card shadow-sm mb-4 rounded-3">
+﻿<div class="card cmd-card shadow-sm mb-4 rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-            <h5 class="mb-0">🚚 Fournisseurs</h5>
+            <h5 class="mb-0"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"></rect><path d="M16 8h4l3 3v5h-7"></path><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></span> Fournisseurs</h5>
             <small class="text-muted">Gestion des fournisseurs</small>
         </div>
         <div class="table-actions">
             <button class="btn btn-outline-danger btn-sm"
                 id="fournisseurs-delete-selected">
-                🗑️ Supprimer sélection
+                <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span> Supprimer sélection
             </button>
             <button class="btn btn-primary btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#ajouter-fournisseur">
-                ➕ Ajouter
+                <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span> Ajouter
             </button>
         </div>
     </div>
@@ -21,7 +21,7 @@
 
         <div class="d-flex justify-content-between mb-3">
             <div class="input-group search-input">
-                <span class="input-group-text">🔍</span>
+                <span class="input-group-text"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></span></span>
                 <input id="fournisseurs-search"
                     type="search"
                     class="form-control"
@@ -59,7 +59,7 @@
                 <tbody>
                     <tr id="fournisseurs-empty-state">
                         <td colspan="8" class="text-center">
-                            <div style="font-size:3rem;">📭</div>
+                            <div><span class="app-icon" style="width:3rem;height:3rem;" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h18v10H3z"></path><path d="m3 7 9 7 9-7"></path></svg></span></div>
                             <p><strong>Aucun fournisseur trouvé</strong></p>
                         </td>
                     </tr>

@@ -1,14 +1,14 @@
-<div class="card cmd-card shadow-sm mb-4 rounded-3">
+﻿<div class="card cmd-card shadow-sm mb-4 rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-            <h5 class="mb-0">📦 Approvisionnements</h5>
+            <h5 class="mb-0"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-2-2H5l-2 4v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"></path><path d="M3 10h18"></path></svg></span> Approvisionnements</h5>
             <small class="text-muted">Gestion des commandes fournisseurs</small>
         </div>
         <div class="table-actions">
-            <button class="btn btn-outline-danger btn-sm" id="approvisionnements-delete-selected">🗑️ Supprimer
+            <button class="btn btn-outline-danger btn-sm" id="approvisionnements-delete-selected"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span> Supprimer
                 sélection</button>
             <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
-                data-bs-target="#ajouter-approvisionnement">➕ Ajouter un approvisionnement</button>
+                data-bs-target="#ajouter-approvisionnement"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span> Ajouter un approvisionnement</button>
         </div>
     </div>
 
@@ -16,7 +16,7 @@
         <div
             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
             <div class="input-group search-input mb-2 mb-md-0">
-                <span class="input-group-text">🔍</span>
+                <span class="input-group-text"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></span></span>
                 <input id="approvisionnements-search" type="search" class="form-control"
                     placeholder="Rechercher par fournisseur...">
             </div>
@@ -47,7 +47,7 @@
                     <tr id="approvisionnements-empty-state" class="table-empty">
                         <td colspan="7">
                             <div class="text-center prod-empty">
-                                <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                                <div style="margin-bottom: 1rem;"><span class="app-icon" style="width:3rem;height:3rem;" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h18v10H3z"></path><path d="m3 7 9 7 9-7"></path></svg></span></div>
                                 <p class="mb-2"><strong>Aucun approvisionnement trouvé</strong></p>
                                 <p class="small">Créez un approvisionnement pour ajouter des produits depuis un
                                     fournisseur.</p>
@@ -71,11 +71,9 @@
         <td class="approv-quantite">0</td>
         <td class="approv-montant">0</td>
         <td class="approv-date">-</td>
-        <td class="text-end">
-            <button class="btn btn-sm btn-outline-primary" title="Éditer" onclick="modifierApprovisionnement(this)"
-                type="button">✏️</button>
-            <button class="btn btn-sm btn-outline-danger" title="Supprimer" onclick="supprimerApprovisionnement(this)"
-                type="button">🗑️</button>
+        <td class="text-end table-actions-cell">
+            <button class="btn btn-sm btn-outline-primary icon-btn" title="Éditer" aria-label="Éditer" onclick="modifierApprovisionnement(this)" type="button"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg></span></button>
+            <button class="btn btn-sm btn-outline-danger icon-btn" title="Supprimer" aria-label="Supprimer" onclick="supprimerApprovisionnement(this)" type="button"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span></button>
         </td>
     </tr>
 </template>

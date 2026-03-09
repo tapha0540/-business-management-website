@@ -1,4 +1,4 @@
-const approvisionnementFetchUrl = 'http://localhost:8081/routes/approvisionnements/get_all.php';
+﻿const approvisionnementFetchUrl = 'http://localhost:8081/routes/approvisionnements/get_all.php';
 const approvisionnementGetUrl = 'http://localhost:8081/routes/approvisionnements/get.php';
 const approvisionnementCreateUrl = 'http://localhost:8081/routes/approvisionnements/create.php';
 const approvisionnementUpdateUrl = 'http://localhost:8081/routes/approvisionnements/update.php';
@@ -181,8 +181,10 @@ function addDetailRow(containerId) {
 
     const deleteBtn = document.createElement('button');
     deleteBtn.type = 'button';
-    deleteBtn.className = 'btn btn-sm btn-outline-danger';
-    deleteBtn.textContent = '🗑️';
+    deleteBtn.className = 'btn btn-sm btn-outline-danger icon-btn';
+    deleteBtn.title = 'Supprimer la ligne';
+    deleteBtn.setAttribute('aria-label', 'Supprimer la ligne');
+    deleteBtn.innerHTML = '<span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span>';
     deleteBtn.onclick = (e) => {
         e.preventDefault();
         rowDiv.remove();
@@ -435,3 +437,4 @@ setInterval(() => {
         fetchApprovisionnementTableData();
     }
 }, 30000);
+

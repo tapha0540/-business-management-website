@@ -1,4 +1,4 @@
-<style>
+﻿<style>
   .dashboard-header {
     background: white;
     border-bottom: 2px solid #f0f0f0;
@@ -14,6 +14,9 @@
     color: #111827;
     margin: 0;
     letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .header-search {
@@ -42,8 +45,13 @@
   .notification-bell {
     position: relative;
     cursor: pointer;
-    font-size: 1.5rem;
     transition: transform 0.2s ease;
+    color: #111827;
+  }
+
+  .notification-bell .app-icon {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   .notification-bell:hover {
@@ -116,6 +124,9 @@
   .dropdown-item {
     padding: 0.75rem 1.5rem;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .dropdown-item:hover {
@@ -166,15 +177,22 @@
 </style>
 
 <nav class="dashboard-header">
-  <h5 class="header-title">📊 Dashboard</h5>
+  <h5 class="header-title">
+    <span class="app-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M3 3v18h18"></path><path d="M7 15l3-3 2 2 5-6"></path></svg>
+    </span>
+    Dashboard
+  </h5>
 
   <div class="header-search">
-    <input type="search" class="form-control" placeholder="🔍 Rechercher...">
+    <input type="search" class="form-control" placeholder="Rechercher...">
   </div>
 
   <div class="header-actions">
     <div class="notification-bell" title="Notifications">
-      🔔
+      <span class="app-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5"></path><path d="M9 17a3 3 0 0 0 6 0"></path></svg>
+      </span>
       <span class="notification-badge">3</span>
     </div>
 

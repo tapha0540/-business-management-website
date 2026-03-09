@@ -1,4 +1,4 @@
-<style>
+﻿<style>
     .dashboard-footer {
         color: var(--text-dark-color);
         padding: 2rem 2rem 1.25rem;
@@ -19,6 +19,9 @@
         margin-bottom: 1rem;
         font-size: 0.95rem;
         letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
     }
 
     .footer-section ul {
@@ -150,9 +153,8 @@
 
 <footer class="card dashboard-footer bg-lighter">
     <div class="footer-content">
-        <!-- À Propos -->
         <div class="footer-section">
-            <h6>🏢 À Propos</h6>
+            <h6><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10h6"></path><path d="M9 14h6"></path></svg></span>À Propos</h6>
             <ul>
                 <li><a href="#">Qui sommes-nous ?</a></li>
                 <li><a href="#">Notre histoire</a></li>
@@ -161,9 +163,8 @@
             </ul>
         </div>
 
-        <!-- Produits -->
         <div class="footer-section">
-            <h6>📦 Produits</h6>
+            <h6><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-2-2H5l-2 4v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"></path><path d="M3 10h18"></path></svg></span>Produits</h6>
             <ul>
                 <li><a href="#">Gestion des stocks</a></li>
                 <li><a href="#">Catalogue</a></li>
@@ -172,9 +173,8 @@
             </ul>
         </div>
 
-        <!-- Support -->
         <div class="footer-section">
-            <h6>💬 Support</h6>
+            <h6><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>Support</h6>
             <ul>
                 <li><a href="#">Centre d'aide</a></li>
                 <li><a href="#">Documentation</a></li>
@@ -183,9 +183,8 @@
             </ul>
         </div>
 
-        <!-- Légal -->
         <div class="footer-section">
-            <h6>⚖️ Légal</h6>
+            <h6><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18"></path><path d="M5 7h14"></path><path d="M6 17h12"></path><path d="M8 7c0 4-1 6-3 10"></path><path d="M16 7c0 4 1 6 3 10"></path></svg></span>Légal</h6>
             <ul>
                 <li><a href="#">Conditions d'utilisation</a></li>
                 <li><a href="#">Politique de confidentialité</a></li>

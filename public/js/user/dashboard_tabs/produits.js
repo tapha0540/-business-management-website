@@ -1,4 +1,4 @@
-const produitsTable = document.getElementById("produits-table");
+﻿const produitsTable = document.getElementById("produits-table");
 const produitsTableTbody = produitsTable.querySelector("tbody");
 const produitsTableRowTemplate = document.getElementById(
   "produits-row-template",
@@ -57,11 +57,7 @@ const afficherProduitsTableDonnee = (data) => {
         <td>${produit.seuil_critique}</td>
         <td>${produit.created_at}</td>
         <td>${produit.updated_at}</td>
-        <td class="d-flex column-gap-2">
-          <button class="btn btn-outline-danger btn-sm" onclick="supprimerProduits([${produit.id}])">Supprimer</button>
-          <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
-                data-bs-target="#modifier-produit" onclick="modifierProduit(${produit.id})">Modifier</button>
-        </td>
+        <td class="table-actions-cell">\n          <button class="btn btn-outline-danger btn-sm icon-btn" type="button" title="Supprimer" aria-label="Supprimer" onclick="supprimerProduits([${produit.id}])"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span></button>\n          <button class="btn btn-primary btn-sm icon-btn" type="button" title="Modifier" aria-label="Modifier" data-bs-toggle="modal" data-bs-target="#modifier-produit" onclick="modifierProduit(${produit.id})"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg></span></button>\n        </td>
       `;
       produitsTableTbody.appendChild(tr);
     });
@@ -245,3 +241,4 @@ produitsSearchInput.onchange = async () => {
   await fetchProduitsTableData();
   setTimeout(() => (isSearching = false), 250);
 };
+

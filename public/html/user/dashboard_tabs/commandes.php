@@ -1,13 +1,20 @@
 ﻿<div class="card cmd-card shadow-sm mb-4 rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-            <h5 class="mb-0">Commandes</h5>
+
+            <h5 class="mb-0">
+                <img src="../../assets/images/icons/shoppin_bag.svg" width="24px" height="24px" />
+                Commandes
+            </h5>
             <small class="text-muted">Vue d'ensemble des commandes récentes</small>
         </div>
         <div class="table-actions">
             <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
                 data-bs-target="#modal-ajouter-commande">
-                <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span> Ajouter une commande
+                <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                        <path d="M12 5v14"></path>
+                        <path d="M5 12h14"></path>
+                    </svg></span> Ajouter une commande
             </button>
         </div>
     </div>
@@ -16,7 +23,10 @@
         <div
             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
             <div class="input-group search-input mb-2 mb-md-0" style="max-width: 300px;">
-                <span class="input-group-text"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></span></span>
+                <span class="input-group-text"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                        </svg></span></span>
                 <input id="commandes-search" type="search" class="form-control" placeholder="Rechercher...">
             </div>
 
@@ -158,4 +168,3 @@
         </div>
     </div>
 </div>
-

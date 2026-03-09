@@ -1,7 +1,10 @@
 ﻿<div class="card cmd-card shadow-sm mb-4 rounded-3">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-            <h5 class="mb-0"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.9"></path><path d="M16 3.1a4 4 0 0 1 0 7.8"></path></svg></span> Clients</h5>
+            <h5 class="mb-0">
+                <span class="app-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.9"></path><path d="M16 3.1a4 4 0 0 1 0 7.8"></path></svg>
+            </span> Clients</h5>
             <small class="text-muted">Gestion de votre portefeuille clients</small>
         </div>
         <div class="table-actions">

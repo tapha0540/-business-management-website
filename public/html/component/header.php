@@ -1,8 +1,9 @@
 ﻿<style>
   .dashboard-header {
-    background: white;
+    background: var(--lighter-color);
     border-bottom: 2px solid #f0f0f0;
     padding: 0.25rem 0.7rem;
+    margin: 0 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;

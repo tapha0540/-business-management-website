@@ -18,7 +18,7 @@ body {
 main.row {
   flex: 1;
   gap: 0.5rem;
-  padding: 0.9rem;
+  padding: 0.4rem;
   overflow: visible;
   margin-bottom: 0 !important;
   display: flex;
@@ -168,7 +168,9 @@ section.col-10.d-flex.flex-column {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
+.app-icon:hover {
+  color: black;
+}
 .icon-btn {
   display: inline-flex;
   align-items: center;

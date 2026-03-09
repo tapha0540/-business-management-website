@@ -33,50 +33,74 @@ $estAdmin = $user['role'] == 'admin';
       <h5 class="text-center my-3 text-lighter rounded-3">Gestion Commerciale</h5>
       <div class="nav flex-column nav-pills m-1 justify-content-center align-items-center row-gap-3 bg-lighter mt-4"
         id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <button class="nav-link active w-75 p-2 text-dark fs-6" id="v-pills-dashboard-tab" data-bs-toggle="pill"
+        <button class="nav-link active w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-dashboard-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard"
           aria-selected="true">
           <img src="../../assets/images/icons/dashboard-layout.svg" width="24px" height="24px" class="" />
           Dashboard
         </button>
-        <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-orders-tab" data-bs-toggle="pill"
+        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-orders-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders"
           aria-selected="false">
           <img src="../../assets/images/icons/shoppin_bag.svg" width="24px" height="24px" class="" />
           Commandes
         </button>
-        <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-clients-tab" data-bs-toggle="pill"
+        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-clients-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-clients" type="button" role="tab" aria-controls="v-pills-clients"
           aria-selected="false">
-          <img src="../../assets/images/icons/customers.svg" width="24px" height="24px" class="" />
+          <span class="app-icon" aria-hidden="true" style="width: 30px; height: 30px;">
+            <svg viewBox="0 0 24 24">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.9"></path>
+              <path d="M16 3.1a4 4 0 0 1 0 7.8"></path>
+            </svg>
+          </span>
           Clients
         </button>
         <?php if ($estAdmin): ?>
-          <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-products-tab" data-bs-toggle="pill"
+          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-products-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-products" type="button" role="tab" aria-controls="v-pills-products"
             aria-selected="false">
-            <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
+            <span class="app-icon" aria-hidden="true" style="width: 30px; height: 30px;">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 8a2 2 0 0 0-2-2H5l-2 4v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"></path>
+                <path d="M3 10h18"></path>
+              </svg>
+            </span>
             Produits
           </button>
-          <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-fournisseurs-tab" data-bs-toggle="pill"
+          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-fournisseurs-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-fournisseurs" type="button" role="tab" aria-controls="v-pills-fournisseurs"
             aria-selected="false">
             <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
             Fournisseurs
           </button>
-          <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-approv-tab" data-bs-toggle="pill"
+          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-approv-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-approv" type="button" role="tab" aria-controls="v-pills-approv"
             aria-selected="false">
-            <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
+            <span class="app-icon" aria-hidden="true" style="width: 25px; height: 25px;">
+              <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-package-plus-icon lucide-package-plus">
+                <path d="M12 22V12" />
+                <path d="M16 17h6" />
+                <path d="M19 14v6" />
+                <path
+                  d="M21 10.535V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.729l7 4a2 2 0 0 0 2 .001l1.675-.955" />
+                <path d="M3.29 7 12 12l8.71-5" />
+                <path d="m7.5 4.27 8.997 5.148" />
+              </svg>
+            </span>
             Approvisionnements
           </button>
-          <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-users-tab" data-bs-toggle="pill"
+          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-users-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-users" aria-selected="false">
             <img src="../../assets/images/icons/users.svg" width="24px" height="24px" class="" />
             Utilisateurs
           </button>
         <?php endif; ?>
-        <button class="nav-link w-75 p-2 text-dark fs-6" id="v-pills-settings-tab" data-bs-toggle="pill"
+        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-settings-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings"
           aria-selected="false">
           <img src="../../assets/images/icons/settings.svg" width="24px" height="24px" class="" />
@@ -85,7 +109,7 @@ $estAdmin = $user['role'] == 'admin';
       </div>
     </section>
 
-    <section class="col-10 p-0 m-0 rounded-2 d-flex flex-column">
+    <section class="col-10 p-1 m-1 rounded-2 d-flex flex-column">
       <?php require_once '../component/header.php' ?>
 
       <div class="tab-content" id="v-pills-tabContent">
@@ -109,7 +133,8 @@ $estAdmin = $user['role'] == 'admin';
           <div class="tab-pane fade p-3" id="v-pills-products" role="tabpanel" aria-labelledby="v-pills-products-tab">
             <?php require_once 'dashboard_tabs/produits.php' ?>
           </div>
-          <div class="tab-pane fade p-3" id="v-pills-fournisseurs" role="tabpanel" aria-labelledby="v-pills-fournisseurs-tab">
+          <div class="tab-pane fade p-3" id="v-pills-fournisseurs" role="tabpanel"
+            aria-labelledby="v-pills-fournisseurs-tab">
             <?php require_once 'dashboard_tabs/fournisseurs.php' ?>
           </div>
           <div class="tab-pane fade p-3" id="v-pills-approv" role="tabpanel" aria-labelledby="v-pills-approv-tab">

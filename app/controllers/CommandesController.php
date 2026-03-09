@@ -32,7 +32,7 @@ class CommandeController
         if (!$vendeur_id || !$client_id) {
             throw new Exception('vendeur_id et client_id requis');
         }
-        $cmd = new Commandes($this->pdo, null, $vendeur_id, $client_id, $date_commande, $etat);
+        $cmd = new Commandes($this->pdo, null, $vendeur_id, $client_id, $etat);
         return $cmd->create();
     }
 
@@ -108,7 +108,7 @@ class CommandeController
             }
 
             // CrÃ©er la commande
-            $cmd = new Commandes($this->pdo, null, $vendeur_id, $client_id, date('Y-m-d'), 'en_cours');
+            $cmd = new Commandes($this->pdo, null, $vendeur_id, $client_id, 'en_cours');
             $cmd->create();
             $commande_id = $this->pdo->lastInsertId();
 

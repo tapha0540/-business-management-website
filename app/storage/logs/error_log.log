@@ -1,1 +1,0 @@
-\n C:\Users\DELL\Dev\php\projet_final\app\models\DetailsCommande.php -> SQLSTATE[42S02]: Base table or view not found: 1146 Table 'gestion_commerciale.details_commandes' doesn't exist

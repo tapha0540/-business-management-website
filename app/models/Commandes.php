@@ -17,19 +17,14 @@ class Commandes
         ?int $id = null,
         ?int $vendeur_id = null,
         ?int $client_id = null,
-        ?string $date_commande = null,
-        string $etat = 'en_cours',
+        ?string $etat = null,
         ?string $created_at = null,
         ?string $updated_at = null
     ) {
-        if (!in_array($etat, ['en_cours', 'cloturee', 'annulee'])) {
-            throw new InvalidArgumentException("variable etat doit etre egale en_cours, cloturee ou annulee.");
-        }
         $this->pdo = $pdo;
         $this->id = (int) $id;
         $this->vendeur_id = (int) $vendeur_id;
         $this->client_id = (int) $client_id;
-        $this->date_commande = (string) $date_commande;
         $this->etat = (string) $etat;
         $this->created_at = (string) $created_at;
         $this->updated_at = (string) $updated_at;
@@ -45,7 +40,6 @@ class Commandes
                 (int) $data['id'],
                 (int) $data['vendeur_id'],
                 (int) $data['client_id'],
-                (string) $data['date_commande'],
                 (string) $data['etat'],
                 $data['created_at'],
                 $data['updated_at']

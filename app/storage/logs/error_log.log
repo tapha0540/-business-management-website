@@ -1,0 +1,10 @@
+[09-Mar-2026 22:27:30 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: CommandeController::delete(): Argument #1 ($id) must be of type int, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\delete.php on line 12 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\CommandesController.php:61
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\delete.php(12): CommandeController->delete(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\CommandesController.php on line 61
+[09-Mar-2026 22:27:34 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: CommandeController::delete(): Argument #1 ($id) must be of type int, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\delete.php on line 12 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\CommandesController.php:61
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\delete.php(12): CommandeController->delete(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\CommandesController.php on line 61

@@ -190,11 +190,11 @@
   </div>
 
   <div class="header-actions">
-    <div class="notification-bell" title="Notifications">
+    <div class="notification-bell" id="notification-bell" title="Notifications produits">
       <span class="app-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5"></path><path d="M9 17a3 3 0 0 0 6 0"></path></svg>
       </span>
-      <span class="notification-badge">3</span>
+      <span class="notification-badge d-none" id="notification-badge">0</span>
     </div>
 
     <div class="dropdown">
@@ -229,4 +229,6 @@
     </div>
   </div>
 </nav>
+
+
 

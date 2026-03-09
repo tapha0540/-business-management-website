@@ -1,4 +1,4 @@
-function renderTable(data, tableId, addCheckboxes = false) {
+﻿function renderTable(data, tableId, addCheckboxes = false) {
   const table = document.getElementById(tableId);
   table.innerHTML = "";
 
@@ -165,3 +165,66 @@ function drawChart(
     },
   });
 }
+
+const notificationBell = document.getElementById("notification-bell");
+const notificationBadge = document.getElementById("notification-badge");
+let lowStockProduits = [];
+
+const getStockFromLowStockRow = (row) =>
+  Number(row.Stock ?? row.stock ?? row.quantite ?? 0);
+
+const getSeuilFromLowStockRow = (row) =>
+  Number(
+    row["Seuil Critique"] ?? row.seuil_critique ?? row.seuilCritique ?? 0,
+  );
+
+const renderLowStockNotification = () => {
+  if (!notificationBell || !notificationBadge) return;
+
+  const count = lowStockProduits.length;
+
+  if (count > 0) {
+    notificationBadge.textContent = String(count);
+    notificationBadge.classList.remove("d-none");
+    notificationBell.title = `Produits en seuil critique: ${count}`;
+  } else {
+    notificationBadge.textContent = "0";
+    notificationBadge.classList.add("d-none");
+    notificationBell.title = "Aucun produit en seuil critique";
+  }
+};
+
+const fetchLowStockNotifications = async () => {
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/produits/get_low_stock.php",
+    "POST",
+    { limit: 10 },
+  );
+
+  if (!serverRes.success) {
+    return;
+  }
+
+  lowStockProduits = serverRes.data || [];
+  renderLowStockNotification();
+};
+
+notificationBell?.addEventListener("click", () => {
+  if (!lowStockProduits.length) {
+    alert("Aucun produit n'est actuellement en seuil critique.");
+    return;
+  }
+
+  const details = lowStockProduits
+    .map(
+      (produit, index) =>
+        `${index + 1}. ${produit.nom} (stock: ${getStockFromLowStockRow(produit)}, seuil: ${getSeuilFromLowStockRow(produit)})`,
+    )
+    .join("\n");
+
+  alert(`Produits en seuil critique:\n\n${details}`);
+});
+
+fetchLowStockNotifications();
+setInterval(fetchLowStockNotifications, 60000);
+

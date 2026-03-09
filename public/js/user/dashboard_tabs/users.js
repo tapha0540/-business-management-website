@@ -1,4 +1,4 @@
-const utilisateursTable = document.getElementById("utilisateurs-table");
+﻿const utilisateursTable = document.getElementById("utilisateurs-table");
 const utilisateursTableTbody = utilisateursTable.querySelector("tbody");
 const utilisateursTableRowTemplate = document.getElementById(
   "utilisateurs-row-template",
@@ -19,13 +19,37 @@ const modifierUtilisateurForm = document.getElementById(
   "modifier-utilisateur-form",
 );
 
+const getInitiales = (prenom = "", nom = "") => {
+  const p = (prenom || "").trim().charAt(0);
+  const n = (nom || "").trim().charAt(0);
+  return `${p}${n}`.toUpperCase() || "??";
+};
+
+const bindAvatarWithFallback = (imgEl, fallbackEl, imgUrl, initiales) => {
+  if (!imgEl || !fallbackEl) return;
+
+  fallbackEl.textContent = initiales;
+  imgEl.onerror = () => {
+    imgEl.classList.add("d-none");
+    fallbackEl.classList.remove("d-none");
+  };
+
+  if (imgUrl) {
+    imgEl.src = `http://localhost:8081/storage/uploads/images/utilisateurs/${imgUrl}`;
+    imgEl.classList.remove("d-none");
+    fallbackEl.classList.add("d-none");
+  } else {
+    imgEl.classList.add("d-none");
+    fallbackEl.classList.remove("d-none");
+  }
+};
+
 const utilisateursUpdateDeleteButtonState = () => {
   const checkboxes = utilisateursTableTbody.querySelectorAll(".row-check");
   const anyChecked = Array.from(checkboxes).some((cb) => cb.checked);
   utilisateursTableDeleteSelectedBtn.disabled = !anyChecked;
 };
 
-// Fetch and populate utilisateurs
 const fetchUtilisateursTableData = async () => {
   try {
     const serverRes = await fetchApi(
@@ -51,14 +75,18 @@ const fetchUtilisateursTableData = async () => {
         newRow.querySelector(".col-nom").textContent = user.nom || "--";
         newRow.querySelector(".col-email").textContent = user.email || "--";
 
+        bindAvatarWithFallback(
+          newRow.querySelector(".utilisateur-img"),
+          newRow.querySelector(".utilisateur-avatar-fallback"),
+          user.imgUrl,
+          getInitiales(user.prenom, user.nom),
+        );
+
         const roleEl = newRow.querySelector(".col-role span");
         const role = (user.role || "vendeur").toLowerCase();
         roleEl.textContent = role.charAt(0).toUpperCase() + role.slice(1);
         roleEl.className = `role-badge role-${role}`;
 
-        const statusEl = newRow.querySelector(".col-status span");
-        statusEl.textContent = "Actif";
-        statusEl.className = "status-badge status-active";
 
         newRow.querySelector(".col-created").textContent = new Date(
           user.created_at,
@@ -105,12 +133,14 @@ utilisateursTableSelectAllBtn.addEventListener("change", () => {
 const ajouterUtilisateur = async (e) => {
   e.preventDefault();
 
+  const imageFile = ajouterUtilisateurForm["utilisateur-img"]?.files?.[0];
   const formData = {
     prenom: ajouterUtilisateurForm["utilisateur-prenom"].value,
     nom: ajouterUtilisateurForm["utilisateur-nom"].value,
     email: ajouterUtilisateurForm["utilisateur-email"].value,
     mot_de_passe: ajouterUtilisateurForm["utilisateur-mot_de_passe"].value,
     role: ajouterUtilisateurForm["utilisateur-role"].value,
+    image: imageFile ? await toBase64(imageFile) : null,
   };
 
   const serverRes = await fetchApi(
@@ -181,14 +211,17 @@ const supprimerUtilisateurSelectionne = async () => {
 const modifierUtilisateurSubmit = async (e) => {
   e.preventDefault();
   const id = modifierUtilisateurForm["utilisateur-id"].value;
+  const imageFile = modifierUtilisateurForm["utilisateur-img"]?.files?.[0];
+
   const formData = {
     id,
     prenom: modifierUtilisateurForm["utilisateur-prenom"].value,
     nom: modifierUtilisateurForm["utilisateur-nom"].value,
     email: modifierUtilisateurForm["utilisateur-email"].value,
     role: modifierUtilisateurForm["utilisateur-role"].value,
+    image: imageFile ? await toBase64(imageFile) : null,
   };
-  // Only include password if it was changed (checked if field has value)
+
   const pwdField = modifierUtilisateurForm["utilisateur-mot_de_passe"];
   if (pwdField && pwdField.value) {
     formData.mot_de_passe = pwdField.value;
@@ -218,3 +251,7 @@ if (modifierUtilisateurForm)
   modifierUtilisateurForm.onsubmit = modifierUtilisateurSubmit;
 if (utilisateursTableDeleteSelectedBtn)
   utilisateursTableDeleteSelectedBtn.onclick = supprimerUtilisateurSelectionne;
+
+
+
+

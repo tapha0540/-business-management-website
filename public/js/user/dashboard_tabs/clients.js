@@ -1,4 +1,4 @@
-const clientsTable = document.getElementById("clients-table");
+﻿const clientsTable = document.getElementById("clients-table");
 const clientsTableTbody = clientsTable.querySelector("tbody");
 const clientsTableRowTemplate = document.getElementById("clients-row-template");
 const clientsTablEmptyState = document.getElementById("clients-empty-state");
@@ -14,7 +14,32 @@ const ajouterClientFormMessage = document.getElementById(
   "ajouter-client-form-message",
 );
 const modifierClientForm = document.getElementById("modifier-client-form");
-// Fetch and populate clients
+
+const getInitiales = (prenom = "", nom = "") => {
+  const p = (prenom || "").trim().charAt(0);
+  const n = (nom || "").trim().charAt(0);
+  return `${p}${n}`.toUpperCase() || "??";
+};
+
+const bindAvatarWithFallback = (imgEl, fallbackEl, imgUrl, initiales) => {
+  if (!imgEl || !fallbackEl) return;
+
+  fallbackEl.textContent = initiales;
+  imgEl.onerror = () => {
+    imgEl.classList.add("d-none");
+    fallbackEl.classList.remove("d-none");
+  };
+
+  if (imgUrl) {
+    imgEl.src = `http://localhost:8081/storage/uploads/images/clients/${imgUrl}`;
+    imgEl.classList.remove("d-none");
+    fallbackEl.classList.add("d-none");
+  } else {
+    imgEl.classList.add("d-none");
+    fallbackEl.classList.remove("d-none");
+  }
+};
+
 const fetchClientsTableData = async () => {
   try {
     const serverRes = await fetchApi(
@@ -29,19 +54,23 @@ const fetchClientsTableData = async () => {
 
       serverRes.data.forEach((client) => {
         const newRow = clientsTableRowTemplate.cloneNode(true);
+        newRow.removeAttribute("id");
         newRow.classList.remove("d-none");
         newRow.dataset.id = client.id;
 
         newRow.querySelector(".client-checkbox").value = client.id;
-        newRow.querySelector(".client-img").src =
-          `http://localhost:8081/storage/uploads/images/clients/${client.imgUrl}`;
-        newRow.querySelector(".client-prenom").textContent =
-          client.prenom || "--";
+        bindAvatarWithFallback(
+          newRow.querySelector(".client-img"),
+          newRow.querySelector(".client-avatar-fallback"),
+          client.imgUrl,
+          getInitiales(client.prenom, client.nom),
+        );
+
+        newRow.querySelector(".client-prenom").textContent = client.prenom || "--";
         newRow.querySelector(".client-nom").textContent = client.nom || "--";
         newRow.querySelector(".client-telephone").textContent =
           client.telephone || "--";
-        newRow.querySelector(".client-email").textContent =
-          client.email || "--";
+        newRow.querySelector(".client-email").textContent = client.email || "--";
 
         newRow.querySelector(".client-created-at").textContent = new Date(
           client.created_at,
@@ -130,21 +159,6 @@ const supprimmerClient = async (clientIds) => {
   }
 };
 
-const getClient = async (clientId) => {
-  const serverRes = await fetchApi(
-    `http://localhost:8081/routes/clients/get.php`,
-    "POST",
-    { client_id: clientId },
-  );
-
-  if (serverRes.success) {
-    return serverRes.data;
-  } else {
-    alert("Erreur lors de la récupération des données du client.");
-    return null;
-  }
-};
-
 const populateModifierClientModal = (client) => {
   if (!client) return;
   modifierClientForm["client-id"].value = client.id;
@@ -152,11 +166,11 @@ const populateModifierClientModal = (client) => {
   modifierClientForm["client-nom"].value = client.nom || "";
   modifierClientForm["client-telephone"].value = client.telephone || "";
   modifierClientForm["client-email"].value = client.email || "";
+  const preview = document.getElementById("modifier-client-img");
   if (client.imgUrl) {
-    document.getElementById("modifier-client-img").src =
-      `http://localhost:8081/storage/uploads/images/clients/${client.imgUrl}`;
+    preview.src = `http://localhost:8081/storage/uploads/images/clients/${client.imgUrl}`;
   } else {
-    document.getElementById("modifier-client-img").src = "";
+    preview.src = "";
   }
 };
 
@@ -175,8 +189,7 @@ const modifierClient = async () => {
         : null,
     },
   );
-  console.log(serverRes);
-  
+
   if (serverRes.success) {
     fetchClientsTableData();
   }

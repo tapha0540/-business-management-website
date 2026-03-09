@@ -51,11 +51,11 @@
                         <th style="width:36px;">
                             <input type="checkbox" id="select-all-utilisateurs" title="Sélectionner tout" />
                         </th>
+                        <th>Profil</th>
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Email</th>
                         <th>Rôle</th>
-                        <th>Statut</th>
                         <th>Créé le</th>
                         <th style="width:140px;" class="text-end">Actions</th>
                     </tr>
@@ -63,11 +63,16 @@
                 <tbody>
                     <tr id="utilisateurs-row-template" class="d-none">
                         <td><input type="checkbox" class="row-check" /></td>
+                        <td>
+                            <div class="table-avatar">
+                                <img class="utilisateur-img" width="56" height="56" alt="Photo utilisateur" />
+                                <span class="avatar-fallback utilisateur-avatar-fallback"></span>
+                            </div>
+                        </td>
                         <td class="col-prenom">--</td>
                         <td class="col-nom">--</td>
                         <td class="col-email">--</td>
                         <td class="col-role"><span></span></td>
-                        <td class="col-status"><span></span></td>
                         <td class="col-created">--</td>
                         <td class="text-end table-actions-cell">
                             <button class="btn btn-sm btn-outline-info btn-action btn-edit icon-btn"
@@ -90,7 +95,7 @@
                     </tr>
 
                     <tr id="utilisateurs-empty-state" class="table-empty">
-                        <td colspan="8">
+                        <td colspan="9">
                             <div class="text-center">
                                 <div><span class="app-icon" style="width:3rem;height:3rem;" aria-hidden="true"><svg
                                             viewBox="0 0 24 24">
@@ -120,7 +125,7 @@
             </div>
 
             <div class="modal-body">
-                <form id="ajouter-utilisateur-form">
+                <form id="ajouter-utilisateur-form" enctype="multipart/form-data">
 
                     <div class="form-group p-2">
                         <label>Prénom</label>
@@ -137,6 +142,12 @@
                         <label>Email</label>
                         <input type="email" name="utilisateur-email" class="form-control border-primary border-1"
                             required>
+                    </div>
+
+                    <div class="form-group p-2">
+                        <label>Image</label>
+                        <input type="file" name="utilisateur-img" class="form-control border-primary border-1"
+                            accept="image/*">
                     </div>
 
                     <div class="form-group p-2">
@@ -181,7 +192,7 @@
             </div>
 
             <div class="modal-body">
-                <form id="modifier-utilisateur-form">
+                <form id="modifier-utilisateur-form" enctype="multipart/form-data">
 
                     <input type="hidden" name="utilisateur-id" />
 
@@ -200,6 +211,12 @@
                         <label>Email</label>
                         <input type="email" name="utilisateur-email" class="form-control border-primary border-1"
                             required>
+                    </div>
+
+                    <div class="form-group p-2">
+                        <label>Image</label>
+                        <input type="file" name="utilisateur-img" class="form-control border-primary border-1"
+                            accept="image/*">
                     </div>
 
                     <div class="form-group p-2">

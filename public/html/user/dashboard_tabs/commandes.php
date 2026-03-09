@@ -9,6 +9,23 @@
             <small class="text-muted">Vue d'ensemble des commandes récentes</small>
         </div>
         <div class="table-actions">
+            <button class="btn btn-outline-secondary btn-sm" type="button">
+                <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                        <path d="M3 3v18h18"></path>
+                        <rect x="7" y="11" width="3" height="6"></rect>
+                        <rect x="12" y="8" width="3" height="9"></rect>
+                        <rect x="17" y="6" width="3" height="11"></rect>
+                    </svg></span> Statistiques
+            </button>
+            <button class="btn btn-outline-danger btn-sm" id="commandes-delete-selected" type="button" disabled>
+                <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                        <path d="M3 6h18"></path>
+                        <path d="M8 6V4h8v2"></path>
+                        <path d="M19 6l-1 14H6L5 6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                    </svg></span> Supprimer sélection
+            </button>
             <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
                 data-bs-target="#modal-ajouter-commande">
                 <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
@@ -143,6 +160,10 @@
                         </datalist>
                     </div>
 
+                    <button type="button" class="btn btn-outline-secondary btn-sm mb-2" id="btn-ajouter-produit-modifier">
+                        + Ajouter un produit
+                    </button>
+
                     <table class="table table-sm">
                         <thead class="table-light">
                             <tr>
@@ -150,6 +171,7 @@
                                 <th style="width:100px;">Quantité</th>
                                 <th style="width:130px;">Prix unitaire</th>
                                 <th style="width:130px;">Total</th>
+                                <th style="width:52px;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="details-produits-liste"></tbody>

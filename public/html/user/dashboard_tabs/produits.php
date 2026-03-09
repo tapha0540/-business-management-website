@@ -3,23 +3,30 @@
         <div>
             <h5 class="mb-0">
                 <span class="app-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M21 8a2 2 0 0 0-2-2H5l-2 4v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"></path>
-                        <path d="M3 10h18"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-package-icon lucide-package">
+                        <path
+                            d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" />
+                        <path d="M12 22V12" />
+                        <polyline points="3.29 7 12 12 20.71 7" />
+                        <path d="m7.5 4.27 9 5.15" />
                     </svg>
-                </span> 
+                </span>
                 Produits
             </h5>
             <small class="text-muted">Gestion complète de vos produits</small>
         </div>
         <div class="table-actions">
-            <button class="btn btn-outline-secondary btn-sm"><span class="app-icon" aria-hidden="true"><svg
-                        viewBox="0 0 24 24">
+            <button class="btn btn-outline-secondary btn-sm">
+                <span class="app-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
                         <path d="M3 3v18h18"></path>
                         <rect x="7" y="11" width="3" height="6"></rect>
                         <rect x="12" y="8" width="3" height="9"></rect>
                         <rect x="17" y="6" width="3" height="11"></rect>
-                    </svg></span> Statistiques</button>
+                    </svg>
+                </span> Statistiques</button>
             <button class="btn btn-outline-danger btn-sm" id="produits-delete-selected"><span class="app-icon"
                     aria-hidden="true"><svg viewBox="0 0 24 24">
                         <path d="M3 6h18"></path>

@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --primary-dark: #e84400;
 }
 html,
@@ -186,3 +186,42 @@ section.col-10.d-flex.flex-column {
   align-items: center;
   gap: 0.35rem;
 }
+
+#produits-table .table-actions-cell,
+#clients-table .table-actions-cell,
+#utilisateurs-table .table-actions-cell {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.table-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #f4f4f4;
+}
+
+.table-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  background-color: var(--primary-color);
+}
+

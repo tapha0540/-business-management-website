@@ -51,7 +51,7 @@
                     <!-- Row template (hidden) to clone when populating rows via JS -->
                     <tr id="clients-row-template" class="d-none">
                         <td><input type="checkbox" class="client-checkbox" /></td>
-                        <td><img class="client-img" width="100" height="100" /></td>
+                        <td><div class="table-avatar"><img class="client-img" width="56" height="56" alt="Photo client" /><span class="avatar-fallback client-avatar-fallback"></span></div></td>
                         <td class="client-prenom">--</td>
                         <td class="client-nom">--</td>
                         <td class="client-telephone">--</td>
@@ -176,3 +176,5 @@
         </div>
     </div>
 </div>
+
+

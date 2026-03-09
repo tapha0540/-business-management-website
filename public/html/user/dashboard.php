@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -68,9 +68,14 @@ $estAdmin = $user['role'] == 'admin';
             id="v-pills-products-tab" data-bs-toggle="pill" data-bs-target="#v-pills-products" type="button" role="tab"
             aria-controls="v-pills-products" aria-selected="false">
             <span class="app-icon" aria-hidden="true" style="width: 30px; height: 30px;">
-              <svg viewBox="0 0 24 24">
-                <path d="M21 8a2 2 0 0 0-2-2H5l-2 4v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"></path>
-                <path d="M3 10h18"></path>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-package-icon lucide-package">
+                <path
+                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" />
+                <path d="M12 22V12" />
+                <polyline points="3.29 7 12 12 20.71 7" />
+                <path d="m7.5 4.27 9 5.15" />
               </svg>
             </span>
             Produits
@@ -78,7 +83,14 @@ $estAdmin = $user['role'] == 'admin';
           <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;"
             id="v-pills-fournisseurs-tab" data-bs-toggle="pill" data-bs-target="#v-pills-fournisseurs" type="button"
             role="tab" aria-controls="v-pills-fournisseurs" aria-selected="false">
-            <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
+            <span class="app-icon" aria-hidden="true" style="width: 30px; height: 30px;">
+              <svg viewBox="0 0 24 24">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <path d="M16 8h4l3 3v5h-7"></path>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+            </span>
             Fournisseurs
           </button>
           <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-approv-tab"
@@ -115,7 +127,7 @@ $estAdmin = $user['role'] == 'admin';
       </div>
     </section>
 
-    <section class="col-10 p-1 m-1 rounded-2 d-flex flex-column">
+    <section class="col-10 p-1 mt-0 ms-1 me-1 mb-1 rounded-2 d-flex flex-column">
       <?php require_once '../component/header.php' ?>
 
       <div class="tab-content" id="v-pills-tabContent">

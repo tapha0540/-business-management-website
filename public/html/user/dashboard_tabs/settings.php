@@ -551,23 +551,25 @@ $user = $_SESSION['user'] ?? [];
 
         const settings = { theme, primaryColor, density };
         console.log('Appearance settings:', settings);
-        alert('✅ Paramètres d\'apparence enregistrés');
+        alert('Paramètres d\'apparence enregistrés');
     }
 
     // Logout all devices
     function logoutAllDevices() {
-        if (confirm('⚠️ Êtes-vous sûr de vouloir vous déconnecter de tous les appareils ?')) {
+        if (confirm('Êtes-vous sûr de vouloir vous déconnecter de tous les appareils ?')) {
             console.log('Logout all devices requested');
-            alert('✅ Vous avez été déconnecté de tous les appareils');
+            alert('Vous avez été déconnecté de tous les appareils');
         }
     }
 
     // Delete account
     function deleteAccount() {
-        if (confirm('⚠️ Êtes-vous sûr ? Cette action est irréversible.\n\nCela supprimera définitivement votre compte et toutes vos données.') &&
-            confirm('⚠️ DERNIÈRE CONFIRMATION\n\nTapez "DELETE" pour confirmer la suppression du compte.')) {
+        if (confirm('Êtes-vous sûr ? Cette action est irréversible.\n\nCela supprimera définitivement votre compte et toutes vos données.') &&
+            confirm('DERNIÈRE CONFIRMATION\n\nTapez "DELETE" pour confirmer la suppression du compte.')) {
             console.log('Account deletion requested');
-            alert('✅ Votre compte a été supprimé avec succès');
+            alert('Votre compte a été supprimé avec succès');
         }
     }
 </script>
+
+

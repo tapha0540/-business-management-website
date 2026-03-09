@@ -22,7 +22,6 @@ const fetchClientsTableData = async () => {
       "POST",
       { limit: clientsTableLimit.value, search: clientsSearch.value },
     );
-    console.log(serverRes);
 
     if (serverRes.data && serverRes.data.length > 0) {
       clientsTableTbody.innerHTML = "";

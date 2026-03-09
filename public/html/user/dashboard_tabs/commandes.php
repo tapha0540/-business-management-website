@@ -36,6 +36,7 @@
             <table id="commandes-table" class="table table-striped table-sm table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
+                        <th><input type="checkbox" /></th>
                         <th style="width:50px;">Id</th>
                         <th>Vendeur</th>
                         <th>Client</th>
@@ -77,23 +78,20 @@
                         <div class="col-md-6 mb-3">
                             <label for="commande-client-id" class="form-label">Client <span
                                     class="text-danger">*</span></label>
-                            <select class="form-select" id="commande-client-id" required>
-                                <option value="">-- Sélectionner un client --</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="commande-date" class="form-label">Date de commande <span
-                                    class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="commande-date" required>
+                            <input list="ajouter-commande-client" class="form-control" name="commande-client" placeholder="ID ou nom du client"
+                                required>
+                            <datalist id="ajouter-commande-client" class="commande-client-datalists">
+                                <option value="" disabled>-- Sélectionner un client --</option>
+                            </datalist>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Produits <span class="text-danger">*</span></label>
-                        <div id="commande-produits-container" class="border rounded p-3"
+                        <div id="commande-produits-container" class="p-3"
                             style="max-height: 300px; overflow-y: auto;">
                             <!-- Les produits seront ajoutés ici -->
-                            <p class="text-muted">Aucun produit ajouté. Cliquez sur le bouton ci-dessous.</p>
+                            
                         </div>
                     </div>
 
@@ -106,7 +104,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" id="btn-creer-commande">Créer la commande</button>
+                <button type="submit" form="form-ajouter-commande" class="btn btn-primary" id="btn-creer-commande">Créer la commande</button>
             </div>
         </div>
     </div>

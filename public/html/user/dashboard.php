@@ -10,7 +10,6 @@ if (!isset($_SESSION['user'])) {
  */
 $user = $_SESSION['user'];
 $estAdmin = $user['role'] == 'admin';
-
 ?>
 <!doctype html>
 <html lang="fr">

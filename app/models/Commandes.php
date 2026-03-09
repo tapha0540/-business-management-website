@@ -72,13 +72,11 @@ class Commandes
     }
     public function create()
     {
-        $stmt = $this->pdo->prepare("INSERT INTO commandes (vendeur_id, client_id, date_commande, etat) VALUES (:vendeur_id, :client_id, :date_commande, :etat)");
+        $stmt = $this->pdo->prepare("INSERT INTO commandes (vendeur_id, client_id) VALUES (:vendeur_id, :client_id)");
 
         $isCreated = $stmt->execute([
             'vendeur_id' => $this->vendeur_id,
             'client_id' => $this->client_id,
-            'date_commande' => $this->date_commande,
-            'etat' => $this->etat
         ]);
         if ($isCreated) {
             $this->id = (int) $this->pdo->lastInsertId();

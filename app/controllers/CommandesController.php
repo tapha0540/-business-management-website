@@ -61,7 +61,7 @@ class CommandeController
      * @return array ['success' => bool, 'commande_id' => int]
      * @throws Exception si validation échoue
      */
-    public function createWithDetails(int $vendeur_id, int $client_id, string $date_commande, array $details)
+    public function createWithDetails(int $vendeur_id, int $client_id, array $details)
     {
         if (!$vendeur_id || !$client_id) {
             throw new Exception('vendeur_id et client_id requis');
@@ -96,7 +96,7 @@ class CommandeController
             }
 
             // Créer la commande
-            $cmd = new Commandes($this->pdo, null, $vendeur_id, $client_id, $date_commande, 'en_cours');
+            $cmd = new Commandes($this->pdo, null, $vendeur_id, $client_id, date('Y-m-d'), 'en_cours');
             $cmd->create();
             $commande_id = $this->pdo->lastInsertId();
 
@@ -177,5 +177,10 @@ class CommandeController
             $this->pdo->rollBack();
             throw $e;
         }
+    }
+    public function getDetails(int $commande_id)
+    {
+        return DetailsCommande::getByCommandeId($this->pdo, $commande_id);
+
     }
 }

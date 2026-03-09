@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once '../../config/app.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -7,15 +7,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $reqData = json_decode(file_get_contents('php://input'), true);
         require_once '../../config/database.php';
         require_once '../../controllers/CommandesController.php';
-
-        $vendeur_id = $reqData['vendeur_id'] ?? null;
+        
+        $vendeur_id = $_SESSION['user']['id'] ?? null;
         $client_id = $reqData['client_id'] ?? null;
-        $date_commande = $reqData['date_commande'] ?? date('Y-m-d');
         $details = $reqData['details'] ?? [];
 
         if (!$vendeur_id || !$client_id) {
             echo json_encode([
-                'message' => 'vendeur_id et client_id requis',
+                'message' => "vendeur_id et client_id requis $vendeur_id $client_id",
                 'success' => false
             ]);
             exit;
@@ -30,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $ctrl = new CommandeController($pdo);
-        $result = $ctrl->createWithDetails($vendeur_id, $client_id, $date_commande, $details);
+        $result = $ctrl->createWithDetails($vendeur_id, $client_id, $details);
 
         echo json_encode([
             'message' => 'Commande créée avec succès',

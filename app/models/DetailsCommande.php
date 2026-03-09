@@ -86,7 +86,24 @@ class DetailsCommande
             ':id' => $this->id
         ]);
     }
+    public static function getByCommandeId(PDO $pdo, int $commande_id)
+    {
 
+
+        $stmt = $pdo->prepare('SELECT 
+                                        produits.nom AS produit,
+                                        details_commande.quantite,
+                                        details_commande.prix_vente
+                                        FROM details_commande
+                                        JOIN produits ON produits.id = details_commande.produit_id
+                                        WHERE details_commande.commande_id = :commande_id');
+
+        $stmt->execute([':commande_id' => $commande_id]);
+
+        $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $details;
+    }
     /**
      * Getters pour accéder aux propriétés privées
      */

@@ -15,7 +15,7 @@ const ajouterClientFormMessage = document.getElementById(
 );
 const modifierClientForm = document.getElementById("modifier-client-form");
 
-const getInitiales = (prenom = "", nom = "") => {
+const clientsGetInitiales = (prenom = "", nom = "") => {
   const p = (prenom || "").trim().charAt(0);
   const n = (nom || "").trim().charAt(0);
   return `${p}${n}`.toUpperCase() || "??";
@@ -63,14 +63,16 @@ const fetchClientsTableData = async () => {
           newRow.querySelector(".client-img"),
           newRow.querySelector(".client-avatar-fallback"),
           client.imgUrl,
-          getInitiales(client.prenom, client.nom),
+          clientsGetInitiales(client.prenom, client.nom),
         );
 
-        newRow.querySelector(".client-prenom").textContent = client.prenom || "--";
+        newRow.querySelector(".client-prenom").textContent =
+          client.prenom || "--";
         newRow.querySelector(".client-nom").textContent = client.nom || "--";
         newRow.querySelector(".client-telephone").textContent =
           client.telephone || "--";
-        newRow.querySelector(".client-email").textContent = client.email || "--";
+        newRow.querySelector(".client-email").textContent =
+          client.email || "--";
 
         newRow.querySelector(".client-created-at").textContent = new Date(
           client.created_at,

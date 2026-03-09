@@ -7,7 +7,7 @@ const produitFetchUrl = 'http://localhost:8081/routes/produits/get_all.php';
 
 let approvData = [];
 let fournisseurs = [];
-let produits = [];
+let approvProduits = [];
 
 const approvisionnementSearchField = document.getElementById('approvisionnements-search');
 const approvisionnementLimitField = document.getElementById('approvisionnements-table-limit');
@@ -121,7 +121,7 @@ async function loadProduits() {
         });
 
         if (response.success) {
-            produits = response.data || [];
+            approvProduits = response.data || [];
         }
     } catch (error) {
         console.error('Erreur chargement produits:', error);
@@ -157,7 +157,7 @@ function addDetailRow(containerId) {
     produitSelect.required = true;
     produitSelect.innerHTML = '<option value="">-- Sélectionner un produit --</option>';
 
-    produits.forEach(p => {
+    approvProduits.forEach(p => {
         const option = document.createElement('option');
         option.value = p.id;
         option.textContent = p.nom;

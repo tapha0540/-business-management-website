@@ -19,13 +19,13 @@ const modifierUtilisateurForm = document.getElementById(
   "modifier-utilisateur-form",
 );
 
-const getInitiales = (prenom = "", nom = "") => {
+const usersGetInitiales = (prenom = "", nom = "") => {
   const p = (prenom || "").trim().charAt(0);
   const n = (nom || "").trim().charAt(0);
   return `${p}${n}`.toUpperCase() || "??";
 };
 
-const bindAvatarWithFallback = (imgEl, fallbackEl, imgUrl, initiales) => {
+const usersBindAvatarWithFallback = (imgEl, fallbackEl, imgUrl, initiales) => {
   if (!imgEl || !fallbackEl) return;
 
   fallbackEl.textContent = initiales;
@@ -75,18 +75,17 @@ const fetchUtilisateursTableData = async () => {
         newRow.querySelector(".col-nom").textContent = user.nom || "--";
         newRow.querySelector(".col-email").textContent = user.email || "--";
 
-        bindAvatarWithFallback(
+        usersBindAvatarWithFallback(
           newRow.querySelector(".utilisateur-img"),
           newRow.querySelector(".utilisateur-avatar-fallback"),
           user.imgUrl,
-          getInitiales(user.prenom, user.nom),
+          usersGetInitiales(user.prenom, user.nom),
         );
 
         const roleEl = newRow.querySelector(".col-role span");
         const role = (user.role || "vendeur").toLowerCase();
         roleEl.textContent = role.charAt(0).toUpperCase() + role.slice(1);
         roleEl.className = `role-badge role-${role}`;
-
 
         newRow.querySelector(".col-created").textContent = new Date(
           user.created_at,
@@ -251,7 +250,3 @@ if (modifierUtilisateurForm)
   modifierUtilisateurForm.onsubmit = modifierUtilisateurSubmit;
 if (utilisateursTableDeleteSelectedBtn)
   utilisateursTableDeleteSelectedBtn.onclick = supprimerUtilisateurSelectionne;
-
-
-
-

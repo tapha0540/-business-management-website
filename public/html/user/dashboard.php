@@ -29,26 +29,31 @@ $estAdmin = $user['role'] == 'admin';
 
   <main class="row bg-light justify-content-center">
 
-    <section class="col h-100 p-0 m-0 border-5 border-primary shadow-sm rounded-2 bg-lighter">
+    <section class="col h-100 p-0 border-5 border-primary shadow-sm rounded-2 bg-lighter" style="margin-left: 8px;">
       <h5 class="text-center my-3 text-lighter rounded-3">Gestion Commerciale</h5>
       <div class="nav flex-column nav-pills m-1 justify-content-center align-items-center row-gap-3 bg-lighter mt-4"
         id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <button class="nav-link active w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-dashboard-tab" data-bs-toggle="pill"
-          data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard"
-          aria-selected="true">
-          <img src="../../assets/images/icons/dashboard-layout.svg" width="24px" height="24px" class="" />
+        <button class="nav-link active w-75 p-2 text-dark" style="font-size: small; font-weight: 300;"
+          id="v-pills-dashboard-tab" data-bs-toggle="pill" data-bs-target="#v-pills-dashboard" type="button" role="tab"
+          aria-controls="v-pills-dashboard" aria-selected="true">
+          <span class="app-icon" aria-hidden="true" style="width: 30px; height: 30px;">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 3v18h18"></path>
+              <path d="M7 15l3-3 2 2 5-6"></path>
+            </svg>
+          </span>
           Dashboard
         </button>
-        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-orders-tab" data-bs-toggle="pill"
-          data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders"
+        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-orders-tab"
+          data-bs-toggle="pill" data-bs-target="#v-pills-orders" type="button" role="tab" aria-controls="v-pills-orders"
           aria-selected="false">
           <img src="../../assets/images/icons/shoppin_bag.svg" width="24px" height="24px" class="" />
           Commandes
         </button>
-        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-clients-tab" data-bs-toggle="pill"
-          data-bs-target="#v-pills-clients" type="button" role="tab" aria-controls="v-pills-clients"
-          aria-selected="false">
-          <span class="app-icon" aria-hidden="true" style="width: 30px; height: 30px;">
+        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-clients-tab"
+          data-bs-toggle="pill" data-bs-target="#v-pills-clients" type="button" role="tab"
+          aria-controls="v-pills-clients" aria-selected="false">
+          <span class="app-icon" aria-hidden="true" style="width: 24px; height: 24px;">
             <svg viewBox="0 0 24 24">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
               <circle cx="9" cy="7" r="4"></circle>
@@ -59,9 +64,9 @@ $estAdmin = $user['role'] == 'admin';
           Clients
         </button>
         <?php if ($estAdmin): ?>
-          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-products-tab" data-bs-toggle="pill"
-            data-bs-target="#v-pills-products" type="button" role="tab" aria-controls="v-pills-products"
-            aria-selected="false">
+          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;"
+            id="v-pills-products-tab" data-bs-toggle="pill" data-bs-target="#v-pills-products" type="button" role="tab"
+            aria-controls="v-pills-products" aria-selected="false">
             <span class="app-icon" aria-hidden="true" style="width: 30px; height: 30px;">
               <svg viewBox="0 0 24 24">
                 <path d="M21 8a2 2 0 0 0-2-2H5l-2 4v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"></path>
@@ -70,18 +75,18 @@ $estAdmin = $user['role'] == 'admin';
             </span>
             Produits
           </button>
-          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-fournisseurs-tab" data-bs-toggle="pill"
-            data-bs-target="#v-pills-fournisseurs" type="button" role="tab" aria-controls="v-pills-fournisseurs"
-            aria-selected="false">
+          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;"
+            id="v-pills-fournisseurs-tab" data-bs-toggle="pill" data-bs-target="#v-pills-fournisseurs" type="button"
+            role="tab" aria-controls="v-pills-fournisseurs" aria-selected="false">
             <img src="../../assets/images/icons/shopping_cart.svg" width="24px" height="24px" class="" />
             Fournisseurs
           </button>
-          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-approv-tab" data-bs-toggle="pill"
-            data-bs-target="#v-pills-approv" type="button" role="tab" aria-controls="v-pills-approv"
+          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-approv-tab"
+            data-bs-toggle="pill" data-bs-target="#v-pills-approv" type="button" role="tab" aria-controls="v-pills-approv"
             aria-selected="false">
             <span class="app-icon" aria-hidden="true" style="width: 25px; height: 25px;">
-              <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-package-plus-icon lucide-package-plus">
                 <path d="M12 22V12" />
                 <path d="M16 17h6" />
@@ -94,15 +99,16 @@ $estAdmin = $user['role'] == 'admin';
             </span>
             Approvisionnements
           </button>
-          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-users-tab" data-bs-toggle="pill"
-            data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-users" aria-selected="false">
+          <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-users-tab"
+            data-bs-toggle="pill" data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-users"
+            aria-selected="false">
             <img src="../../assets/images/icons/users.svg" width="24px" height="24px" class="" />
             Utilisateurs
           </button>
         <?php endif; ?>
-        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;" id="v-pills-settings-tab" data-bs-toggle="pill"
-          data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings"
-          aria-selected="false">
+        <button class="nav-link w-75 p-2 text-dark" style="font-size: small; font-weight: 300;"
+          id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab"
+          aria-controls="v-pills-settings" aria-selected="false">
           <img src="../../assets/images/icons/settings.svg" width="24px" height="24px" class="" />
           Settings
         </button>

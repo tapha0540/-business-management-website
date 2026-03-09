@@ -134,7 +134,7 @@
                     </tbody>
                 </table>
                 <div class="mt-3 text-end">
-                    <strong>Montant total: <span id="commande-montant-total">0</span> DZD</strong>
+                    <strong>Montant total: <span id="commande-montant-total">0</span> FCFA</strong>
                 </div>
             </div>
         </div>

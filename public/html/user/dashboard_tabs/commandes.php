@@ -117,25 +117,43 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-light">
-                <h5 class="modal-title">Détails de la commande</h5>
+                <h5 class="modal-title">Modifier la commande</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <table class="table table-sm">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Produit</th>
-                            <th style="width:100px;">Quantité</th>
-                            <th style="width:130px;">Prix unitaire</th>
-                            <th style="width:130px;">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="details-produits-liste">
-                    </tbody>
-                </table>
-                <div class="mt-3 text-end">
-                    <strong>Montant total: <span id="commande-montant-total">0</span> FCFA</strong>
-                </div>
+                <form id="form-modifier-commande">
+                    <input type="hidden" name="commande-id" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Client <span class="text-danger">*</span></label>
+                        <input list="modifier-commande-client" class="form-control" name="commande-client"
+                            placeholder="ID ou nom du client" required>
+                        <datalist id="modifier-commande-client" class="commande-client-datalists">
+                            <option value="" disabled>-- Sélectionner un client --</option>
+                        </datalist>
+                    </div>
+
+                    <table class="table table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Produit</th>
+                                <th style="width:100px;">Quantité</th>
+                                <th style="width:130px;">Prix unitaire</th>
+                                <th style="width:130px;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="details-produits-liste"></tbody>
+                    </table>
+
+                    <div class="mt-3 text-end">
+                        <strong>Montant total: <span id="commande-montant-total">0</span> FCFA</strong>
+                    </div>
+                    <div id="modifier-commande-message" class="small mt-2"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" form="form-modifier-commande" class="btn btn-primary">Mettre à jour</button>
             </div>
         </div>
     </div>

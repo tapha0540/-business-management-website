@@ -52,22 +52,40 @@ class Commandes
         }
         return $data;
     }
-    public function getAll(int $limit)
+    public function getAll(int $limit, string $search = '')
     {
-        $stmt = $this->pdo->prepare("SELECT 
-                                            commandes.id,
-                                            commandes.etat,
-                                            commandes.created_at,
-                                            CONCAT(utilisateurs.prenom,' ',utilisateurs.nom) AS vendeur_nom,
-                                            CONCAT(clients.prenom,' ',clients.nom) AS client_nom
-                                            FROM commandes
-                                            JOIN utilisateurs ON utilisateurs.id = commandes.vendeur_id
-                                            JOIN clients ON clients.id = commandes.client_id
-                                            ORDER BY commandes.created_at DESC
-                                            LIMIT :limit");
-        $stmt->bindValue("limit", $limit, PDO::PARAM_INT);
+        $search = trim($search);
+        $filter = '';
+
+        if ($search !== '') {
+            $filter = "WHERE CAST(commandes.id AS CHAR) LIKE :search
+                        OR commandes.etat LIKE :search
+                        OR CONCAT(utilisateurs.prenom, ' ', utilisateurs.nom) LIKE :search
+                        OR CONCAT(clients.prenom, ' ', clients.nom) LIKE :search";
+        }
+
+        $sql = "SELECT
+                    commandes.id,
+                    commandes.etat,
+                    commandes.created_at,
+                    CONCAT(utilisateurs.prenom,' ',utilisateurs.nom) AS vendeur_nom,
+                    CONCAT(clients.prenom,' ',clients.nom) AS client_nom
+                FROM commandes
+                JOIN utilisateurs ON utilisateurs.id = commandes.vendeur_id
+                JOIN clients ON clients.id = commandes.client_id
+                $filter
+                ORDER BY commandes.created_at DESC
+                LIMIT :limit";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
+
+        if ($search !== '') {
+            $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+        }
+
         $stmt->execute();
-        
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function create()
@@ -88,7 +106,7 @@ class Commandes
         if (!in_array($new_etat, ['en_cours', 'cloturee', 'annulee'])) {
             throw new InvalidArgumentException("variable etat doit etre egale en_cours, cloturee ou annulee.");
         }
-        $stmt = $this->pdo->prepare("UPDATE commandes SET etat = :etat, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
+        $stmt = $this->pdo->prepare("UPDATE commandes SET etat = :etat WHERE id = :id");
 
         $isUpdated = $stmt->execute([
             'etat' => $new_etat,

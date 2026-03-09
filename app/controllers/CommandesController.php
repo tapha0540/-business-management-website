@@ -13,9 +13,9 @@ class CommandeController
         $this->commandeModel = new Commandes($this->pdo);
     }
 
-    public function getAll(int $limit)
+    public function getAll(int $limit, string $search = '')
     {
-        return $this->commandeModel->getAll($limit);
+        return $this->commandeModel->getAll($limit, $search);
     }
 
     public function get(int $id)
@@ -110,8 +110,8 @@ class CommandeController
                 $produit->get($produit_id);
                 $prix_vente = $produit->getPrixVente() ?? null;
 
-                if ($prix_vente === null) {
-                    throw new Exception('prix_vente requis pour chaque produit');
+                if (!$prix_vente || !$quantite || !$produit_id) {
+                    throw new Exception('Données de détail invalides (produit_id, quantite et prix_vente requis)');
                 }
                 // Créer détail commande
                 $detCmd = new DetailsCommande(

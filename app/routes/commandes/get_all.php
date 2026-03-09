@@ -5,12 +5,13 @@ require_once '../../config/app.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         $reqData = json_decode(file_get_contents('php://input'), true);
-        $limit = $reqData['limit'];
+        $limit = $reqData['limit'] ?? 10;
+        $search = $reqData['search'] ?? '';
 
         require_once '../../config/database.php';
         require_once '../../controllers/CommandesController.php';
         $commandeController = new CommandeController($pdo);
-        $commades = $commandeController->getAll($limit);
+        $commades = $commandeController->getAll($limit, $search);
         echo json_encode([
             'message' => 'Opération réussie',
             'success' => true,

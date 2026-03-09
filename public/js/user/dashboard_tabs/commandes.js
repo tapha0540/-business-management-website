@@ -6,6 +6,7 @@ const commandesTableLimit = document.getElementById("commandes-table-limit");
 const commandesFilterStatus = document.getElementById(
   "commandes-filter-status",
 );
+const commandesSearchInput = document.getElementById("commandes-search");
 const clientDatalists = document.querySelectorAll(".commande-client-datalists");
 const selecetAllCheckbox = commandesTableThead.querySelector(
   "input[type='checkbox']",
@@ -16,6 +17,14 @@ const btnAjouterProduit = formAjouterCommande.querySelector(
   "#btn-ajouter-produit",
 );
 let commandes = [];
+let commandesSearchTimeout;
+
+const filterCommandesByStatus = (data) =>
+  data.filter(
+    (commande) =>
+      commandesFilterStatus.value === "all" ||
+      commande.etat === commandesFilterStatus.value,
+  );
 
 const fetchCommandesTableDonnee = async () => {
   const serverRes = await fetchApi(
@@ -23,11 +32,12 @@ const fetchCommandesTableDonnee = async () => {
     "POST",
     {
       limit: Number(commandesTableLimit.value),
+      search: commandesSearchInput?.value || "",
     },
   );
 
-  commandes = serverRes.data;
-  afficherCommandesTableDonnee(commandes);
+  commandes = serverRes.data || [];
+  afficherCommandesTableDonnee(filterCommandesByStatus(commandes));
 };
 
 const afficherCommandesTableDonnee = (data) => {
@@ -83,13 +93,16 @@ selecetAllCheckbox.addEventListener("change", () => {
 
 commandesTableLimit.onchange = () => fetchCommandesTableDonnee();
 commandesFilterStatus.onchange = () =>
-  afficherCommandesTableDonnee(
-    commandes.filter(
-      (commande) =>
-        commandesFilterStatus.value == "all" ||
-        commande.etat == commandesFilterStatus.value,
-    ),
-  );
+  afficherCommandesTableDonnee(filterCommandesByStatus(commandes));
+
+if (commandesSearchInput) {
+  commandesSearchInput.addEventListener("input", () => {
+    clearTimeout(commandesSearchTimeout);
+    commandesSearchTimeout = setTimeout(() => {
+      fetchCommandesTableDonnee();
+    }, 300);
+  });
+}
 
 commandesTableTbody.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("voir-commande")) return;

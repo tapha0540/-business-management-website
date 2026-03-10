@@ -1,8 +1,12 @@
-﻿const fournisseurFetchUrl = "http://localhost:8081/routes/fournisseurs/get_all.php";
+﻿const fournisseurGetAllUrl =
+  "http://localhost:8081/routes/fournisseurs/get_all.php";
 const fournisseurGetUrl = "http://localhost:8081/routes/fournisseurs/get.php";
-const fournisseurCreateUrl = "http://localhost:8081/routes/fournisseurs/create.php";
-const fournisseurUpdateUrl = "http://localhost:8081/routes/fournisseurs/update.php";
-const fournisseurDeleteUrl = "http://localhost:8081/routes/fournisseurs/delete.php";
+const fournisseurCreateUrl =
+  "http://localhost:8081/routes/fournisseurs/create.php";
+const fournisseurUpdateUrl =
+  "http://localhost:8081/routes/fournisseurs/update.php";
+const fournisseurDeleteUrl =
+  "http://localhost:8081/routes/fournisseurs/delete.php";
 
 let fournisseurData = [];
 
@@ -34,7 +38,7 @@ async function fetchFournisseurTableData() {
     const limit = fournisseurLimitField?.value || 10;
     const search = fournisseurSearchField?.value || "";
 
-    const response = await fetchApi(fournisseurFetchUrl, "POST", {
+    const response = await fetchApi(fournisseurGetAllUrl, "POST", {
       limit: parseInt(limit),
       search: search,
     });
@@ -324,4 +328,3 @@ setInterval(() => {
     fetchFournisseurTableData();
   }
 }, 30000);
-

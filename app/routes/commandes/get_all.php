@@ -16,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             "message" => "Opération réussie",
             "success" => true,
             "data" => $commades
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
     } catch (Exception $e) {
         error_log("\n " . $e->getFile() . " -> " . $e->getMessage(), 3, $erro_log_path);
         echo json_encode([

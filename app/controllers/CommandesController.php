@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+
 require_once __DIR__ . '/../models/Commandes.php';
 require_once __DIR__ . '/../models/DetailsCommande.php';
 require_once __DIR__ . '/../models/Produit.php';
@@ -206,5 +207,3 @@ class CommandeController
 
     }
 }
-
-

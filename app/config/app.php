@@ -7,8 +7,8 @@ $erro_log_path = 'C:\Users\DELL\Dev\php\projet_final\app\storage\logs\error_log.
 ini_set('error_log', $erro_log_path);
 error_reporting(E_ALL);
 
-header('Content-Type: application/json');
 // header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Origin: http://localhost:8080");
 header("Access-Control-Allow-Credentials: true");
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Content-Type: application/json');

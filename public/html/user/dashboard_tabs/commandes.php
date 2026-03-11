@@ -39,7 +39,7 @@
     <div class="card-body">
         <div
             class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
-            <div class="input-group search-input mb-2 mb-md-0" style="max-width: 300px;">
+            <div class="input-group search-input mb-2 mb-md-0 max-w-300">
                 <span class="input-group-text"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
                             <circle cx="11" cy="11" r="7"></circle>
                             <path d="m21 21-4.3-4.3"></path>
@@ -55,7 +55,7 @@
                     <option value="annulee">Annulée</option>
                 </select>
                 <input type="number" name="commandes-table-limit" id="commandes-table-limit" min="1" value="10" required
-                    class="form-control form-control-sm" style="max-width: 80px;" />
+                    class="form-control form-control-sm max-w-80" />
             </div>
         </div>
 
@@ -64,12 +64,12 @@
                 <thead class="table-light">
                     <tr>
                         <th><input type="checkbox" /></th>
-                        <th style="width:50px;">Id</th>
+                        <th class="col-w-50">Id</th>
                         <th>Vendeur</th>
                         <th>Client</th>
                         <th>Date</th>
-                        <th style="width:100px;">Statut</th>
-                        <th style="width:180px;">Actions</th>
+                        <th class="col-w-100">Statut</th>
+                        <th class="col-w-180">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -117,7 +117,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Produits <span class="text-danger">*</span></label>
-                        <div id="commande-produits-container" class="p-3" style="max-height: 300px; overflow-y: auto;">
+                        <div id="commande-produits-container" class="p-3 max-h-300 overflow-auto">
                             <!-- Les produits seront ajoutés ici -->
 
                         </div>
@@ -168,10 +168,10 @@
                         <thead class="table-light">
                             <tr>
                                 <th>Produit</th>
-                                <th style="width:100px;">Quantité</th>
-                                <th style="width:130px;">Prix unitaire</th>
-                                <th style="width:130px;">Total</th>
-                                <th style="width:52px;">Action</th>
+                                <th class="col-w-100">Quantité</th>
+                                <th class="col-w-130">Prix unitaire</th>
+                                <th class="col-w-130">Total</th>
+                                <th class="col-w-52">Action</th>
                             </tr>
                         </thead>
                         <tbody id="details-produits-liste"></tbody>
@@ -190,6 +190,7 @@
         </div>
     </div>
 </div>
+
 
 
 

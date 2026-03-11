@@ -5,303 +5,6 @@
 $user = $_SESSION['user'] ?? [];
 ?>
 
-<style>
-    .settings-container {
-        max-width: 900px;
-        margin: 0 auto;
-    }
-
-    .settings-card {
-        background: white;
-        border: 1px solid #f0f0f0;
-        border-radius: 12px;
-        padding: 2rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        transition: all 0.3s ease;
-    }
-
-    .settings-card:hover {
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .settings-card h4 {
-        color: #111827;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        font-size: 1.3rem;
-        letter-spacing: 0.3px;
-    }
-
-    .settings-card p {
-        color: #6b7280;
-        font-size: 0.95rem;
-        margin-bottom: 1.5rem;
-    }
-
-    /* Profile Section */
-    .profile-header {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-        margin-bottom: 2rem;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid #f3f4f6;
-    }
-
-    .profile-avatar {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #ff4d00 0%, #e84400 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 2.5rem;
-        font-weight: 700;
-        box-shadow: 0 10px 30px rgba(255, 77, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .profile-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .profile-avatar.upload-area {
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .profile-avatar.upload-area:hover {
-        box-shadow: 0 15px 40px rgba(255, 77, 0, 0.3);
-        transform: scale(1.05);
-    }
-
-    .profile-avatar .upload-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .profile-avatar.upload-area:hover .upload-overlay {
-        opacity: 1;
-    }
-
-    .profile-info h3 {
-        color: #111827;
-        font-weight: 700;
-        margin-bottom: 0.25rem;
-        font-size: 1.5rem;
-    }
-
-    .profile-info p {
-        color: #6b7280;
-        margin: 0;
-        font-size: 0.95rem;
-    }
-
-    .profile-badge {
-        display: inline-block;
-        background: linear-gradient(135deg, #ff4d00 0%, #e84400 100%);
-        color: white;
-        padding: 0.4rem 0.85rem;
-        border-radius: 50px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-top: 0.5rem;
-        letter-spacing: 0.3px;
-    }
-
-    /* Form Group */
-    .settings-form-group {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group-full {
-        grid-column: 1 / -1;
-    }
-
-    .form-group label {
-        display: block;
-        color: #111827;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        font-size: 0.95rem;
-        letter-spacing: 0.3px;
-    }
-
-    .form-group input,
-    .form-group select {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1.5px solid #e5e7eb;
-        border-radius: 8px;
-        font-size: 0.95rem;
-        font-family: inherit;
-        transition: all 0.2s ease;
-        background: #f9fafb;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-        outline: none;
-        border-color: #ff4d00;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.1);
-    }
-
-    .form-group input[type="color"] {
-        padding: 0.5rem;
-        cursor: pointer;
-    }
-
-    .form-group small {
-        display: block;
-        color: #6b7280;
-        margin-top: 0.35rem;
-        font-size: 0.85rem;
-    }
-
-    /* Button Styles */
-    .btn-save {
-        background: linear-gradient(135deg, #ff4d00 0%, #e84400 100%);
-        color: white;
-        padding: 0.75rem 2rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
-        letter-spacing: 0.3px;
-    }
-
-    .btn-save:hover {
-        box-shadow: 0 10px 25px rgba(255, 77, 0, 0.3);
-        transform: translateY(-2px);
-    }
-
-    .btn-save:active {
-        transform: translateY(0);
-    }
-
-    .btn-danger-outline {
-        background: transparent;
-        color: #ef4444;
-        border: 1.5px solid #fecaca;
-        padding: 0.75rem 2rem;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
-    }
-
-    .btn-danger-outline:hover {
-        background: #ef4444;
-        color: white;
-        border-color: #ef4444;
-    }
-
-    /* Divider */
-    .settings-divider {
-        height: 1px;
-        background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
-        margin: 2rem 0;
-    }
-
-    /* Preferences Grid */
-    .preferences-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-
-    .preference-option {
-        padding: 1rem;
-        border: 1.5px solid #e5e7eb;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-
-    .preference-option:hover {
-        border-color: #ff4d00;
-        background: rgba(255, 77, 0, 0.05);
-    }
-
-    .preference-option input[type="checkbox"],
-    .preference-option input[type="radio"] {
-        cursor: pointer;
-        width: 18px;
-        height: 18px;
-        accent-color: #ff4d00;
-    }
-
-    .preference-option label {
-        margin: 0;
-        cursor: pointer;
-        flex: 1;
-        font-weight: 500;
-    }
-
-    /* Alert Styles */
-    .alert-info {
-        background: rgba(255, 77, 0, 0.08);
-        border-left: 4px solid #ff4d00;
-        padding: 1rem;
-        border-radius: 4px;
-        color: #92400e;
-        margin-bottom: 1.5rem;
-        font-size: 0.95rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .profile-header {
-            flex-direction: column;
-            text-align: center;
-            align-items: center;
-        }
-
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            font-size: 2rem;
-        }
-
-        .settings-card {
-            padding: 1.5rem;
-        }
-
-        .settings-form-group {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-
 <div class="settings-container">
     <!-- Profile Section -->
     <div class="settings-card">
@@ -319,7 +22,7 @@ $user = $_SESSION['user'] ?? [];
                 ?>
                 <div class="upload-overlay"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-2h6l2 2h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></span></div>
             </div>
-            <input type="file" id="profile-avatar-input" style="display: none;" accept="image/*">
+            <input type="file" id="profile-avatar-input" class="d-none" accept="image/*">
 
             <div class="profile-info">
                 <h3><?php echo htmlspecialchars($user['prenom'] ?? 'User') . ' ' . htmlspecialchars($user['nom'] ?? ''); ?>
@@ -452,22 +155,22 @@ $user = $_SESSION['user'] ?? [];
     <div class="settings-divider"></div>
 
     <!-- Danger Zone -->
-    <div class="settings-card" style="border-color: #fecaca; background: rgba(254, 202, 202, 0.03);">
-        <h4 style="color: #ef4444;"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18A2 2 0 0 0 3.5 21h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4"></path><circle cx="12" cy="17" r="1"></circle></svg></span> Zone de Danger</h4>
-        <p style="color: #7f1d1d;">Les actions ci-dessous sont irréversibles. Veuillez être prudent.</p>
+    <div class="settings-card danger-zone-card">
+        <h4 class="danger-zone-title"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18A2 2 0 0 0 3.5 21h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4"></path><circle cx="12" cy="17" r="1"></circle></svg></span> Zone de Danger</h4>
+        <p class="danger-zone-text">Les actions ci-dessous sont irréversibles. Veuillez être prudent.</p>
 
-        <div style="display: grid; gap: 1rem;">
+        <div class="danger-zone-grid">
             <div>
-                <h5 style="color: #111827; font-weight: 600; margin-bottom: 0.5rem;">Déconnexion de tous les appareils
+                <h5 class="danger-zone-heading">Déconnexion de tous les appareils
                 </h5>
-                <p style="color: #6b7280; margin-bottom: 1rem;">Vous serez déconnecté de tous vos appareils, à
+                <p class="danger-zone-desc">Vous serez déconnecté de tous vos appareils, à
                     l'exception de celui-ci.</p>
                 <button class="btn-danger-outline" onclick="logoutAllDevices()">Déconnecter tous les appareils</button>
             </div>
 
-            <div style="border-top: 1px solid #fecaca; padding-top: 1rem;">
-                <h5 style="color: #111827; font-weight: 600; margin-bottom: 0.5rem;">Supprimer le compte</h5>
-                <p style="color: #6b7280; margin-bottom: 1rem;">Supprimez définitivement votre compte et toutes vos
+            <div class="danger-zone-divider">
+                <h5 class="danger-zone-heading">Supprimer le compte</h5>
+                <p class="danger-zone-desc">Supprimez définitivement votre compte et toutes vos
                     données.</p>
                 <button class="btn-danger-outline" onclick="deleteAccount()">Supprimer le compte</button>
             </div>
@@ -571,5 +274,7 @@ $user = $_SESSION['user'] ?? [];
         }
     }
 </script>
+
+
 
 

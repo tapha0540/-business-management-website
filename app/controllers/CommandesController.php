@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../models/Commandes.php';
 require_once __DIR__ . '/../models/DetailsCommande.php';
 require_once __DIR__ . '/../models/Produit.php';
@@ -65,13 +65,13 @@ class CommandeController
     }
 
     /**
-     * CrÃ©er une commande avec ses dÃ©tails et dÃ©crÃ©menter les stocks
+     * Créer une commande avec ses détails et décrémenter les stocks
      * @param int $vendeur_id ID du vendeur
      * @param int $client_id ID du client
      * @param string $date_commande Date de la commande
-     * @param array $details Tableau de dÃ©tails : [{'produit_id': int, 'quantite': int, 'prix_vente': float}, ...]
+     * @param array $details Tableau de détails : [{'produit_id': int, 'quantite': int, 'prix_vente': float}, ...]
      * @return array ['success' => bool, 'commande_id' => int]
-     * @throws Exception si validation Ã©choue
+     * @throws Exception si validation échoue
      */
     public function createWithDetails(int $vendeur_id, int $client_id, array $details)
     {
@@ -86,33 +86,33 @@ class CommandeController
         try {
             $this->pdo->beginTransaction();
 
-            // VÃ©rifier stocks disponibles AVANT de crÃ©er la commande
+            // Vérifier stocks disponibles AVANT de créer la commande
             foreach ($details as $detail) {
                 $produit_id = $detail['produit_id'] ?? null;
                 $quantite = $detail['quantite'] ?? null;
 
                 if (!$produit_id || !$quantite) {
-                    throw new Exception('DonnÃ©es de dÃ©tail invalides (produit_id et quantite requis)');
+                    throw new Exception('Données de détail invalides (produit_id et quantite requis)');
                 }
 
                 $produit = new Produit($this->pdo);
                 $produitData = $produit->get($produit_id);
 
                 if (!$produitData) {
-                    throw new Exception("Produit avec ID {$produit_id} non trouvÃ©");
+                    throw new Exception("Produit avec ID {$produit_id} non trouvé");
                 }
 
                 if ($produitData['quantite'] < $quantite) {
-                    throw new Exception("Stock insuffisant pour le produit '{$produitData['nom']}' (disponible: {$produitData['quantite']}, demandÃ©: {$quantite})");
+                    throw new Exception("Stock insuffisant pour le produit '{$produitData['nom']}' (disponible: {$produitData['quantite']}, demandé: {$quantite})");
                 }
             }
 
-            // CrÃ©er la commande
+            // Créer la commande
             $cmd = new Commandes($this->pdo, null, $vendeur_id, $client_id, 'en_cours');
             $cmd->create();
             $commande_id = $this->pdo->lastInsertId();
 
-            // CrÃ©er les dÃ©tails et dÃ©crÃ©menter stocks
+            // Créer les détails et décrémenter stocks
             foreach ($details as $detail) {
                 $produit_id = $detail['produit_id'] ?? null;
                 $quantite = $detail['quantite'] ?? null;
@@ -123,31 +123,31 @@ class CommandeController
                 $prix_vente = $produit->getPrixVente() ?? null;
 
                 if (!$prix_vente || !$quantite || !$produit_id) {
-                    throw new Exception('DonnÃ©es de dÃ©tail invalides (produit_id, quantite et prix_vente requis)');
+                    throw new Exception('Données de détail invalides (produit_id, quantite et prix_vente requis)');
                 }
                 // 
                 if ($produit->quantite < $quantite) {
                     echo json_encode([
-                        'message' => "Stock insuffisant pour le produit '{$produit->nom}' (disponible: {$produit->quantite}, demandÃ©: {$quantite})",
+                        'message' => "Stock insuffisant pour le produit '{$produit->nom}' (disponible: {$produit->quantite}, demandé: {$quantite})",
                         'success' => false
                     ]);
                     $this->pdo->rollBack();
                     exit;
                 }
-                // CrÃ©er dÃ©tail commande
+                // Créer détail commande
                 $detCmd = new DetailsCommande(
                     $this->pdo,
                     0,
                     $commande_id,
                     $produit_id,
                     $quantite,
-                    $prix_vente, // Utiliser le prix de vente actuel du produit pour plus de sÃ©curitÃ©
+                    $prix_vente, // Utiliser le prix de vente actuel du produit pour plus de sécurité
                     '',
                     ''
                 );
                 $detCmd->create($this->pdo);
 
-                // DÃ©crÃ©menter stock du produit
+                // Décrémenter stock du produit
                 $produit->updateQuantity(-(int) $quantite);
             }
 
@@ -161,8 +161,8 @@ class CommandeController
 
     /**
      * Annuler une commande et restaurer les stocks
-     * @param int $commande_id ID de la commande Ã  annuler
-     * @return bool True si succÃ¨s
+     * @param int $commande_id ID de la commande à annuler
+     * @return bool True si succès
      * @throws Exception
      */
     public function cancelOrder(int $commande_id)
@@ -170,7 +170,7 @@ class CommandeController
         try {
             $this->pdo->beginTransaction();
 
-            // RÃ©cupÃ©rer tous les dÃ©tails de la commande
+            // Récupérer tous les détails de la commande
             $sql = "SELECT produit_id, quantite FROM details_commande WHERE commande_id = :commande_id";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':commande_id', $commande_id, PDO::PARAM_INT);
@@ -178,18 +178,18 @@ class CommandeController
             $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             if (empty($details)) {
-                throw new Exception('Commande non trouvÃ©e ou vide');
+                throw new Exception('Commande non trouvée ou vide');
             }
 
             // Restaurer stocks pour chaque produit
             foreach ($details as $detail) {
                 $produit = new Produit($this->pdo);
                 $produit->get($detail['produit_id']);
-                // Restaurer : ajouter la quantitÃ© annulÃ©e au stock
+                // Restaurer : ajouter la quantité annulée au stock
                 $produit->updateQuantity((int) $detail['quantite']);
             }
 
-            // Mettre Ã  jour statut commande Ã  "annulee"
+            // Mettre à jour statut commande à "annulee"
             $cmd = new Commandes($this->pdo, $commande_id);
             $cmd->update('annulee');
 
@@ -206,3 +206,5 @@ class CommandeController
 
     }
 }
+
+

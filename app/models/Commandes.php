@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/Produit.php';
 
 
@@ -235,8 +235,8 @@ class Commandes
                                     c.id AS `Id`,
                                     f.montant_total AS `Montant Total`,
                                     c.etat AS `Etat`,
-                                    DATE_FORMAT(c.created_at, '%d/%m/%Y') AS 'CommandÃ© le',
-                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `CloturÃ©e le`
+                                    DATE_FORMAT(c.created_at, '%d/%m/%Y') AS 'Commandé le',
+                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `Cloturée le`
                                 FROM commandes c
                                 JOIN factures f ON f.commande_id = c.id
                                 WHERE c.etat = 'cloturee'
@@ -263,8 +263,8 @@ class Commandes
                                     c.id AS `Id`,
                                     f.montant_total AS `Montant Total`,
                                     c.etat AS `Etat`,
-                                    DATE_FORMAT(c.created_at, '%d/%m/%Y')AS 'CommandÃ© le',
-                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `CloturÃ©e le`
+                                    DATE_FORMAT(c.created_at, '%d/%m/%Y')AS 'Commandé le',
+                                    DATE_FORMAT(c.updated_at, '%d/%m/%Y') AS `Cloturée le`
                                 FROM commandes c
                                 JOIN factures f ON f.commande_id = c.id
                                 WHERE c.created_at BETWEEN :from AND :to
@@ -285,4 +285,6 @@ class Commandes
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+
+
 

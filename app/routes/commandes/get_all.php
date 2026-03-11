@@ -13,20 +13,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $commandeController = new CommandeController($pdo);
         $commades = $commandeController->getAll($limit, $search);
         echo json_encode([
-            'message' => 'Opération réussie',
-            'success' => true,
-            'data' => $commades
+            "message" => "Opération réussie",
+            "success" => true,
+            "data" => $commades
         ]);
     } catch (Exception $e) {
-        error_log('\n ' . $e->getFile() . ' -> ' . $e->getMessage(), 3, $erro_log_path);
+        error_log("\n " . $e->getFile() . " -> " . $e->getMessage(), 3, $erro_log_path);
         echo json_encode([
-            'message' => 'Erreur cote serveur',
-            'success' => false
+            "message" => "Erreur cote serveur",
+            "success" => false
         ]);
     }
 } else {
     echo json_encode([
-        'message' => 'Mauvaise Method de requete',
-        'success' => false
+        "message" => "Mauvaise Method de requete",
+        "success" => false
     ]);
 }

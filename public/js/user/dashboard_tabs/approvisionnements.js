@@ -81,17 +81,30 @@ function renderApprovisionnementTable() {
             checkbox.value = approv.id;
         }
 
-        const cells = row.querySelectorAll('td');
-        if (cells.length >= 7) {
-            // Calculate totals from details
-            const totalQty = (approv.details || []).reduce((sum, d) => sum + parseInt(d.quantite || 0), 0);
-            const totalMontant = (approv.details || []).reduce((sum, d) => sum + (parseInt(d.quantite || 0) * parseFloat(d.prix_achat || 0)), 0);
+        const fournisseurEl = row.querySelector('.approv-fournisseur');
+        const nbProduitsEl = row.querySelector('.approv-nb-produits');
+        const totalQuantiteEl = row.querySelector('.approv-quantite');
+        const totalMontantEl = row.querySelector('.approv-montant');
+        const dateEl = row.querySelector('.approv-date');
+        const updatedEl = row.querySelector('.approv-updated');
 
-            cells[1].textContent = approv.fournisseur_nom || '-';
-            cells[2].textContent = (approv.details || []).map(d => d.produit_nom).join(', ') || '-';
-            cells[3].textContent = totalQty;
-            cells[4].textContent = totalMontant.toFixed(2) + ' FCFA';
-            cells[5].textContent = new Date(approv.created_at).toLocaleDateString();
+        const nbProduits = Number(approv.nb_produits ?? 0);
+        const totalQuantite = Number(approv.total_quantite ?? 0);
+        const totalMontant = Number(approv.total_montant ?? 0);
+
+        if (fournisseurEl) fournisseurEl.textContent = approv.fournisseur_nom || '-';
+        if (nbProduitsEl) nbProduitsEl.textContent = Number.isFinite(nbProduits) ? nbProduits : 0;
+        if (totalQuantiteEl) totalQuantiteEl.textContent = Number.isFinite(totalQuantite) ? totalQuantite : 0;
+        if (totalMontantEl) {
+            const montant = Number.isFinite(totalMontant) ? totalMontant : 0;
+            totalMontantEl.textContent = montant.toFixed(2) + ' FCFA';
+        }
+
+        if (dateEl) {
+            dateEl.textContent = approv.created_at ? new Date(approv.created_at).toLocaleDateString('fr-FR') : '-';
+        }
+        if (updatedEl) {
+            updatedEl.textContent = approv.updated_at ? new Date(approv.updated_at).toLocaleDateString('fr-FR') : '-';
         }
 
         tbody.appendChild(row);
@@ -141,7 +154,7 @@ function populateFournisseurSelect() {
     if (!select) return;
 
     const selected = select.value;
-    select.innerHTML = '<option value="">-- SÃ©lectionner un fournisseur --</option>';
+    select.innerHTML = '<option value="">-- Sélectionner un fournisseur --</option>';
 
     fournisseurs.forEach(f => {
         const option = document.createElement('option');
@@ -167,7 +180,7 @@ async function addDetailRow(containerId, preset = null) {
     const produitSelect = document.createElement('select');
     produitSelect.className = 'form-control border-primary border-1';
     produitSelect.required = true;
-    produitSelect.innerHTML = '<option value="">-- SÃ©lectionner un produit --</option>';
+    produitSelect.innerHTML = '<option value="">-- Sélectionner un produit --</option>';
 
     approvProduits.forEach(p => {
         const option = document.createElement('option');
@@ -178,7 +191,7 @@ async function addDetailRow(containerId, preset = null) {
 
     const quantiteInput = document.createElement('input');
     quantiteInput.type = 'number';
-    quantiteInput.placeholder = 'QuantitÃ©';
+    quantiteInput.placeholder = 'Quantité';
     quantiteInput.className = 'form-control border-primary border-1';
     quantiteInput.required = true;
     quantiteInput.min = '1';
@@ -238,7 +251,7 @@ document.getElementById('ajouter-approvisionnement-submit')?.addEventListener('c
         const detailRows = document.querySelectorAll('#approvisionnement-details-container .approv-detail-row');
 
         if (!fournisseurId) {
-            alert('Veuillez sÃ©lectionner un fournisseur');
+            alert('Veuillez sélectionner un fournisseur');
             return;
         }
 
@@ -279,11 +292,11 @@ document.getElementById('ajouter-approvisionnement-submit')?.addEventListener('c
             document.getElementById('approvisionnement-details-container').innerHTML = '';
             await fetchApprovisionnementTableData();
         } else {
-            alert(response.message || 'Erreur lors de la crÃ©ation');
+            alert(response.message || 'Erreur lors de la création');
         }
     } catch (error) {
         console.error('Erreur:', error);
-        alert('Erreur lors de la crÃ©ation');
+        alert('Erreur lors de la création');
     }
 });
 
@@ -363,11 +376,11 @@ document.getElementById('modifier-approvisionnement-submit')?.addEventListener('
             modal?.hide();
             await fetchApprovisionnementTableData();
         } else {
-            alert(response.message || 'Erreur lors de la mise Ã  jour');
+            alert(response.message || 'Erreur lors de la mise à jour');
         }
     } catch (error) {
         console.error('Erreur:', error);
-        alert('Erreur lors de la mise Ã  jour');
+        alert('Erreur lors de la mise à jour');
     }
 });
 
@@ -398,7 +411,7 @@ async function supprimerApprovisionnementSelectionne() {
     const selectedCheckboxes = document.querySelectorAll('.approvisionnements-checkbox:checked');
 
     if (selectedCheckboxes.length === 0) {
-        alert('Veuillez sÃ©lectionner au moins un approvisionnement');
+        alert('Veuillez sélectionner au moins un approvisionnement');
         return;
     }
 
@@ -467,4 +480,9 @@ setInterval(() => {
 
 window.modifierApprovisionnement = modifierApprovisionnement;
 window.supprimerApprovisionnement = supprimerApprovisionnement;
+
+
+
+
+
 

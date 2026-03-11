@@ -225,3 +225,77 @@ section.col-10.d-flex.flex-column {
   background-color: var(--primary-color);
 }
 
+
+/* Utility sizing helpers */
+.app-icon-sm {
+  width: 24px;
+  height: 24px;
+}
+
+.app-icon-md {
+  width: 25px;
+  height: 25px;
+}
+
+.app-icon-lg {
+  width: 30px;
+  height: 30px;
+}
+
+.app-icon-xl {
+  width: 3rem;
+  height: 3rem;
+}
+
+.max-w-80 {
+  max-width: 80px;
+}
+
+.max-w-300 {
+  max-width: 300px;
+}
+
+.max-h-300 {
+  max-height: 300px;
+}
+
+.w-80 {
+  width: 80px;
+}
+
+.col-w-36 {
+  width: 36px;
+}
+
+.col-w-50 {
+  width: 50px;
+}
+
+.col-w-52 {
+  width: 52px;
+}
+
+.col-w-100 {
+  width: 100px;
+}
+
+.col-w-130 {
+  width: 130px;
+}
+
+.col-w-140 {
+  width: 140px;
+}
+
+.col-w-180 {
+  width: 180px;
+}
+
+.spinner-hidden {
+  display: none;
+}
+
+.spinner-lg {
+  width: 50px;
+  height: 50px;
+}

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 require_once __DIR__ . '/../models/Approvisionnement.php';
 require_once __DIR__ . '/../models/DetailsApprovisionnement.php';
@@ -74,14 +74,25 @@ class ApprovisionnementController
 
     public function getAll(int $limit = 10, string $search = '')
     {
-        $sql = "SELECT a.*, f.nom as fournisseur_nom, f.email as fournisseur_email 
+        $sql = "SELECT 
+                    a.id,
+                    a.fournisseur_id,
+                    a.created_at,
+                    a.updated_at,
+                    f.nom as fournisseur_nom,
+                    f.email as fournisseur_email,
+                    COUNT(DISTINCT d.produit_id) AS nb_produits,
+                    COALESCE(SUM(d.quantite), 0) AS total_quantite,
+                    COALESCE(SUM(d.quantite * d.prix_achat), 0) AS total_montant
                 FROM approvisionnements a 
-                JOIN fournisseurs f ON a.fournisseur_id = f.id";
+                JOIN fournisseurs f ON a.fournisseur_id = f.id
+                LEFT JOIN details_approvisionnement d ON d.approvisionnement_id = a.id";
 
         if ($search) {
             $sql .= " WHERE f.nom LIKE :search OR f.email LIKE :search";
         }
 
+        $sql .= " GROUP BY a.id, a.fournisseur_id, a.created_at, a.updated_at, f.nom, f.email";
         $sql .= " ORDER BY a.created_at DESC LIMIT :limit";
 
         $stmt = $this->pdo->prepare($sql);
@@ -212,3 +223,10 @@ class ApprovisionnementController
         return $stmt->execute($ids);
     }
 }
+
+
+
+
+
+
+

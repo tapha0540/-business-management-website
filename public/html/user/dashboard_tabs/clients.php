@@ -35,7 +35,7 @@
             <table id="clients-table" class="table table-striped table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th style="width:36px;"><input type="checkbox" id="select-all-clients" class="form-check-input"
+                        <th class="col-w-36"><input type="checkbox" id="select-all-clients" class="form-check-input"
                                 title="Sélectionner tout" /></th>
                         <th>Profile</th>
                         <th>Prénom</th>
@@ -44,7 +44,7 @@
                         <th>Email</th>
                         <th>créé le</th>
                         <th>Modifiéé le</th>
-                        <th style="width:140px;" class="text-end">Actions</th>
+                        <th class="text-end col-w-140">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,7 +68,7 @@
                     <tr id="clients-empty-state" class="table-empty">
                         <td colspan="9">
                             <div class="text-center cli-empty">
-                                <div style="margin-bottom: 1rem;"><span class="app-icon" style="width:3rem;height:3rem;" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h18v10H3z"></path><path d="m3 7 9 7 9-7"></path></svg></span></div>
+                                <div class="mb-3"><span class="app-icon app-icon-xl" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h18v10H3z"></path><path d="m3 7 9 7 9-7"></path></svg></span></div>
                                 <p class="mb-2"><strong>Aucun client trouvé</strong></p>
                                 <p class="small">Vous n'avez pas encore de clients. Cliquez sur "Ajouter un client" pour
                                     en créer un.</p>
@@ -176,5 +176,6 @@
         </div>
     </div>
 </div>
+
 
 

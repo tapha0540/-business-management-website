@@ -72,7 +72,7 @@
             <table id="produits-table" class="table table-striped table-sm table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th style="width:36px;"><input type="checkbox" id="select-all-produits"
+                        <th class="col-w-36"><input type="checkbox" id="select-all-produits"
                                 title="Sélectionner tout" /></th>
                         <th>Image</th>
                         <th>Nom</th>
@@ -82,7 +82,7 @@
                         <th>Seuil critique</th>
                         <th>Créé le</th>
                         <th>Modifié le</th>
-                        <th style="width:140px;" class="text-end">Actions</th>
+                        <th class="text-end col-w-140">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,7 +91,7 @@
                     <tr id="produits-empty-state" class="table-empty">
                         <td colspan="8">
                             <div class="text-center prod-empty">
-                                <div style="margin-bottom: 1rem;"><span class="app-icon" style="width:3rem;height:3rem;"
+                                <div class="mb-3"><span class="app-icon app-icon-xl"
                                         aria-hidden="true"><svg viewBox="0 0 24 24">
                                             <path d="M3 7h18v10H3z"></path>
                                             <path d="m3 7 9 7 9-7"></path>

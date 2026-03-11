@@ -45,8 +45,7 @@
                     placeholder="Rechercher par nom ou email...">
             </div>
 
-            <input type="number" id="fournisseurs-table-limit" min="1" value="10" class="form-control form-control-sm"
-                style="width:80px;">
+            <input type="number" id="fournisseurs-table-limit" min="1" value="10" class="form-control form-control-sm w-80">
         </div>
 
         <div class="table-responsive">
@@ -54,7 +53,7 @@
 
                 <thead class="table-light">
                     <tr>
-                        <th style="width:36px;">
+                        <th class="col-w-36">
                             <input type="checkbox" id="select-all-fournisseurs">
                         </th>
                         <th>Nom</th>
@@ -63,14 +62,14 @@
                         <th>Adresse</th>
                         <th>Créé le</th>
                         <th>Modifié le</th>
-                        <th style="width:140px;" class="text-end">Actions</th>
+                        <th class="text-end col-w-140">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr id="fournisseurs-empty-state">
                         <td colspan="8" class="text-center">
-                            <div><span class="app-icon" style="width:3rem;height:3rem;" aria-hidden="true"><svg
+                            <div><span class="app-icon app-icon-xl" aria-hidden="true"><svg
                                         viewBox="0 0 24 24">
                                         <path d="M3 7h18v10H3z"></path>
                                         <path d="m3 7 9 7 9-7"></path>
@@ -193,3 +192,4 @@
         </div>
     </div>
 </div>
+

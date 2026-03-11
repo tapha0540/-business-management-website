@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class DetailsCommande
 {
@@ -106,7 +106,7 @@ class DetailsCommande
         return $details;
     }
     /**
-     * Getters pour accÃ©der aux propriÃ©tÃ©s privÃ©es
+     * Getters pour accéder aux propriétés privées
      */
     public function getId(): int
     {
@@ -137,3 +137,5 @@ class DetailsCommande
         return $this->updated_at;
     }
 }
+
+

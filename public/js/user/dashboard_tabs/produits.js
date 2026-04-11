@@ -1,7 +1,9 @@
 ﻿const produitsTable = document.getElementById("produits-table");
 const produitsTableTbody = produitsTable.querySelector("tbody");
 const produitsTableEmptyState = document.getElementById("produits-empty-state");
-const produitsTableSelectAllBtn = document.getElementById("select-all-produits");
+const produitsTableSelectAllBtn = document.getElementById(
+  "select-all-produits",
+);
 const produitsTableDeleteSelectedBtn = document.getElementById(
   "produits-delete-selected",
 );
@@ -62,7 +64,7 @@ const afficherProduitsTableDonnee = (data) => {
       tr.innerHTML = `
         <td><input type="checkbox" value="${produit.id}" class="produit-table-checkboxes" /> </td>
         <td>
-          <div class="table-avatar">
+          <div>
             <img class="produit-img" src="http://localhost:8081/storage/uploads/images/produits/${produit.imgUrl || ""}" width="56" height="56" alt="Image produit"/>
             <span class="avatar-fallback produit-avatar-fallback">${initialsFromText(produit.nom)}</span>
           </div>
@@ -257,8 +259,3 @@ produitsSearchInput.onchange = async () => {
 
 window.modifierProduit = modifierProduit;
 window.supprimerProduits = supprimerProduits;
-
-
-
-
-

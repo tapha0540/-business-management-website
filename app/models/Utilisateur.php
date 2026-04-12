@@ -151,8 +151,17 @@ class Utilisateur
 
         $sql = 'UPDATE utilisateurs SET ' . implode(', ', $fields) . ' WHERE id = :id';
         $stmt = $this->pdo->prepare($sql);
+        $success = $stmt->execute($params);
+        if ($success) {
+            $_SESSION['user']['prenom'] = $prenom;
+            $_SESSION['user']['nom'] = $nom;
+            $_SESSION['user']['email'] = $email;
+            if ($imgUrl !== null) {
+                $_SESSION['user']['imgUrl'] = $imgUrl;
+            }
 
-        return $stmt->execute($params);
+        }
+        return $success;
     }
 
     public function delete(): bool

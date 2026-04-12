@@ -12,8 +12,6 @@
     </h5>
   </div>
 
-
-
   <div class="header-actions">
     <div class="notification-bell" id="notification-bell" title="Notifications produits">
       <span class="app-icon" aria-hidden="true">

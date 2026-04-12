@@ -1,94 +1,126 @@
- // Avatar upload click handler
-    document.querySelector('.profile-avatar.upload-area').addEventListener('click', function () {
-        document.getElementById('profile-avatar-input').click();
-    });
+const settingsFormGroup = document.getElementById("settings-form-group");
+// Avatar upload click handler
+document
+  .querySelector(".profile-avatar.upload-area")
+  .addEventListener("click", function () {
+    document.getElementById("profile-avatar-input").click();
+  });
 
-    // Save profile
-    function saveProfile() {
-        const prenom = document.getElementById('input-prenom').value;
-        const nom = document.getElementById('input-nom').value;
-        const email = document.getElementById('input-email').value;
-        const phone = document.getElementById('input-phone').value;
+settingsFormGroup.onsubmit = saveProfile;
 
-        if (!prenom || !nom || !email) {
-            alert('Veuillez remplir tous les champs obligatoires');
-            return;
-        }
+// Save profile
+async function saveProfile() {
+  const prenom = settingsFormGroup["prenom"].value;
+  const nom = settingsFormGroup["nom"].value;
+  const email = settingsFormGroup["email"].value;
 
-        const data = { prenom, nom, email, phone };
-        console.log('Profile data to save:', data);
-        alert('Profil enregistré avec succès');
-    }
+  if (!prenom || !nom || !email ) {
+    alert("Veuillez remplir tous les champs obligatoires");
+    return;
+  }
 
-    // Change password
-    function changePassword() {
-        const currentPassword = document.getElementById('input-current-password').value;
-        const newPassword = document.getElementById('input-new-password').value;
-        const confirmPassword = document.getElementById('input-confirm-password').value;
 
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            alert('Veuillez remplir tous les champs de mot de passe');
-            return;
-        }
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/utilisateurs/update.php",
+    "POST",
+    {
+      prenom,
+      nom,
+      email,
+    },
+    true
+  );
+  console.log(serverRes);
+  
+  if (serverRes.success) {
+      alert("Profil enregistré avec succès");
+  } else {
+    alert('Erreur: La modification des données de compte a échoué.')
+  }
 
-        if (newPassword !== confirmPassword) {
-            alert('Les mots de passe ne correspondent pas');
-            return;
-        }
+}
 
-        if (newPassword.length < 8) {
-            alert('Le mot de passe doit contenir au moins 8 caractères');
-            return;
-        }
+// Change password
+function changePassword() {
+  const currentPassword = document.getElementById(
+    "input-current-password",
+  ).value;
+  const newPassword = document.getElementById("input-new-password").value;
+  const confirmPassword = document.getElementById(
+    "input-confirm-password",
+  ).value;
 
-        console.log('Password change requested');
-        alert('Mot de passe changé avec succès');
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    alert("Veuillez remplir tous les champs de mot de passe");
+    return;
+  }
 
-        // Clear password fields
-        document.getElementById('input-current-password').value = '';
-        document.getElementById('input-new-password').value = '';
-        document.getElementById('input-confirm-password').value = '';
-    }
+  if (newPassword !== confirmPassword) {
+    alert("Les mots de passe ne correspondent pas");
+    return;
+  }
 
-    // Save notification preferences
-    function saveNotificationPreferences() {
-        const preferences = {
-            orders: document.getElementById('notify-orders').checked,
-            stock: document.getElementById('notify-stock').checked,
-            invoices: document.getElementById('notify-invoices').checked,
-            messages: document.getElementById('notify-messages').checked,
-            email: document.getElementById('notify-email').checked,
-            newsletter: document.getElementById('notify-newsletter').checked
-        };
+  if (newPassword.length < 8) {
+    alert("Le mot de passe doit contenir au moins 8 caractères");
+    return;
+  }
 
-        console.log('Notification preferences:', preferences);
-        alert('Préférences de notification enregistrées');
-    }
+  console.log("Password change requested");
+  alert("Mot de passe changé avec succès");
 
-    // Save appearance settings
-    function saveAppearanceSettings() {
-        const theme = document.getElementById('theme-select').value;
-        const primaryColor = document.getElementById('primary-color').value;
-        const density = document.getElementById('density-select').value;
+  // Clear password fields
+  document.getElementById("input-current-password").value = "";
+  document.getElementById("input-new-password").value = "";
+  document.getElementById("input-confirm-password").value = "";
+}
 
-        const settings = { theme, primaryColor, density };
-        console.log('Appearance settings:', settings);
-        alert('Paramètres d\'apparence enregistrés');
-    }
+// Save notification preferences
+function saveNotificationPreferences() {
+  const preferences = {
+    orders: document.getElementById("notify-orders").checked,
+    stock: document.getElementById("notify-stock").checked,
+    invoices: document.getElementById("notify-invoices").checked,
+    messages: document.getElementById("notify-messages").checked,
+    email: document.getElementById("notify-email").checked,
+    newsletter: document.getElementById("notify-newsletter").checked,
+  };
 
-    // Logout all devices
-    function logoutAllDevices() {
-        if (confirm('Êtes-vous sûr de vouloir vous déconnecter de tous les appareils ?')) {
-            console.log('Logout all devices requested');
-            alert('Vous avez été déconnecté de tous les appareils');
-        }
-    }
+  console.log("Notification preferences:", preferences);
+  alert("Préférences de notification enregistrées");
+}
 
-    // Delete account
-    function deleteAccount() {
-        if (confirm('Êtes-vous sûr ? Cette action est irréversible.\n\nCela supprimera définitivement votre compte et toutes vos données.') &&
-            confirm('DERNIÈRE CONFIRMATION\n\nTapez "DELETE" pour confirmer la suppression du compte.')) {
-            console.log('Account deletion requested');
-            alert('Votre compte a été supprimé avec succès');
-        }
-    }
+// Save appearance settings
+function saveAppearanceSettings() {
+  const theme = document.getElementById("theme-select").value;
+  const primaryColor = document.getElementById("primary-color").value;
+  const density = document.getElementById("density-select").value;
+
+  const settings = { theme, primaryColor, density };
+  console.log("Appearance settings:", settings);
+  alert("Paramètres d'apparence enregistrés");
+}
+
+// Logout all devices
+function logoutAllDevices() {
+  if (
+    confirm("Êtes-vous sûr de vouloir vous déconnecter de tous les appareils ?")
+  ) {
+    console.log("Logout all devices requested");
+    alert("Vous avez été déconnecté de tous les appareils");
+  }
+}
+
+// Delete account
+function deleteAccount() {
+  if (
+    confirm(
+      "Êtes-vous sûr ? Cette action est irréversible.\n\nCela supprimera définitivement votre compte et toutes vos données.",
+    ) &&
+    confirm(
+      'DERNIÈRE CONFIRMATION\n\nTapez "DELETE" pour confirmer la suppression du compte.',
+    )
+  ) {
+    console.log("Account deletion requested");
+    alert("Votre compte a été supprimé avec succès");
+  }
+}

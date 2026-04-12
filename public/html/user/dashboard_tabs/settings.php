@@ -40,26 +40,26 @@ $user = $_SESSION['user'] ?? [];
             </div>
         </div>
 
-        <form class="settings-form-group d-flex flex-column row-gap-2  align-items-center">
+        <form id="settings-form-group" class="d-flex flex-column row-gap-2  align-items-center">
             <div class="d-flex flex-column row-gap-2">
                 <label>Prénom</label>
-                <input class="form-control" type="text" id="input-prenom"
+                <input class="form-control" type="text" name="prenom"
                     value="<?php echo htmlspecialchars($user['prenom'] ?? ''); ?>" placeholder="Votre prénom">
             </div>
             <div class="d-flex flex-column row-gap-2">
                 <label>Nom</label>
-                <input class="form-control" type="text" id="input-nom"
+                <input class="form-control" type="text" name="nom"
                     value="<?php echo htmlspecialchars($user['nom'] ?? ''); ?>" placeholder="Votre nom">
             </div>
 
             <div class="d-flex flex-column row-gap-2">
                 <label>Email</label>
-                <input class="form-control" type="email" id="input-email"
+                <input class="form-control" type="email" name="email"
                     value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>" placeholder="Votre adresse email">
             </div>
 
-            <button class="btn btn-primary w-25 m-3" onclick="saveProfile()"><span class="app-icon"
-                    aria-hidden="true"><svg viewBox="0 0 24 24">
+            <button type="submit" class="btn btn-primary w-25 m-3"><span class="app-icon" aria-hidden="true"><svg
+                        viewBox="0 0 24 24">
                         <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
                         <path d="M17 21v-8H7v8"></path>
                         <path d="M7 3v5h8"></path>
@@ -102,89 +102,6 @@ $user = $_SESSION['user'] ?? [];
                 </svg></span> Changer le mot de passe</button>
     </form>
 
-    <!-- Notification Preferences -->
-    <div class="settings-card">
-        <h4><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
-                    <path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5"></path>
-                    <path d="M9 17a3 3 0 0 0 6 0"></path>
-                </svg></span> Préférences de Notifications</h4>
-        <p>Gérez comment vous souhaitez être notifié</p>
-
-        <div class="preferences-grid">
-            <div class="preference-option">
-                <input type="checkbox" id="notify-orders" checked>
-                <label for="notify-orders">Nouvelles commandes</label>
-            </div>
-            <div class="preference-option">
-                <input type="checkbox" id="notify-stock" checked>
-                <label for="notify-stock">Alertes de stock</label>
-            </div>
-            <div class="preference-option">
-                <input type="checkbox" id="notify-invoices" checked>
-                <label for="notify-invoices">Factures générées</label>
-            </div>
-            <div class="preference-option">
-                <input type="checkbox" id="notify-messages" checked>
-                <label for="notify-messages">Nouveaux messages</label>
-            </div>
-            <div class="preference-option">
-                <input type="checkbox" id="notify-email" checked>
-                <label for="notify-email">Notifications par email</label>
-            </div>
-            <div class="preference-option">
-                <input type="checkbox" id="notify-newsletter" checked>
-                <label for="notify-newsletter">Newsletter hebdomadaire</label>
-            </div>
-        </div>
-
-        <br>
-        <button class="btn btn-save" onclick="saveNotificationPreferences()"><span class="app-icon"
-                aria-hidden="true"><svg viewBox="0 0 24 24">
-                    <path d="M20 6 9 17l-5-5"></path>
-                </svg></span> Enregistrer les préférences</button>
-    </div>
-
-    <!-- Appearance Settings -->
-    <div class="settings-card">
-        <h4><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
-                    <circle cx="13.5" cy="6.5" r=".5"></circle>
-                    <circle cx="17.5" cy="10.5" r=".5"></circle>
-                    <circle cx="8.5" cy="7.5" r=".5"></circle>
-                    <circle cx="6.5" cy="12.5" r=".5"></circle>
-                    <path d="M12 22a10 10 0 1 1 0-20 7 7 0 0 1 0 14h-1a3 3 0 0 0 0 6z"></path>
-                </svg></span> Apparence</h4>
-        <p>Personnalisez l'apparence de votre tableau de bord</p>
-
-        <div class="settings-form-group">
-            <div>
-                <label>Thème</label>
-                <select id="theme-select">
-                    <option value="light">Clair</option>
-                    <option value="dark">Sombre</option>
-                    <option value="auto">Automatique</option>
-                </select>
-            </div>
-            <div>
-                <label>Couleur primaire</label>
-                <input type="color" id="primary-color" value="#ff4d00">
-            </div>
-            <div>
-                <label>Densité d'affichage</label>
-                <select id="density-select">
-                    <option value="normal">Normal</option>
-                    <option value="compact">Compacte</option>
-                    <option value="spacious">Spacieuse</option>
-                </select>
-            </div>
-        </div>
-
-        <button class="btn btn-save" onclick="saveAppearanceSettings()"><span class="app-icon" aria-hidden="true"><svg
-                    viewBox="0 0 24 24">
-                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                    <path d="M17 21v-8H7v8"></path>
-                    <path d="M7 3v5h8"></path>
-                </svg></span> Enregistrer l'apparence</button>
-    </div>
 
     <div class="settings-divider"></div>
 

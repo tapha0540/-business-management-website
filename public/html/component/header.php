@@ -8,7 +8,7 @@ $userFullName = trim(($user['prenom'] ?? '') . ' ' . ($user['nom'] ?? '')) ?: 'U
   <div class="d-flex column-gap-4 justify-content-center align-items-center">
 
     <span class="app-icon" aria-hidden="true" style="width: 30px; height: 30px;">
-      <svg viewBox="0 0 24 24" >
+      <svg viewBox="0 0 24 24">
         <path d="M3 3v18h18"></path>
         <path d="M7 15l3-3 2 2 5-6"></path>
       </svg>
@@ -90,8 +90,8 @@ $userFullName = trim(($user['prenom'] ?? '') . ' ' . ($user['nom'] ?? '')) ?: 'U
         <li>
           <hr class="dropdown-divider">
         </li>
-        <li><a class="dropdown-item btn-logout" href="/html/auth/logout.php"><span class="app-icon" aria-hidden="true"><svg
-                viewBox="0 0 24 24">
+        <li><a class="dropdown-item btn-logout" href="/html/auth/logout.php"><span class="app-icon"
+              aria-hidden="true"><svg viewBox="0 0 24 24">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                 <path d="m16 17 5-5-5-5"></path>
                 <path d="M21 12H9"></path>

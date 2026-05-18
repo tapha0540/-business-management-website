@@ -181,21 +181,20 @@ class Produit
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public static function productsAtRiskOfOutOfStock(PDO &$pdo, int $limit): array
+    public static function productsAtRiskOfOutOfStock(PDO &$pdo): array
     {
         $stmt = $pdo->prepare("SELECT
-                                        p.id,
-                                        p.imgUrl,
-                                        p.nom,
-                                        p.quantite AS `Stock`,
-                                        p.seuil_critique AS `Seuil Critique`, 
-                                        ca.nom AS `Catégorie du produit`,
-                                        p.prix_vente AS `Prix du produit`
-                                    FROM produits p
-                                    JOIN categories ca ON p.categorie_id = ca.id
-                                    WHERE p.quantite <= p.seuil_critique
-                                    LIMIT :limit");
-        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+                                    p.id,
+                                    p.imgUrl,
+                                    p.nom,
+                                    p.quantite AS `Stock`,
+                                    p.seuil_critique AS `Seuil Critique`, 
+                                    ca.nom AS `Catégorie du produit`,
+                                    p.prix_vente AS `Prix du produit`
+                                FROM produits p
+                                JOIN categories ca ON p.categorie_id = ca.id
+                                WHERE p.quantite <= p.seuil_critique ");
+
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -266,7 +265,8 @@ class Produit
 
         return $success;
     }
-    public function getPrixVente() {
+    public function getPrixVente()
+    {
         return $this->prix_vente;
     }
 }

@@ -2,13 +2,13 @@
 
 require_once '../../config/app.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     try {
         require_once '../../config/database.php';
         require_once '../../models/Produit.php';
 
         $produitModel = new Produit($pdo);
-        $produitsFaibles = Produit::productsAtRiskOfOutOfStock($pdo, 10);
+        $produitsFaibles = Produit::productsAtRiskOfOutOfStock($pdo);
 
         echo json_encode([
             'message' => 'Produits en alerte récupérés',
@@ -28,3 +28,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'success' => false
     ]);
 }
+

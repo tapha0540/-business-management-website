@@ -79,7 +79,7 @@
                         <th>Catégorie</th>
                         <th>Prix</th>
                         <th class="text-success">Stock</th>
-                        <th  class="text-danger">Seuil critique</th>
+                        <th class="text-danger">Seuil critique</th>
                         <th>Créé le</th>
                         <th>Modifié le</th>
                         <th class="text-end col-w-140">Actions</th>
@@ -91,8 +91,8 @@
                     <tr id="produits-empty-state" class="table-empty">
                         <td colspan="10">
                             <div class="text-center prod-empty">
-                                <div class="mb-3"><span class="app-icon app-icon-xl"
-                                        aria-hidden="true"><svg viewBox="0 0 24 24">
+                                <div class="mb-3"><span class="app-icon app-icon-xl" aria-hidden="true"><svg
+                                            viewBox="0 0 24 24">
                                             <path d="M3 7h18v10H3z"></path>
                                             <path d="m3 7 9 7 9-7"></path>
                                         </svg></span></div>
@@ -141,8 +141,8 @@
                             name="produit-seuil-critique" placeholder="Seuil critque" min="0" value="0" required />
                     </div>
                     <div class="form-group p-2">
-                        <label for="produit-categorie">Categorie</label>
-                        <select name="produit-categorie" id="produit-categorie" required>
+                        <label for="produit-categorie-ajouter">Categorie</label>
+                        <select name="produit-categorie" id="produit-categorie-ajouter" required>
                             <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour
                                 le produit</option>
                         </select>
@@ -199,8 +199,8 @@
                             placeholder="Seuil critque" min="0" value="0" required />
                     </div>
                     <div class="form-group p-2">
-                        <label for="produit-categorie">Categorie</label>
-                        <select name="produit-categorie" id="produit-categorie" required>
+                        <label for="produit-categorie-modifier">Categorie</label>
+                        <select name="produit-categorie" id="produit-categorie-modifier" required>
                             <option value="---" disabled selected hidden class="text-muted">Choisir une catégorie pour
                                 le produit</option>
                         </select>
@@ -208,7 +208,7 @@
                     <div class="form-group p-2">
                         <label for="produit-img">Image du produit</label>
                         <input type="file" class="form-control border-primary border-1" id="produit-img"
-                            name="produit-img" placeholder="Seuil critque" accept="image/*" required />
+                            name="produit-img" placeholder="Seuil critque" accept="image/*" />
                         <img id="modifier-produit-img" width="100" height="100" class="m-2" />
                     </div>
                     <div class="form-group p-2">

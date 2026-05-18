@@ -9,7 +9,12 @@ const produitsTableDeleteSelectedBtn = document.getElementById(
 );
 const produitsTableLimit = document.getElementById("produits-table-limit");
 const produitsTableFilter = document.querySelectorAll(".produits-filter");
-const produitCategorieSelect = document.getElementById("produit-categorie");
+const produitCategorieSelectAjouter = document.getElementById(
+  "produit-categorie-ajouter",
+);
+const produitCategorieSelectModifier = document.getElementById(
+  "produit-categorie-modifier",
+);
 const ajouterProduitForm = document.getElementById("ajouter-produit-form");
 const ajouterProduitFormMessage = document.getElementById(
   "ajouter-produit-form-message",
@@ -32,7 +37,8 @@ const getProduitsSelectTagData = async () => {
     const option = document.createElement("option");
     option.innerText = categorie.nom;
     option.value = categorie.id;
-    produitCategorieSelect.appendChild(option);
+    produitCategorieSelectAjouter.appendChild(option);
+    produitCategorieSelectModifier.appendChild(option.cloneNode(true));
   });
 };
 
@@ -202,7 +208,7 @@ const modifierProduit = async (produitId) => {
   modifierProduitForm["produit-prix"].value = produit.prix_vente;
   modifierProduitForm["produit-quantite"].value = produit.quantite;
   modifierProduitForm["produit-seuil-critique"].value = produit.seuil_critique;
-  modifierProduitForm["produit-categorie"].value = produit.categorie;
+  modifierProduitForm["produit-categorie"].value = produit.categorie_id;
   modifierProduitForm["produit-description"].value = produit.description;
 
   modifierProduitImg.src = `http://localhost:8081/storage/uploads/images/produits/${produit.imgUrl}`;
@@ -212,7 +218,7 @@ const modifierProduit = async (produitId) => {
 const modifierProduitSubmit = async (e) => {
   e.preventDefault();
   const id = modifierProduitForm.dataset.currentId;
-  const file = modifierProduitForm["produit-img"].files[0];
+  const file = modifierProduitForm["produit-img"].files[0] ?? null;
   const base64Image = file ? await toBase64(file) : null;
 
   const formData = {

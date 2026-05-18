@@ -259,13 +259,42 @@ function drawChart(
   });
 }
 
-const notificationBell = document.getElementById("notification-bell");
-const notificationBadge = document.getElementById("notification-badge");
-const notificationPanel = document.getElementById("notification-panel");
-const notificationList = document.getElementById("notification-list");
-const notificationSummary = document.getElementById("notification-summary");
-const notificationRefreshBtn = document.getElementById("notification-refresh");
+const notificationBellSelector = "#notification-bell";
+const notificationBadgeSelector = "#notification-badge";
+const notificationPanelSelector = "#notification-panel";
+const notificationListSelector = "#notification-list";
+const notificationSummarySelector = "#notification-summary";
+const notificationRefreshBtnSelector = "#notification-refresh";
+
+const getNotificationBell = () => document.querySelector(notificationBellSelector);
+const getNotificationBadge = () => document.querySelector(notificationBadgeSelector);
+const getNotificationPanel = () => document.querySelector(notificationPanelSelector);
+const getNotificationList = () =>
+  document.querySelector(notificationListSelector) ||
+  document.querySelector(".notification-panel-body");
+const getNotificationSummary = () => document.querySelector(notificationSummarySelector);
+const getNotificationRefreshBtn = () => document.querySelector(notificationRefreshBtnSelector);
+
 let lowStockProduits = [];
+
+const fetchLowStockNotifications = async () => {
+  const serverRes = await fetchApi(
+    "http://localhost:8081/routes/produits/get_low_stock.php",
+    "GET",
+  );
+
+  console.log(serverRes);
+  if (!serverRes.success) {
+    return;
+  }
+  
+
+  lowStockProduits = serverRes.data || [];
+  console.log("low stock Produits: " + lowStockProduits);
+  
+  renderLowStockNotification();
+};
+
 
 const getStockFromLowStockRow = (row) =>
   Number(row.Stock ?? row.stock ?? row.quantite ?? 0);
@@ -276,7 +305,12 @@ const getSeuilFromLowStockRow = (row) =>
   );
 
 const renderLowStockNotification = () => {
-  if (!notificationBell || !notificationBadge) return;
+  const notificationBell = getNotificationBell();
+  const notificationBadge = getNotificationBadge();
+  const notificationSummary = getNotificationSummary();
+  const notificationList = getNotificationList();
+
+  if (!notificationBell || !notificationBadge || !notificationList) return;
 
   const count = lowStockProduits.length;
 
@@ -296,8 +330,6 @@ const renderLowStockNotification = () => {
         ? `${count} produit${count > 1 ? "s" : ""} à réapprovisionner`
         : "Aucun produit en alerte";
   }
-
-  if (!notificationList) return;
 
   notificationList.innerHTML = "";
 
@@ -327,49 +359,49 @@ const renderLowStockNotification = () => {
   });
 };
 
-const fetchLowStockNotifications = async () => {
-  const serverRes = await fetchApi(
-    "http://localhost:8081/routes/produits/get_low_stock.php",
-    "POST",
-    { limit: 10 },
-  );
 
-  if (!serverRes.success) {
-    return;
-  }
+const initLowStockNotifications = () => {
+  const notificationBell = getNotificationBell();
+  const notificationPanel = getNotificationPanel();
+  const notificationRefreshBtn = getNotificationRefreshBtn();
 
-  lowStockProduits = serverRes.data || [];
-  renderLowStockNotification();
+  notificationBell?.addEventListener("click", () => {
+    if (!notificationPanel) return;
+    const isHidden = notificationPanel.classList.toggle("d-none");
+    notificationBell.setAttribute("aria-expanded", String(!isHidden));
+  });
+
+  notificationRefreshBtn?.addEventListener("click", fetchLowStockNotifications);
+
+  document.addEventListener("click", (event) => {
+    if (
+      !notificationPanel ||
+      !notificationBell ||
+      notificationPanel.classList.contains("d-none")
+    ) {
+      return;
+    }
+
+    const target = event.target;
+    if (
+      target instanceof Node &&
+      !notificationPanel.contains(target) &&
+      !notificationBell.contains(target)
+    ) {
+      notificationPanel.classList.add("d-none");
+      notificationBell.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  fetchLowStockNotifications();
+  setInterval(fetchLowStockNotifications, 60000);
 };
 
-notificationBell?.addEventListener("click", () => {
-  if (!notificationPanel) return;
-  const isHidden = notificationPanel.classList.toggle("d-none");
-  notificationBell.setAttribute("aria-expanded", String(!isHidden));
-});
+globalThis.initLowStockNotifications = initLowStockNotifications;
 
-notificationRefreshBtn?.addEventListener("click", fetchLowStockNotifications);
-
-document.addEventListener("click", (event) => {
-  if (
-    !notificationPanel ||
-    !notificationBell ||
-    notificationPanel.classList.contains("d-none")
-  ) {
-    return;
-  }
-
-  const target = event.target;
-  if (
-    target instanceof Node &&
-    !notificationPanel.contains(target) &&
-    !notificationBell.contains(target)
-  ) {
-    notificationPanel.classList.add("d-none");
-    notificationBell.setAttribute("aria-expanded", "false");
-  }
-});
-
-fetchLowStockNotifications();
-setInterval(fetchLowStockNotifications, 60000);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initLowStockNotifications);
+} else {
+  initLowStockNotifications();
+}
 

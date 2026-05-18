@@ -187,6 +187,19 @@ section.col-10.d-flex.flex-column {
   gap: 0.35rem;
 }
 
+.date-time-stack {
+  color: #111827;
+  line-height: 1.15;
+  min-width: 92px;
+  text-transform: lowercase;
+}
+
+.date-time-stack small {
+  color: #6b7280;
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
 #produits-table .table-actions-cell,
 #clients-table .table-actions-cell,
 #utilisateurs-table .table-actions-cell {

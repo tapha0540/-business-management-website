@@ -5,13 +5,16 @@ function EnregistrerUtilisateurImg($base64Image)
     if (!$base64Image)
         return null;
 
-    // Extraire type + data
-    list($type, $data) = explode(';', $base64Image);
-    list(, $data) = explode(',', $data);
+    if (strpos($base64Image, ';') === false || strpos($base64Image, ',') === false) {
+        return null;
+    }
+
+    list($type, $data) = explode(';', $base64Image, 2);
+    list(, $data) = explode(',', $data, 2);
 
     // Extraire extension
     preg_match('/data:image\/(.*)/', $type, $matches);
-    $ext = $matches[1];
+    $ext = strtolower($matches[1] ?? '');
 
     $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'];
 
@@ -19,11 +22,21 @@ function EnregistrerUtilisateurImg($base64Image)
         return null;
     }
 
-    $data = base64_decode($data);
+    $data = base64_decode($data, true);
+
+    if ($data === false) {
+        return null;
+    }
 
     $newName = 'utilisateur_' . uniqid('', true) . "." . $ext;
 
-    $destination = __DIR__ . "/../../storage/uploads/images/utilisateurs/" . $newName;
+    $directory = __DIR__ . "/../../storage/uploads/images/utilisateurs/";
+
+    if (!is_dir($directory)) {
+        mkdir($directory, 0775, true);
+    }
+
+    $destination = $directory . $newName;
 
     file_put_contents($destination, $data);
 

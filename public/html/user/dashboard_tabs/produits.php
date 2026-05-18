@@ -18,7 +18,7 @@
             <small class="text-muted">Gestion complète de vos produits</small>
         </div>
         <div class="table-actions">
-            <button class="btn btn-outline-secondary btn-sm">
+            <button class="btn btn-outline-secondary btn-sm d-none" aria-hidden="true" tabindex="-1">
                 <span class="app-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24">
                         <path d="M3 3v18h18"></path>

@@ -72,10 +72,12 @@ main {
   background-color: var(--dark-color) !important;
 }
 
-/* .text-color {
-  color: var(--text-light-color) !important;
-} */
-
 .text-primary {
   color: var(--primary-color) !important;
 }
+
+/* @media screen and (max-width: 738px) {
+  .hidden-on-mobile {
+    display: none;
+  }
+} */

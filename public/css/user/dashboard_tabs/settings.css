@@ -67,6 +67,11 @@
     object-fit: cover;
 }
 
+.profile-avatar-initials {
+    position: relative;
+    z-index: 1;
+}
+
 .profile-avatar.upload-area {
     cursor: pointer;
     transition: all 0.3s ease;
@@ -118,6 +123,22 @@
     font-size: 0.75rem;
     font-weight: 600;
     margin-top: 0.5rem;
+}
+
+.profile-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: end;
+}
+
+.profile-form .btn {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+#settings-profile-message {
+    grid-column: 1 / -1;
 }
 
 /* Forms */
@@ -301,6 +322,10 @@ input:checked + .slider:before {
         flex-direction: column;
         text-align: center;
         gap: 1rem;
+    }
+
+    .profile-form {
+        grid-template-columns: 1fr;
     }
 
     .settings-card {

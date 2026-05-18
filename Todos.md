@@ -6,6 +6,6 @@
 6. Cacher le button Statistique des tables si c'est inutilisée.
 7. Améliorer l'interface graphique de la page principale du table de bord.
 8. Modifier la date l'affichage de date et de l'heure en l'affichant verticalement avec d-flex flex-row en les surperposant.
-9. changer le format de date.
+9. changer le format de date en francais senegalais.
 
 

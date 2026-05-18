@@ -85,12 +85,16 @@ class UtilisateurController
             require_once __DIR__ . '/../utils/utilisateurs/enregistrerUtilisateurImg.php';
             require_once __DIR__ . '/../utils/utilisateurs/deleteUtilisateurImg.php';
 
+            $imgUrl = EnregistrerUtilisateurImg($image);
+
+            if (!$imgUrl) {
+                throw new Exception('Image de profil invalide');
+            }
+
             // Delete old image if exists
             if ($user['imgUrl']) {
                 deleteUtilisateurImage($user['imgUrl']);
             }
-
-            $imgUrl = EnregistrerUtilisateurImg($image);
         }
 
         return $userModel->update($prenom, $nom, $email, $mot_de_passe, $imgUrl);

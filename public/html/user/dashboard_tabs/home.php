@@ -1,6 +1,24 @@
 ﻿
 <div class="home-container w-100">
+    <div class="home-hero">
+        <div>
+            <span class="home-eyebrow">Vue principale</span>
+            <h2>Bonjour <?= htmlspecialchars($user['prenom'] ?? 'Utilisateur') ?> 👋</h2>
+            <p>Suivez les ventes, les commandes et les alertes stock depuis un seul espace.</p>
+        </div>
+        <div class="home-hero-chip">
+            <span>Format régional</span>
+            <strong>Français · Sénégal</strong>
+        </div>
+    </div>
+
     <div class="chart-card flex-fill">
+        <div class="chart-card-header">
+            <div>
+                <span class="home-eyebrow">Performance</span>
+                <h5>Chiffre d'affaires mensuel</h5>
+            </div>
+        </div>
         <canvas id="home-canvas" width="700"></canvas>
     </div>
     
@@ -59,6 +77,6 @@
                 </tbody>
             </table>
         </div>
-        <div id="error-message"></div>
+        <div id="home-error-message"></div>
     </div>
 </div>

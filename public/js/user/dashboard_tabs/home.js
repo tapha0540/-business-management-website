@@ -4,6 +4,16 @@ const tableFirstRow = document.getElementById("first-row");
 const homeSpinner = document.getElementById("home-spinner");
 const homeDisplayTableBtn = document.getElementById("display-table-btn");
 
+const formatMonthFrSn = (monthKey) => {
+  const [year, month] = String(monthKey || "").split("-");
+  if (!year || !month) return monthKey || "";
+
+  return new Intl.DateTimeFormat("fr-SN", {
+    month: "long",
+    year: "numeric",
+  }).format(new Date(Number(year), Number(month) - 1, 1));
+};
+
 const fetchHomeTableData = async (e) => {
   if (e) {
     e.preventDefault();
@@ -25,8 +35,10 @@ const fetchHomeTableData = async (e) => {
     if (!serverRes.success) {
       errorMsg.textContent =
         serverRes.message || "Erreur le serveur ne repond pas.";
+      return;
     }
 
+    errorMsg.textContent = "";
     renderTable(serverRes.data, "home-table");
   } catch (err) {
     console.error(err);
@@ -48,12 +60,13 @@ const getMonthlyRevenue = async () => {
    if (!serverRes.success) {
       errorMsg.textContent =
         serverRes.message || "Erreur le serveur ne repond pas.";
+      return;
     }
   if (serverRes.data) {
     const chart = drawChart(
       "home-canvas",
       "bar",
-      serverRes.data.map((item) => `${item.mois_nom} ${item.mois_annee.split('-')[0]}`),
+      serverRes.data.map((item) => formatMonthFrSn(item.mois_annee)),
       serverRes.data.map((item) => item.chiffre_affaire),
       "Chiffre d'affaires mensuel",
     );

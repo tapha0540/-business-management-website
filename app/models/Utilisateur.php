@@ -191,14 +191,19 @@ class Utilisateur
         $sql = 'UPDATE utilisateurs SET ' . implode(', ', $fields) . ' WHERE id = :id';
         $stmt = $this->pdo->prepare($sql);
         $success = $stmt->execute($params);
-        if ($success) {
-            $_SESSION['user']['prenom'] = $prenom;
-            $_SESSION['user']['nom'] = $nom;
-            $_SESSION['user']['email'] = $email;
+        if ($success && session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['user']['id']) && (int) $_SESSION['user']['id'] === (int) $this->id) {
+            if ($prenom !== null) {
+                $_SESSION['user']['prenom'] = $prenom;
+            }
+            if ($nom !== null) {
+                $_SESSION['user']['nom'] = $nom;
+            }
+            if ($email !== null) {
+                $_SESSION['user']['email'] = $email;
+            }
             if ($imgUrl !== null) {
                 $_SESSION['user']['imgUrl'] = $imgUrl;
             }
-
         }
         return $success;
     }

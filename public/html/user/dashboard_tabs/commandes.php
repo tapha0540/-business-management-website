@@ -9,14 +9,14 @@
             <small class="text-muted">Vue d'ensemble des commandes récentes</small>
         </div>
         <div class="table-actions">
-            <button class="btn btn-outline-secondary btn-sm" type="button">
+            <!-- <button class="btn btn-outline-secondary btn-sm" type="button">
                 <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
                         <path d="M3 3v18h18"></path>
                         <rect x="7" y="11" width="3" height="6"></rect>
                         <rect x="12" y="8" width="3" height="9"></rect>
                         <rect x="17" y="6" width="3" height="11"></rect>
                     </svg></span> Statistiques
-            </button>
+            </button> -->
             <button class="btn btn-outline-danger btn-sm" id="commandes-delete-selected" type="button" disabled>
                 <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
                         <path d="M3 6h18"></path>
@@ -51,7 +51,7 @@
                 <select id="commandes-filter-status" class="form-select form-select-sm">
                     <option value="all">Tous les statuts</option>
                     <option value="en_cours">En cours</option>
-                    <option value="cloturee">Cloturée</option>
+                    <option value="cloturee">Clôturée</option>
                     <option value="annulee">Annulée</option>
                 </select>
                 <input type="number" name="commandes-table-limit" id="commandes-table-limit" min="1" value="10" required
@@ -75,7 +75,7 @@
                 <tbody>
                     <!-- Empty state row shown when no data -->
                     <tr class="table-empty">
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="text-center cmd-empty py-5">
                                 <p class="mb-2"><strong>Aucune commande trouvée</strong></p>
                                 <p class="small text-muted">Vous n'avez pas encore de commandes.</p>
@@ -160,7 +160,8 @@
                         </datalist>
                     </div>
 
-                    <button type="button" class="btn btn-outline-secondary btn-sm mb-2" id="btn-ajouter-produit-modifier">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mb-2"
+                        id="btn-ajouter-produit-modifier">
                         + Ajouter un produit
                     </button>
 
@@ -180,6 +181,11 @@
                     <div class="mt-3 text-end">
                         <strong>Montant total: <span id="commande-montant-total">0</span> FCFA</strong>
                     </div>
+                    <select name="product-status" class="form-select form-select-sm mt-3">
+                        <option value="en_cours">En cours</option>
+                        <option value="cloturee">Clôturée</option>
+                        <option value="annulee">Annulée</option>
+                    </select>
                     <div id="modifier-commande-message" class="small mt-2"></div>
                 </form>
             </div>
@@ -190,12 +196,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-

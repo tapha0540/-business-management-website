@@ -59,23 +59,29 @@ const afficherCommandesTableDonnee = (data) => {
         statusBadge = `<span class="badge bg-warning">En cours</span>`;
       }
       if (commande.etat === "cloturee") {
-        statusBadge = `<span class="badge bg-success">Cloturée</span>`;
+        statusBadge = `<span class="badge bg-success">Clôturée</span>`;
       }
       if (commande.etat === "annulee") {
         statusBadge = `<span class="badge bg-danger">Annulée</span>`;
       }
+
+      const closeButton =
+        commande.etat === "en_cours"
+          ? `<button class="btn btn-outline-success btn-sm cloturer-commande icon-btn" data-id="${commande.id}" title="Clôturer" aria-label="Clôturer"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></span></button>`
+          : "";
 
       const tr = document.createElement("tr");
 
       tr.innerHTML = `
         <td><input type="checkbox" value="${commande.id}" /></td>
         <td>#${commande.id}</td>
-        <td>${commande.vendeur_nom ?? commande.vendeur_id}</td>
-        <td>${commande.client_nom ?? commande.client_id}</td>
-        <td>${commande.created_at}</td>
+        <td>${typeof escapeHtml === "function" ? escapeHtml(commande.vendeur_nom ?? commande.vendeur_id) : (commande.vendeur_nom ?? commande.vendeur_id)}</td>
+        <td>${typeof escapeHtml === "function" ? escapeHtml(commande.client_nom ?? commande.client_id) : (commande.client_nom ?? commande.client_id)}</td>
+        <td>${typeof formatAppDateTimeHtml === "function" ? formatAppDateTimeHtml(commande.created_at) : commande.created_at}</td>
         <td>${statusBadge}</td>
         <td class="table-actions-cell">
             <button class="btn btn-outline-primary btn-sm voir-commande icon-btn" data-id="${commande.id}" title="Voir" aria-label="Voir" data-bs-toggle="modal" data-bs-target="#modal-details-commande"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></span></button>
+            ${closeButton}
             <button class="btn btn-outline-danger btn-sm supprimer-commande icon-btn" data-id="${commande.id}" title="Supprimer" aria-label="Supprimer"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span></button>
         </td>
       `;
@@ -262,6 +268,13 @@ const addProduitRowToUpdateModal = async () => {
 commandesTableTbody.addEventListener("click", async (e) => {
   const viewBtn = e.target.closest(".voir-commande");
   const deleteBtn = e.target.closest(".supprimer-commande");
+  const closeBtn = e.target.closest(".cloturer-commande");
+
+  if (closeBtn) {
+    const commandeIdToClose = Number(closeBtn.getAttribute("data-id"));
+    clotureeCommande(commandeIdToClose);
+    return;
+  }
 
   if (deleteBtn) {
     const commandeIdToDelete = Number(deleteBtn.getAttribute("data-id"));
@@ -299,6 +312,7 @@ commandesTableTbody.addEventListener("click", async (e) => {
   if (formModifierCommande) {
     formModifierCommande["commande-id"].value = commandeId;
     formModifierCommande["commande-client"].value = commande.client_id || "";
+    formModifierCommande["product-status"].value = commande.etat || "en_cours";
   }
 
   produits.forEach((p) => {
@@ -435,6 +449,9 @@ const AjouterCommande = async () => {
     formAjouterCommande.reset();
     document.getElementById("commande-produits-container").innerHTML = "";
     fetchCommandesTableDonnee();
+    if (typeof fetchLowStockNotifications === "function") {
+      fetchLowStockNotifications();
+    }
   } else {
     alert(serverRes.message || "Erreur côté serveur lors de l'ajout de la commande");
   }
@@ -476,6 +493,7 @@ const modifierCommande = async () => {
 
   const commandeId = Number(formModifierCommande["commande-id"].value);
   const clientId = Number(formModifierCommande["commande-client"].value);
+  const status = formModifierCommande['product-status'].value;
 
   const detailsRows = Array.from(
     document.querySelectorAll("#details-produits-liste tr"),
@@ -514,6 +532,7 @@ const modifierCommande = async () => {
       id: commandeId,
       client_id: clientId,
       details,
+      status
     },
   );
 
@@ -527,6 +546,9 @@ const modifierCommande = async () => {
 
   if (serverRes.success) {
     fetchCommandesTableDonnee();
+    if (typeof fetchLowStockNotifications === "function") {
+      fetchLowStockNotifications();
+    }
     const modalEl = document.getElementById("modal-details-commande");
     const modalInstance = bootstrap.Modal.getInstance(modalEl);
     modalInstance?.hide();
@@ -543,10 +565,24 @@ formAjouterCommande.addEventListener("submit", (e) => {
   AjouterCommande();
 });
 
-commandesDeleteSelectedBtn?.addEventListener("click", supprimerCommandesSelectionner);
+const clotureeCommande = async (commandeId) => {
+  if (!confirm("Clôturer cette commande et générer la facture ?")) return;
 
+   const serverRes = await fetchApi(
+    "http://localhost:8081/routes/commandes/cloturee.php",
+    "POST",
+    {
+      id: commandeId,
+    },
+  );
+
+  if (serverRes.success) {
+    alert(serverRes.message || "Commande clôturée avec succès");
+    fetchCommandesTableDonnee();
+  } else {
+    alert(serverRes.message || "Erreur lors de la clôture de la commande");
+  }
+};
+
+commandesDeleteSelectedBtn.addEventListener("click", supprimerCommandesSelectionner);
 fetchCommandesTableDonnee();
-
-
-
-

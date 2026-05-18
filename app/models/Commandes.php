@@ -101,7 +101,7 @@ class Commandes
         if (!in_array($new_etat, ['en_cours', 'cloturee', 'annulee'])) {
             throw new InvalidArgumentException("variable etat doit etre egale en_cours, cloturee ou annulee.");
         }
-        $stmt = $this->pdo->prepare("UPDATE commandes SET etat = :etat WHERE id = :id");
+        $stmt = $this->pdo->prepare("UPDATE commandes SET etat = :etat, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
 
         $isUpdated = $stmt->execute([
             'etat' => $new_etat,

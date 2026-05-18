@@ -1,4 +1,93 @@
-﻿function renderTable(data, tableId, addCheckboxes = false) {
+﻿function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function parseAppDate(value) {
+  if (!value || typeof value !== "string") return null;
+
+  const trimmed = value.trim();
+  const mysqlDateMatch = trimmed.match(
+    /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?/,
+  );
+
+  if (mysqlDateMatch) {
+    const [, year, month, day, hour = "00", minute = "00", second = "00"] =
+      mysqlDateMatch;
+    return new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hour),
+      Number(minute),
+      Number(second),
+    );
+  }
+
+  const frDateMatch = trimmed.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (frDateMatch) {
+    const [, day, month, year] = frDateMatch;
+    return new Date(Number(year), Number(month) - 1, Number(day));
+  }
+
+  const date = new Date(trimmed);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function isDateLikeKey(key) {
+  const normalized = String(key)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+  return (
+    normalized.includes("date") ||
+    normalized.includes("created") ||
+    normalized.includes("updated") ||
+    normalized.includes("cree le") ||
+    normalized.includes("commande le") ||
+    normalized.includes("cloture le") ||
+    normalized.includes("cloturee le")
+  );
+}
+
+function formatAppDateTimeHtml(value) {
+  const date = parseAppDate(value);
+
+  if (!date) {
+    return escapeHtml(value);
+  }
+
+  const dateLabel = new Intl.DateTimeFormat("fr-SN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+
+  const hasTime =
+    typeof value === "string" &&
+    /[ T]\d{2}:\d{2}(?::\d{2})?/.test(value.trim());
+
+  const timeLabel = hasTime
+    ? new Intl.DateTimeFormat("fr-SN", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }).format(date)
+    : "";
+
+  return `
+    <span class="date-time-stack d-inline-flex flex-column align-items-center">
+      <span>${escapeHtml(dateLabel)}</span>
+      ${timeLabel ? `<small>${escapeHtml(timeLabel)}</small>` : ""}
+    </span>
+  `;
+}
+
+function renderTable(data, tableId, addCheckboxes = false) {
   const table = document.getElementById(tableId);
   table.innerHTML = "";
 
@@ -89,7 +178,11 @@
     Object.keys(row).forEach((key) => {
       if (key !== "imgUrl") {
         const td = document.createElement("td");
-        td.textContent = row[key];
+        if (isDateLikeKey(key)) {
+          td.innerHTML = formatAppDateTimeHtml(row[key]);
+        } else {
+          td.textContent = row[key];
+        }
         tr.appendChild(td);
       }
     });
@@ -131,8 +224,8 @@ function drawChart(
       ],
     },
     options: {
-      responsive: false,
-      maintainAspectRatio: true,
+      responsive: true,
+      maintainAspectRatio: false,
       scales:
         type === "bar" || type === "line"
           ? {
@@ -168,6 +261,10 @@ function drawChart(
 
 const notificationBell = document.getElementById("notification-bell");
 const notificationBadge = document.getElementById("notification-badge");
+const notificationPanel = document.getElementById("notification-panel");
+const notificationList = document.getElementById("notification-list");
+const notificationSummary = document.getElementById("notification-summary");
+const notificationRefreshBtn = document.getElementById("notification-refresh");
 let lowStockProduits = [];
 
 const getStockFromLowStockRow = (row) =>
@@ -192,6 +289,42 @@ const renderLowStockNotification = () => {
     notificationBadge.classList.add("d-none");
     notificationBell.title = "Aucun produit en seuil critique";
   }
+
+  if (notificationSummary) {
+    notificationSummary.textContent =
+      count > 0
+        ? `${count} produit${count > 1 ? "s" : ""} à réapprovisionner`
+        : "Aucun produit en alerte";
+  }
+
+  if (!notificationList) return;
+
+  notificationList.innerHTML = "";
+
+  if (count === 0) {
+    notificationList.innerHTML = `
+      <div class="notification-empty">
+        Tout va bien côté stock. On respire un peu.
+      </div>
+    `;
+    return;
+  }
+
+  lowStockProduits.forEach((produit) => {
+    const item = document.createElement("div");
+    item.className = "notification-item";
+    const stock = getStockFromLowStockRow(produit);
+    const seuil = getSeuilFromLowStockRow(produit);
+
+    item.innerHTML = `
+      <div>
+        <strong>${escapeHtml(produit.nom ?? "Produit sans nom")}</strong>
+        <small>Seuil critique : ${seuil}</small>
+      </div>
+      <span class="notification-stock-pill">Stock ${stock}</span>
+    `;
+    notificationList.appendChild(item);
+  });
 };
 
 const fetchLowStockNotifications = async () => {
@@ -210,19 +343,31 @@ const fetchLowStockNotifications = async () => {
 };
 
 notificationBell?.addEventListener("click", () => {
-  if (!lowStockProduits.length) {
-    alert("Aucun produit n'est actuellement en seuil critique.");
+  if (!notificationPanel) return;
+  const isHidden = notificationPanel.classList.toggle("d-none");
+  notificationBell.setAttribute("aria-expanded", String(!isHidden));
+});
+
+notificationRefreshBtn?.addEventListener("click", fetchLowStockNotifications);
+
+document.addEventListener("click", (event) => {
+  if (
+    !notificationPanel ||
+    !notificationBell ||
+    notificationPanel.classList.contains("d-none")
+  ) {
     return;
   }
 
-  const details = lowStockProduits
-    .map(
-      (produit, index) =>
-        `${index + 1}. ${produit.nom} (stock: ${getStockFromLowStockRow(produit)}, seuil: ${getSeuilFromLowStockRow(produit)})`,
-    )
-    .join("\n");
-
-  alert(`Produits en seuil critique:\n\n${details}`);
+  const target = event.target;
+  if (
+    target instanceof Node &&
+    !notificationPanel.contains(target) &&
+    !notificationBell.contains(target)
+  ) {
+    notificationPanel.classList.add("d-none");
+    notificationBell.setAttribute("aria-expanded", "false");
+  }
 });
 
 fetchLowStockNotifications();

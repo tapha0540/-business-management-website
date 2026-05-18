@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../models/Commandes.php';
 require_once __DIR__ . '/../models/DetailsCommande.php';
+require_once __DIR__ . '/../models/Facture.php';
 require_once __DIR__ . '/../models/Produit.php';
 
 class CommandeController
@@ -43,26 +44,85 @@ class CommandeController
 
         $new_client_id = $data['client_id'] ?? null;
         $details = $data['details'] ?? null;
+        $new_etat = $data['etat'] ?? $data['status'] ?? null;
 
         if ($new_client_id !== null || $details !== null) {
             if (!$new_client_id || !is_array($details)) {
                 throw new Exception('client_id et details requis');
             }
-            return $cmd->updateClientAndDetails((int) $new_client_id, $details);
+            $success = $cmd->updateClientAndDetails((int) $new_client_id, $details);
+
+            if ($success && $new_etat) {
+                return $this->updateStatus($id, $new_etat);
+            }
+
+            $commande = $cmd->get($id);
+            if ($success && ($commande['etat'] ?? null) === 'cloturee') {
+                Facture::createOrUpdateForCommande($this->pdo, $id);
+            }
+
+            return $success;
         }
 
-        $new_etat = $data['etat'] ?? null;
         if (!$new_etat) {
             throw new Exception('etat requis');
         }
 
-        return $cmd->update($new_etat);
+        return $this->updateStatus($id, $new_etat);
     }
 
     public function delete(int $id)
     {
         $cmd = new Commandes($this->pdo, $id);
         return $cmd->delete();
+    }
+
+    public function updateStatus(int $commande_id, string $etat)
+    {
+        if ($etat === 'cloturee') {
+            return $this->closeOrder($commande_id);
+        }
+
+        if ($etat === 'annulee') {
+            return $this->cancelOrder($commande_id);
+        }
+
+        $cmd = new Commandes($this->pdo, $commande_id);
+        return $cmd->update($etat);
+    }
+
+    public function closeOrder(int $commande_id): array
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            $commandeModel = new Commandes($this->pdo);
+            $commande = $commandeModel->get($commande_id);
+
+            if (!$commande) {
+                throw new Exception('Commande introuvable');
+            }
+
+            if (($commande['etat'] ?? null) === 'annulee') {
+                throw new Exception('Une commande annulée ne peut pas être clôturée');
+            }
+
+            $cmd = new Commandes($this->pdo, $commande_id);
+            $cmd->update('cloturee');
+            $facture = Facture::createOrUpdateForCommande($this->pdo, $commande_id);
+
+            $this->pdo->commit();
+
+            return [
+                'success' => true,
+                'facture' => $facture
+            ];
+        } catch (Exception $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $e;
+        }
     }
 
     /**
@@ -170,6 +230,18 @@ class CommandeController
     {
         try {
             $this->pdo->beginTransaction();
+
+            $commandeModel = new Commandes($this->pdo);
+            $commande = $commandeModel->get($commande_id);
+
+            if (!$commande) {
+                throw new Exception('Commande introuvable');
+            }
+
+            if (($commande['etat'] ?? null) === 'annulee') {
+                $this->pdo->commit();
+                return true;
+            }
 
             // Récupérer tous les détails de la commande
             $sql = "SELECT produit_id, quantite FROM details_commande WHERE commande_id = :commande_id";

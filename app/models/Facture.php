@@ -10,11 +10,11 @@ class Facture
     private string $updated_at;
     public function __construct(
         PDO $pdo,
-        int $id,
-        int $commande_id,
-        float $montant_total,
-        string $created_at,
-        string $updated_at
+        int $id = 0,
+        int $commande_id = 0,
+        float $montant_total = 0,
+        string $created_at = '',
+        string $updated_at = ''
     ) {
         $this->pdo = $pdo;
         $this->id = (int) $id;
@@ -34,6 +34,59 @@ class Facture
         $this->id = (int) $this->pdo->lastInsertId();
         return $success;
     }
+
+    public static function getByCommandeId(PDO $pdo, int $commande_id): ?array
+    {
+        $stmt = $pdo->prepare("SELECT * FROM factures WHERE commande_id = :commande_id ORDER BY id DESC LIMIT 1");
+        $stmt->bindValue(':commande_id', $commande_id, PDO::PARAM_INT);
+
+        if (!$stmt->execute()) {
+            return null;
+        }
+
+        $facture = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $facture ?: null;
+    }
+
+    public static function calculateMontantTotal(PDO $pdo, int $commande_id): float
+    {
+        $stmt = $pdo->prepare("SELECT COALESCE(SUM(quantite * prix_vente), 0) AS montant_total FROM details_commande WHERE commande_id = :commande_id");
+        $stmt->bindValue(':commande_id', $commande_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return (float) ($stmt->fetch(PDO::FETCH_ASSOC)['montant_total'] ?? 0);
+    }
+
+    public static function createOrUpdateForCommande(PDO $pdo, int $commande_id): array
+    {
+        $montantTotal = self::calculateMontantTotal($pdo, $commande_id);
+        $facture = self::getByCommandeId($pdo, $commande_id);
+
+        if ($facture) {
+            $factureModel = new self(
+                $pdo,
+                (int) $facture['id'],
+                (int) $facture['commande_id'],
+                (float) $facture['montant_total'],
+                (string) $facture['created_at'],
+                (string) $facture['updated_at']
+            );
+            $factureModel->update($montantTotal);
+            $facture['montant_total'] = $montantTotal;
+            $facture['created'] = false;
+            return $facture;
+        }
+
+        $factureModel = new self($pdo, 0, $commande_id, $montantTotal);
+        $factureModel->create();
+
+        return [
+            'id' => $pdo->lastInsertId(),
+            'commande_id' => $commande_id,
+            'montant_total' => $montantTotal,
+            'created' => true
+        ];
+    }
     /**
      * Summary of get
      * @param int $id
@@ -49,6 +102,10 @@ class Facture
         }
 
         $facture = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$facture) {
+            return null;
+        }
 
         $this->__construct(
             $this->pdo,

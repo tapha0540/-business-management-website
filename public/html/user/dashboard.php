@@ -33,7 +33,7 @@ $estAdmin = $user['role'] == 'admin';
 
   <main class="row bg-light justify-content-center">
 
-    <section class="col h-100 p-0 border-5 border-primary shadow-sm rounded-2 bg-lighter ms-2">
+    <section class="hidden-on-mobile col h-100 p-0 border-5 border-primary shadow-sm rounded-2 bg-lighter ms-2">
       <h5 class="text-center my-3 text-lighter rounded-3">Gestion Commerciale</h5>
       <div class="nav flex-column nav-pills m-1 justify-content-center align-items-center row-gap-3 bg-lighter mt-4"
         id="v-pills-tab" role="tablist" aria-orientation="vertical">

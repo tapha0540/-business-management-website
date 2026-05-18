@@ -13,3 +13,17 @@ Stack trace:
 #1 {main}
   thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php on line 59
 \n C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php -> Cet email existe déjàTrueTrue
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[18-May-2026 22:30:41 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21
+[18-May-2026 22:30:41 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: AuthController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php:11
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php(21): AuthController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php on line 11
+
+ Database connection failed: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it[18-May-2026 22:30:45 Europe/Berlin] PHP Warning:  Undefined variable $pdo in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21
+[18-May-2026 22:30:45 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: AuthController::__construct(): Argument #1 ($pdo) must be of type PDO, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php on line 21 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php:11
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php(21): AuthController->__construct(NULL)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php on line 11
+falseTrueTrueTrueTrue

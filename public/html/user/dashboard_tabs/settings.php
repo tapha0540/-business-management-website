@@ -3,6 +3,12 @@
  * Settings Tab - User Profile & Account Management
  */
 $user = $_SESSION['user'] ?? [];
+$profileImage = $user['imgUrl'] ?? null;
+$profileImageSrc = $profileImage ? 'http://localhost:8081/storage/uploads/images/utilisateurs/' . rawurlencode(basename($profileImage)) : null;
+$profileInitials = strtoupper(
+    (substr($user['prenom'] ?? 'U', 0, 1)) .
+    (substr($user['nom'] ?? 'U', 0, 1))
+);
 ?>
 
 <div class="settings-container">
@@ -17,13 +23,13 @@ $user = $_SESSION['user'] ?? [];
 
         <div class="profile-header">
             <div class="profile-avatar upload-area">
-                <?php
-                $initials = strtoupper(
-                    (substr($user['prenom'] ?? 'U', 0, 1)) .
-                    (substr($user['nom'] ?? 'U', 0, 1))
-                );
-                echo $initials;
-                ?>
+                <?php if ($profileImageSrc): ?>
+                    <img src="<?= htmlspecialchars($profileImageSrc) ?>" alt="Photo de profil" id="profile-avatar-preview">
+                    <span class="profile-avatar-initials d-none"><?= htmlspecialchars($profileInitials) ?></span>
+                <?php else: ?>
+                    <img src="" alt="Photo de profil" id="profile-avatar-preview" class="d-none">
+                    <span class="profile-avatar-initials"><?= htmlspecialchars($profileInitials) ?></span>
+                <?php endif; ?>
                 <div class="upload-overlay"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
                             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-2h6l2 2h4a2 2 0 0 1 2 2z">
                             </path>
@@ -40,7 +46,7 @@ $user = $_SESSION['user'] ?? [];
             </div>
         </div>
 
-        <form id="settings-form-group" class="d-flex flex-column row-gap-2  align-items-center">
+        <form id="settings-form-group" class="profile-form">
             <div class="d-flex flex-column row-gap-2">
                 <label>Prénom</label>
                 <input class="form-control" type="text" name="prenom"
@@ -65,6 +71,7 @@ $user = $_SESSION['user'] ?? [];
                         <path d="M7 3v5h8"></path>
                     </svg></span>
                 Modifier</button>
+            <div id="settings-profile-message" class="small text-center"></div>
         </form>
     </div>
 
@@ -93,7 +100,7 @@ $user = $_SESSION['user'] ?? [];
                     placeholder="Confirmez le nouveau mot de passe">
             </div>
         </div>
-        <button class="btn btn-primary" onclick="changePassword()"><span class="app-icon" aria-hidden="true"><svg
+        <button type="button" class="btn btn-primary" onclick="changePassword()"><span class="app-icon" aria-hidden="true"><svg
                     viewBox="0 0 24 24">
                     <path d="M23 4v6h-6"></path>
                     <path d="M1 20v-6h6"></path>

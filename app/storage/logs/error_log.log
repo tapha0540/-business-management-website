@@ -1,1 +1,15 @@
-TrueTrue
+TrueTrue[18-May-2026 14:24:19 Europe/Berlin] PHP Warning:  Undefined array key "user" in C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php on line 9
+[18-May-2026 14:24:19 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php on line 9
+[18-May-2026 14:24:19 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: UtilisateurController::update(): Argument #1 ($id) must be of type int, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php on line 13 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php:59
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php(13): UtilisateurController->update(NULL, Array)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php on line 59
+[18-May-2026 14:24:22 Europe/Berlin] PHP Warning:  Undefined array key "user" in C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php on line 9
+[18-May-2026 14:24:22 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php on line 9
+[18-May-2026 14:24:22 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: UtilisateurController::update(): Argument #1 ($id) must be of type int, null given, called in C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php on line 13 and defined in C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php:59
+Stack trace:
+#0 C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php(13): UtilisateurController->update(NULL, Array)
+#1 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php on line 59
+\n C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php -> Cet email existe déjà

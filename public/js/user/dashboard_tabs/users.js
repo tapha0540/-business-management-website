@@ -19,8 +19,8 @@ const modifierUtilisateurForm = document.getElementById(
   "modifier-utilisateur-form",
 );
 const utilisateursSearchInput = document.getElementById('utilisateurs-search');
-
 const utilisateursTableLimit = document.getElementById('utilisateurs-table-limit'); 
+const utilisateursRole = document.getElementById('utilisateurs-role');
 
 const usersGetInitiales = (prenom = "", nom = "") => {
   const p = (prenom || "").trim().charAt(0);
@@ -61,7 +61,7 @@ const fetchUtilisateursTableData = async () => {
       {
         search: utilisateursSearchInput.value,
         limit: Number(utilisateursTableLimit.value),
-        role: ''
+        role: utilisateursRole.value ?? ""
       }
     );
 
@@ -259,3 +259,4 @@ fetchUtilisateursTableData();
 
 utilisateursSearchInput.onchange = () => fetchUtilisateursTableData();
 utilisateursTableLimit.onchange = () => fetchUtilisateursTableData();
+utilisateursRole.onchange = () => fetchUtilisateursTableData();

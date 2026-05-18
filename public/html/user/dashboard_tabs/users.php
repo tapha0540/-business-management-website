@@ -39,8 +39,15 @@
                 <input id="utilisateurs-search" type="search" class="form-control"
                     placeholder="Rechercher par nom, email...">
             </div>
-
-            <input type="number" id="utilisateurs-table-limit" min="1" value="10" class="form-control form-control-sm w-80" />
+            <div class="d-flex gap-2">
+                <select id="utilisateurs-role" class="form-select form-select-sm">
+                    <option value="">-- ---</option>
+                    <option value="admin">Admin</option>
+                    <option value="vendeur">Vendeur</option>
+                </select>
+                <input type="number" id="utilisateurs-table-limit" min="1" value="10"
+                    class="form-control form-control-sm w-80" />
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -96,8 +103,7 @@
                     <tr id="utilisateurs-empty-state" class="table-empty">
                         <td colspan="9">
                             <div class="text-center">
-                                <div><span class="app-icon app-icon-xl" aria-hidden="true"><svg
-                                            viewBox="0 0 24 24">
+                                <div><span class="app-icon app-icon-xl" aria-hidden="true"><svg viewBox="0 0 24 24">
                                             <path d="M3 7h18v10H3z"></path>
                                             <path d="m3 7 9 7 9-7"></path>
                                         </svg></span></div>
@@ -249,5 +255,3 @@
         </div>
     </div>
 </div>
-
-

@@ -1,0 +1,37 @@
+.commande-detail-rows {
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#commande-produits-container > div {
+    padding: 0.75rem;
+    border: 1px solid #eef2f7;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    background: #ffffff;
+}
+
+#details-produits-liste .form-control,
+#details-produits-liste .form-select {
+    min-width: 90px;
+}
+
+@media (max-width: 767.98px) {
+    .commande-detail-rows {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .commande-detail-rows .btn {
+        width: 100%;
+    }
+
+    #commande-produits-container {
+        padding: 0.5rem !important;
+        max-height: none;
+    }
+
+    #modal-details-commande table {
+        min-width: 620px;
+    }
+}

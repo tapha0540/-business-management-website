@@ -30,6 +30,23 @@ main {
   flex: 1;
 }
 
+img,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
 .bg-primary {
   background-color: var(--primary-color) !important;
 }

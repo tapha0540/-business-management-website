@@ -116,6 +116,7 @@
         align-items: center;
         gap: 0.75rem;
         flex-wrap: wrap;
+        min-width: 0;
     }
 
     .filter-group label {
@@ -266,5 +267,40 @@
 
         .btn-filter {
             width: 100%;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .home-container {
+            gap: 1rem;
+        }
+
+        .home-hero,
+        .filter-card,
+        .chart-card {
+            padding: 1rem;
+            border-radius: 16px;
+        }
+
+        .home-hero-chip {
+            width: 100%;
+        }
+
+        #home-canvas {
+            height: 260px !important;
+        }
+
+        .table-card h5 {
+            padding: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .home-hero h2 {
+            font-size: 1.35rem;
+        }
+
+        #home-canvas {
+            height: 220px !important;
         }
     }

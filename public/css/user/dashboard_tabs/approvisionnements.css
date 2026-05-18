@@ -15,3 +15,27 @@
 .approv-detail-row button {
     flex-shrink: 0;
 }
+
+@media (max-width: 767.98px) {
+    .approv-detail-row {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.75rem;
+        border: 1px solid #eef2f7;
+        border-radius: 12px;
+        background: #ffffff;
+    }
+
+    .approv-detail-row button,
+    #ajouter-detail-approv,
+    #ajouter-detail-modifier {
+        width: 100%;
+    }
+
+    #approvisionnement-details-container,
+    #approv-modifier-details-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}

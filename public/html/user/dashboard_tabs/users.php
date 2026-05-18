@@ -101,7 +101,7 @@
                     </tr>
 
                     <tr id="utilisateurs-empty-state" class="table-empty">
-                        <td colspan="9">
+                        <td colspan="8">
                             <div class="text-center">
                                 <div><span class="app-icon app-icon-xl" aria-hidden="true"><svg viewBox="0 0 24 24">
                                             <path d="M3 7h18v10H3z"></path>

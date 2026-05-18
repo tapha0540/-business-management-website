@@ -89,7 +89,7 @@
 
                     <!-- Empty state row shown when no data -->
                     <tr id="produits-empty-state" class="table-empty">
-                        <td colspan="8">
+                        <td colspan="10">
                             <div class="text-center prod-empty">
                                 <div class="mb-3"><span class="app-icon app-icon-xl"
                                         aria-hidden="true"><svg viewBox="0 0 24 24">

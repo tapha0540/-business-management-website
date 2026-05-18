@@ -21,8 +21,14 @@ main.row {
   padding: 0.4rem;
   overflow: visible;
   margin-bottom: 0 !important;
+  margin-left: 0;
+  margin-right: 0;
   display: flex;
   min-height: 0;
+}
+
+main.row > section {
+  min-width: 0;
 }
 
 section:first-child h5 {
@@ -56,6 +62,10 @@ section:first-child h5 {
 .nav-link {
   border-radius: 8px;
   transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.55rem;
 }
 
 .nav-link:hover {
@@ -75,6 +85,7 @@ section:first-child h5 {
 .tab-content {
   flex: 1;
   overflow-y: auto;
+  width: 100%;
 }
 
 .tab-content .tab-pane {
@@ -131,10 +142,12 @@ section.col-10.d-flex.flex-column {
 .cmd-card .card-header {
   background: #f8f9fa;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  gap: 1rem;
 }
 
 .cmd-card .search-input {
   max-width: 420px;
+  width: min(100%, 420px);
 }
 
 .cmd-card .table thead th {
@@ -148,6 +161,52 @@ section.col-10.d-flex.flex-column {
 
 .table-actions .btn + .btn {
   margin-left: 8px;
+}
+
+.table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.table-actions .btn + .btn {
+  margin-left: 0;
+}
+
+.cmd-card .card-body > .d-flex {
+  gap: 0.75rem;
+}
+
+.cmd-card .card-body > .d-flex > .d-flex {
+  flex-wrap: wrap;
+}
+
+.table-responsive {
+  border-radius: 12px;
+  scrollbar-width: thin;
+}
+
+.table-responsive table {
+  min-width: 780px;
+}
+
+.modal-body {
+  overflow-x: auto;
+}
+
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  width: 100%;
+}
+
+.modal-body .table {
+  min-width: 560px;
+}
+
+.modal-footer {
+  gap: 0.5rem;
 }
 
 .app-icon {
@@ -311,4 +370,214 @@ section.col-10.d-flex.flex-column {
 .spinner-lg {
   width: 50px;
   height: 50px;
+}
+
+@media (max-width: 1199.98px) {
+  section.col-10.d-flex.flex-column {
+    flex: 1 1 0;
+  }
+
+  .hidden-on-mobile {
+    flex: 0 0 230px;
+  }
+
+  .nav-link {
+    width: 88% !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  html,
+  body {
+    height: auto;
+    min-height: 100%;
+  }
+
+  body {
+    overflow: auto;
+  }
+
+  main.row {
+    min-height: 100vh;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start !important;
+    gap: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .hidden-on-mobile {
+    width: 100%;
+    height: auto !important;
+    flex: 0 0 auto;
+    margin-left: 0 !important;
+    position: sticky;
+    top: 0;
+    z-index: 900;
+  }
+
+  section:first-child h5 {
+    padding: 0.85rem 1rem;
+    border-radius: 0.65rem 0.65rem 0 0 !important;
+    font-size: 1rem;
+  }
+
+  #v-pills-tab {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    flex-wrap: nowrap;
+    gap: 0.5rem !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-top: 0 !important;
+    padding: 0.65rem;
+    scroll-snap-type: x mandatory;
+  }
+
+  #v-pills-tab .nav-link {
+    flex: 0 0 auto;
+    width: auto !important;
+    min-width: max-content;
+    padding: 0.65rem 0.85rem !important;
+    scroll-snap-align: start;
+  }
+
+  .nav-link:hover {
+    transform: translateY(-2px);
+  }
+
+  section.col-10.d-flex.flex-column {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    flex: 1 1 auto;
+  }
+
+  .tab-content,
+  .tab-pane {
+    overflow: visible;
+  }
+
+  .tab-pane {
+    padding: 0.75rem !important;
+  }
+
+  .cmd-card .card-header {
+    align-items: flex-start !important;
+    flex-direction: column;
+  }
+
+  .table-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 767.98px) {
+  main.row {
+    padding: 0.35rem;
+  }
+
+  section:first-child h5 {
+    display: none;
+  }
+
+  .hidden-on-mobile {
+    border-radius: 1rem !important;
+  }
+
+  #v-pills-tab {
+    border-radius: 1rem;
+  }
+
+  #v-pills-tab .nav-link {
+    font-size: 0.8rem !important;
+  }
+
+  .cmd-card {
+    border-radius: 1rem !important;
+  }
+
+  .cmd-card .card-body {
+    padding: 0.85rem;
+  }
+
+  .cmd-card .card-body > .d-flex {
+    align-items: stretch !important;
+  }
+
+  .cmd-card .search-input,
+  .cmd-card .card-body > .d-flex > .d-flex,
+  .cmd-card .card-body select,
+  .cmd-card .card-body input[type="number"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .table-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .table-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .table-responsive table {
+    min-width: 720px;
+    font-size: 0.82rem;
+  }
+
+  .table-avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .icon-btn {
+    width: 2.15rem;
+    height: 2.15rem;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+
+  .modal-content {
+    border-radius: 1rem;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .tab-pane {
+    padding: 0.5rem !important;
+  }
+
+  .cmd-card .card-header,
+  .cmd-card .card-body {
+    padding: 0.75rem;
+  }
+
+  .cmd-card h5 {
+    font-size: 1rem;
+  }
+
+  .cmd-card small {
+    font-size: 0.78rem;
+  }
+
+  .date-time-stack {
+    min-width: 78px;
+  }
 }

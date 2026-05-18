@@ -314,6 +314,10 @@ input:checked + .slider:before {
 }
 /* Responsive */
 @media (max-width: 768px) {
+    .settings-container {
+        max-width: 100%;
+    }
+
     .form-grid {
         grid-template-columns: 1fr;
     }
@@ -331,5 +335,28 @@ input:checked + .slider:before {
     .settings-card {
         padding: 1.5rem;
     }
+
+    .password-form,
+    .settings-form-group {
+        align-items: stretch !important;
+        width: 100%;
+    }
+
+    .settings-form-group > div,
+    .password-form .btn {
+        width: 100%;
+    }
 }
 
+@media (max-width: 480px) {
+    .settings-card {
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    .profile-avatar {
+        width: 96px;
+        height: 96px;
+        font-size: 2rem;
+    }
+}

@@ -194,6 +194,8 @@ const getProduit = async (id) => {
 
 const modifierProduit = async (produitId) => {
   const produit = await getProduit(produitId);
+  console.log(produit);
+
   if (!produit) return;
 
   modifierProduitForm["produit-nom"].value = produit.nom;

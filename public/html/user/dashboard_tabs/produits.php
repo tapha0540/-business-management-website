@@ -78,8 +78,8 @@
                         <th>Nom</th>
                         <th>Catégorie</th>
                         <th>Prix</th>
-                        <th>Stock</th>
-                        <th>Seuil critique</th>
+                        <th class="text-success">Stock</th>
+                        <th  class="text-danger">Seuil critique</th>
                         <th>Créé le</th>
                         <th>Modifié le</th>
                         <th class="text-end col-w-140">Actions</th>

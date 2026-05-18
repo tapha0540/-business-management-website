@@ -61,6 +61,7 @@ const afficherProduitsTableDonnee = (data) => {
   if (data && data.length > 0) {
     data.forEach((produit) => {
       const tr = document.createElement("tr");
+      tr.classList.add('text-center');
       tr.innerHTML = `
         <td><input type="checkbox" value="${produit.id}" class="produit-table-checkboxes" /> </td>
         <td>
@@ -72,8 +73,8 @@ const afficherProduitsTableDonnee = (data) => {
         <td>${produit.nom}</td>
         <td>${produit.categorie}</td>
         <td>${produit.prix_vente}</td>
-        <td>${produit.quantite}</td>
-        <td>${produit.seuil_critique}</td>
+        <td class="text-success">${produit.quantite}</td>
+        <td class="text-danger">${produit.seuil_critique}</td>
         <td>${produit.created_at}</td>
         <td>${produit.updated_at}</td>
         <td class="table-actions-cell">

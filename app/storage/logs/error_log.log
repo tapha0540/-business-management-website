@@ -12,4 +12,4 @@ Stack trace:
 #0 C:\Users\DELL\Dev\php\projet_final\app\routes\utilisateurs\update.php(13): UtilisateurController->update(NULL, Array)
 #1 {main}
   thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php on line 59
-\n C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php -> Cet email existe déjà
+\n C:\Users\DELL\Dev\php\projet_final\app\controllers\UtilisateurController.php -> Cet email existe déjàTrueTrue

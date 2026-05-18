@@ -41,7 +41,7 @@
             </div>
             <div class="d-flex gap-2">
                 <select id="utilisateurs-role" class="form-select form-select-sm">
-                    <option value="">-- ---</option>
+                    <option value="">-- Role --</option>
                     <option value="admin">Admin</option>
                     <option value="vendeur">Vendeur</option>
                 </select>

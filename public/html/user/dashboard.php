@@ -176,8 +176,8 @@ $estAdmin = $user['role'] == 'admin';
   </main>
 
   <script src="../../js/script.js"></script>
-  <!-- <script src="../../chart.js-4.5.1/dist/chart.umd.js"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../../chart.js-4.5.1/dist/chart.umd.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
   <script src="../../js/user/dashboard.js"></script>
   <script src="../../js/user/dashboard_tabs/categories.js"></script>
   <script src="../../js/user/dashboard_tabs/home.js"></script>

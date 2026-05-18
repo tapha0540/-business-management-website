@@ -46,9 +46,9 @@ class UtilisateurController
         return $user->create();
     }
 
-    public function getAll()
+    public function getAll(string $search, int $limit, string $role)
     {
-        return $this->model->getAll();
+        return $this->model->getAll($search, $limit, $role);
     }
 
     public function get(int $id)

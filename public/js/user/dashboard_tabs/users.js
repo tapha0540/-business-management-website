@@ -18,6 +18,9 @@ const ajouterUtilisateurForm = document.getElementById(
 const modifierUtilisateurForm = document.getElementById(
   "modifier-utilisateur-form",
 );
+const utilisateursSearchInput = document.getElementById('utilisateurs-search');
+
+const utilisateursTableLimit = document.getElementById('utilisateurs-table-limit'); 
 
 const usersGetInitiales = (prenom = "", nom = "") => {
   const p = (prenom || "").trim().charAt(0);
@@ -54,7 +57,12 @@ const fetchUtilisateursTableData = async () => {
   try {
     const serverRes = await fetchApi(
       "http://localhost:8081/routes/utilisateurs/get_all.php",
-      "GET",
+      "POST",
+      {
+        search: utilisateursSearchInput.value,
+        limit: Number(utilisateursTableLimit.value),
+        role: ''
+      }
     );
 
     if (serverRes.data && serverRes.data.length > 0) {
@@ -244,9 +252,10 @@ const modifierUtilisateurSubmit = async (e) => {
 };
 
 fetchUtilisateursTableData();
-if (ajouterUtilisateurForm)
   ajouterUtilisateurForm.onsubmit = ajouterUtilisateur;
-if (modifierUtilisateurForm)
   modifierUtilisateurForm.onsubmit = modifierUtilisateurSubmit;
-if (utilisateursTableDeleteSelectedBtn)
+
   utilisateursTableDeleteSelectedBtn.onclick = supprimerUtilisateurSelectionne;
+
+utilisateursSearchInput.onchange = () => fetchUtilisateursTableData();
+utilisateursTableLimit.onchange = () => fetchUtilisateursTableData();

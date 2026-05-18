@@ -94,9 +94,48 @@ class Utilisateur
         return $row;
     }
 
-    public function getAll(): array
+    public function getAll(string $search, int $limit, string $role): array
     {
-        $stmt = $this->pdo->query('SELECT id, prenom, nom, email, role, imgUrl, created_at, updated_at FROM utilisateurs');
+
+        $filter = "";
+        $searchNotEmpty = $search && trim($search);
+        $roleNotEmpty = $role && strlen(trim($role)) != 0;
+
+        if ($searchNotEmpty) {
+            $filter .= "WHERE prenom LIKE :search 
+            OR nom LIKE :search 
+            OR email LIKE :search";
+        }
+
+        if ($roleNotEmpty) {
+            if ($filter != "") {
+                $filter .= "AND role = :role";
+            } else {
+                $filter .= "WHERE role = :role";
+            }
+        }
+
+        $sql = "SELECT id, prenom, nom, email, role, imgUrl, created_at, updated_at 
+                FROM utilisateurs $filter
+                ORDER BY created_at DESC
+                LIMIT :limit";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+
+        if ($searchNotEmpty) {
+            $searchValue = "%" . trim($search) . "%";
+            $stmt->bindValue(':search', $searchValue, PDO::PARAM_STR);
+        }
+
+        if ($roleNotEmpty) {
+            $stmt->bindValue(':role', $role, PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

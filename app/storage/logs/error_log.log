@@ -26,4 +26,4 @@ Stack trace:
 #0 C:\Users\DELL\Dev\php\projet_final\app\routes\auth\login.php(21): AuthController->__construct(NULL)
 #1 {main}
   thrown in C:\Users\DELL\Dev\php\projet_final\app\controllers\AuthController.php on line 11
-falseTrueTrueTrueTrue
+falseTrueTrueTrueTrueTrue

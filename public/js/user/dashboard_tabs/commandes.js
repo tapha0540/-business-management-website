@@ -71,6 +71,9 @@ const afficherCommandesTableDonnee = (data) => {
           : "";
 
       const tr = document.createElement("tr");
+      const telechargerFacture = commande.etat === "cloturee" ?
+        `<a class="btn btn-sm btn-outline-success" href="http://localhost:8081/routes/commandes/facture_pdf.php?commande_id=${commande.id}">telecharger</a>`
+        : "";
 
       tr.innerHTML = `
         <td><input type="checkbox" value="${commande.id}" /></td>
@@ -80,6 +83,7 @@ const afficherCommandesTableDonnee = (data) => {
         <td>${typeof formatAppDateTimeHtml === "function" ? formatAppDateTimeHtml(commande.created_at) : commande.created_at}</td>
         <td>${statusBadge}</td>
         <td class="table-actions-cell">
+            ${telechargerFacture}
             <button class="btn btn-outline-primary btn-sm voir-commande icon-btn" data-id="${commande.id}" title="Voir" aria-label="Voir" data-bs-toggle="modal" data-bs-target="#modal-details-commande"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></span></button>
             ${closeButton}
             <button class="btn btn-outline-danger btn-sm supprimer-commande icon-btn" data-id="${commande.id}" title="Supprimer" aria-label="Supprimer"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg></span></button>
@@ -313,8 +317,13 @@ commandesTableTbody.addEventListener("click", async (e) => {
     formModifierCommande["commande-id"].value = commandeId;
     formModifierCommande["commande-client"].value = commande.client_id || "";
     formModifierCommande["product-status"].value = commande.etat || "en_cours";
-    factureTelechargerBtn = document.getElementById('telecharger-facture-btn');
-    factureTelechargerBtn.onclick = async () => await telechargerFacture(commandeId);
+    const factureTelechargerBtn = document.getElementById('telecharger-facture-btn');
+    if (commande.etat === "cloturee") {
+      factureTelechargerBtn.style.display = "inline";
+      factureTelechargerBtn.href = `http://localhost:8081/routes/commandes/facture_pdf.php?commande_id=${commande.id}`;
+    } else {
+      factureTelechargerBtn.style.display = "none";
+    }
   }
 
   produits.forEach((p) => {
@@ -588,41 +597,3 @@ const clotureeCommande = async (commandeId) => {
 
 commandesDeleteSelectedBtn.addEventListener("click", supprimerCommandesSelectionner);
 fetchCommandesTableDonnee();
-
-async function telechargerFacture(commandeId) {
-
-  const response = await fetch(
-    "http://localhost:8081/routes/commandes/facture_pdf.php",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: commandeId
-      })
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Erreur téléchargement PDF");
-  }
-
-  const blob = await response.blob();
-
-  const url = window.URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-
-  a.href = url;
-
-  a.download = `facture_${commandeId}.pdf`;
-
-  document.body.appendChild(a);
-
-  a.click();
-
-  a.remove();
-
-  window.URL.revokeObjectURL(url);
-}

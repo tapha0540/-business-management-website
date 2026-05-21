@@ -1,0 +1,204 @@
+[21-May-2026 20:43:33 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:32
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 32
+[21-May-2026 20:44:14 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:32
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 32
+[21-May-2026 20:44:38 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:33
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 33
+[21-May-2026 20:44:42 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:33
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 33
+[21-May-2026 20:45:12 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:33
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 33
+[21-May-2026 20:45:40 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:33
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 33
+[21-May-2026 20:46:12 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:33
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 33
+[21-May-2026 20:46:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:33
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 33
+[21-May-2026 20:46:45 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:7
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 7
+[21-May-2026 20:46:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:7
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 7
+[21-May-2026 20:46:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:7
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 7
+[21-May-2026 20:47:10 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:47:10 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:33
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 33
+[21-May-2026 20:47:52 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:47:52 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Dompdf\Dompdf" not found in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:33
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 33
+[21-May-2026 20:49:00 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:49:05 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:49:28 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:50:14 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:50:14 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:50:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:50:20 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:05 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:51:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:08 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 24
+[21-May-2026 20:51:08 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:32 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:36 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:42 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:51:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:52:02 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:52:03 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:52:03 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:52:03 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:52:04 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:52:04 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:52:04 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:52:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:53:01 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:53:02 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:53:03 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:53:15 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:53:37 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 20:53:42 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function genererPdf() in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:31
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 31
+[21-May-2026 22:32:08 Europe/Berlin] PHP Warning:  Undefined variable $dompdf in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:08 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadHtml() on null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:12 Europe/Berlin] PHP Warning:  Undefined variable $dompdf in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:12 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadHtml() on null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:18 Europe/Berlin] PHP Warning:  Undefined variable $dompdf in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:18 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadHtml() on null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:35 Europe/Berlin] PHP Warning:  Undefined variable $dompdf in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:35 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadHtml() on null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:38 Europe/Berlin] PHP Warning:  Undefined variable $dompdf in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:38 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadHtml() on null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:51 Europe/Berlin] PHP Warning:  Undefined variable $dompdf in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:32:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadHtml() on null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:33:00 Europe/Berlin] PHP Warning:  Undefined variable $dompdf in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+[21-May-2026 22:33:00 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to a member function loadHtml() on null in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php:30
+Stack trace:
+#0 {main}
+  thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30

@@ -20,17 +20,17 @@ function genererPdf(int $command_id, array $details_commandes)
         $nom = htmlspecialchars($details_commande['nom']);
         $categorie = htmlspecialchars($details_commande['categorie']);
 
-        $prix = (float)$details_commande['prix_vente'];
-        $quantite = (int)$details_commande['quantite'];
+        $prix = (float) $details_commande['prix_vente'];
+        $quantite = (int) $details_commande['quantite'];
 
         $sousTotal = $prix * $quantite;
 
         $imgUrl = !empty($details_commande['imgUrl'])
-            ? "http://localhost:8081/storage/uploads/images/produits/" . $details_commande['imgUrl']
+            ? __DIR__ . '/../../storage/uploads/images/produits/' . $details_commande['imgUrl']
             : "";
 
         $imageHtml = $imgUrl
-            ? "<img class='product-image' src='$imgUrl' alt='Produit'>"
+            ? "<img class='product-image' src='$imgUrl' alt='Produit' width='500' height='500'>"
             : "<div class='placeholder'>" . strtoupper($nom[0]) . "</div>";
 
         $tbody .= "
@@ -220,9 +220,6 @@ function genererPdf(int $command_id, array $details_commandes)
 
     $dompdf->render();
 
-    $file_name = "facture_$command_id.pdf";
-
-    $dompdf->stream($file_name, [
-        "Attachment" => false
-    ]);
+    header('Content-Type: application/pdf');
+    $dompdf->stream();
 }

@@ -188,7 +188,7 @@
                     </select>
                     <div id="modifier-commande-message" class="small mt-2"></div>
                 </form>
-                <button id="telecharger-facture-btn" class="btn btn-sm btn-outline-success">télécharger la facture</button>
+                <a id="telecharger-facture-btn" class="btn btn-sm btn-outline-success" href="#">télécharger la facture</a>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>

@@ -14,5 +14,5 @@ try {
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    error_log("\n Database connection failed: " . $e->getMessage(), 3, 'C:\Users\DELL\Dev\php\projet_final\app\storage\logs\error_log.log');
+    error_log("\n Database connection failed: " . $e->getMessage(), 3, __DIR__ . '/../storage/logs/error_log.log');
 }

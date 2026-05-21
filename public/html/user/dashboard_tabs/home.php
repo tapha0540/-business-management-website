@@ -1,5 +1,4 @@
-﻿
-<div class="home-container w-100">
+﻿<div class="home-container w-100">
     <div class="home-hero">
         <div>
             <span class="home-eyebrow">Vue principale</span>
@@ -21,7 +20,7 @@
         </div>
         <canvas id="home-canvas" width="700"></canvas>
     </div>
-    
+
     <div class="filter-card">
         <form id="dashboard-form" class="filter-form">
             <div class="filter-group">
@@ -56,17 +55,23 @@
             </div>
 
             <button type="submit" class="btn btn-filter">
-                <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></span>
+                <span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg></span>
                 Afficher
             </button>
         </form>
     </div>
 
     <?php $spinnerId = 'home-spinner';
-    require_once 'C:\Users\DELL\Dev\php\projet_final\public\html\component\spinner.php' ?>
+    require_once __DIR__ . '/../../component/spinner.php' ?>
 
     <div class="table-card">
-        <h5><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"></path><path d="M7 14l3-3 3 2 4-5"></path></svg></span> Résultats</h5>
+        <h5><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
+                    <path d="M3 3v18h18"></path>
+                    <path d="M7 14l3-3 3 2 4-5"></path>
+                </svg></span> Résultats</h5>
         <div class="table-responsive">
             <table id="home-table" class="table text-center">
                 <thead>

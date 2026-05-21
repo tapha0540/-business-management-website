@@ -278,4 +278,5 @@ class CommandeController
         return DetailsCommande::getByCommandeId($this->pdo, $commande_id);
 
     }
+
 }

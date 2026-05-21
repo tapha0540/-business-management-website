@@ -19,7 +19,7 @@ const modifierUtilisateurForm = document.getElementById(
   "modifier-utilisateur-form",
 );
 const utilisateursSearchInput = document.getElementById('utilisateurs-search');
-const utilisateursTableLimit = document.getElementById('utilisateurs-table-limit'); 
+const utilisateursTableLimit = document.getElementById('utilisateurs-table-limit');
 const utilisateursRole = document.getElementById('utilisateurs-role');
 
 const usersGetInitiales = (prenom = "", nom = "") => {
@@ -100,16 +100,22 @@ const fetchUtilisateursTableData = async () => {
         ).toLocaleDateString("fr-FR");
 
         const editBtn = newRow.querySelector(".btn-edit");
-        editBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          modifierUtilisateur(user.id);
-        });
-
         const deleteBtn = newRow.querySelector(".btn-delete");
-        deleteBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          supprimerUtilisateurs([user.id]);
-        });
+
+        if (user.role == 'vendeur') {
+          editBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            modifierUtilisateur(user.id);
+          });
+
+          deleteBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            supprimerUtilisateurs([user.id]);
+          });
+        } else {
+          editBtn.remove();
+          deleteBtn.remove();
+        }
 
         utilisateursTableTbody.appendChild(newRow);
       });
@@ -252,10 +258,10 @@ const modifierUtilisateurSubmit = async (e) => {
 };
 
 fetchUtilisateursTableData();
-  ajouterUtilisateurForm.onsubmit = ajouterUtilisateur;
-  modifierUtilisateurForm.onsubmit = modifierUtilisateurSubmit;
+ajouterUtilisateurForm.onsubmit = ajouterUtilisateur;
+modifierUtilisateurForm.onsubmit = modifierUtilisateurSubmit;
 
-  utilisateursTableDeleteSelectedBtn.onclick = supprimerUtilisateurSelectionne;
+utilisateursTableDeleteSelectedBtn.onclick = supprimerUtilisateurSelectionne;
 
 utilisateursSearchInput.onchange = () => fetchUtilisateursTableData();
 utilisateursTableLimit.onchange = () => fetchUtilisateursTableData();

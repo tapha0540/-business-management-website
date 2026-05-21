@@ -105,36 +105,24 @@ class DetailsCommande
 
         return $details;
     }
-    /**
-     * Getters pour accéder aux propriétés privées
-     */
-    public function getId(): int
+    public static function getFactureInfo(PDO &$pdo, int $command_id)
     {
-        return $this->id;
-    }
-    public function getCommandeId(): int
-    {
-        return $this->commande_id;
-    }
-    public function getProduitId(): int
-    {
-        return $this->produit_id;
-    }
-    public function getQuantite(): int
-    {
-        return $this->quantite;
-    }
-    public function getPrixVente(): float
-    {
-        return $this->prix_vente;
-    }
-    public function getCreatedAt(): string
-    {
-        return $this->created_at;
-    }
-    public function getUpdatedAt(): string
-    {
-        return $this->updated_at;
+        $stmt = $pdo->prepare("SELECT
+                                p.nom,
+                                p.imgUrl,
+                                d.prix_vente,
+                                d.quantite,
+                                ca.nom AS categorie
+                            FROM commandes c
+                            JOIN details_commande d ON c.id = d.commande_id
+                            JOIN produits p ON  d.produit_id = p.id
+                            JOIN categories ca on p.categorie_id = ca.id
+                            WHERE d.commande_id = :commande_id
+                            ");
+
+        $stmt->execute(['commande_id' => $command_id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

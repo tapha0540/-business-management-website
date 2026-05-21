@@ -313,6 +313,8 @@ commandesTableTbody.addEventListener("click", async (e) => {
     formModifierCommande["commande-id"].value = commandeId;
     formModifierCommande["commande-client"].value = commande.client_id || "";
     formModifierCommande["product-status"].value = commande.etat || "en_cours";
+    factureTelechargerBtn = document.getElementById('telecharger-facture-btn');
+    factureTelechargerBtn.onclick = async () => await telechargerFacture(commandeId);
   }
 
   produits.forEach((p) => {
@@ -568,7 +570,7 @@ formAjouterCommande.addEventListener("submit", (e) => {
 const clotureeCommande = async (commandeId) => {
   if (!confirm("Clôturer cette commande et générer la facture ?")) return;
 
-   const serverRes = await fetchApi(
+  const serverRes = await fetchApi(
     "http://localhost:8081/routes/commandes/cloturee.php",
     "POST",
     {
@@ -586,3 +588,41 @@ const clotureeCommande = async (commandeId) => {
 
 commandesDeleteSelectedBtn.addEventListener("click", supprimerCommandesSelectionner);
 fetchCommandesTableDonnee();
+
+async function telechargerFacture(commandeId) {
+
+  const response = await fetch(
+    "http://localhost:8081/routes/commandes/facture_pdf.php",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: commandeId
+      })
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Erreur téléchargement PDF");
+  }
+
+  const blob = await response.blob();
+
+  const url = window.URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+
+  a.download = `facture_${commandeId}.pdf`;
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  window.URL.revokeObjectURL(url);
+}

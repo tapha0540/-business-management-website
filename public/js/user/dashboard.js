@@ -74,9 +74,9 @@ function formatAppDateTimeHtml(value) {
 
   const timeLabel = hasTime
     ? new Intl.DateTimeFormat("fr-SN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }).format(date)
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date)
     : "";
 
   return `
@@ -202,6 +202,7 @@ function drawChart(
   data,
   label = "Dataset",
   othersDatasets = [],
+  titleText = "Monthly Sales",
 ) {
   const ctx = document.getElementById(canvasId).getContext("2d");
 
@@ -229,24 +230,24 @@ function drawChart(
       scales:
         type === "bar" || type === "line"
           ? {
-              x: {
-                ticks: {
-                  color: "#ff4d00", // X-axis labels color
-                },
+            x: {
+              ticks: {
+                color: "#ff4d00", // X-axis labels color
               },
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  color: "#", // Y-axis labels color
-                },
+            },
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: "#", // Y-axis labels color
               },
-            }
+            },
+          }
           : {},
     },
     plugins: {
       title: {
         display: true,
-        text: "Monthly Sales",
+        text: titleText,
         color: "red", // Title color
         font: { size: 18 },
       },
@@ -287,11 +288,11 @@ const fetchLowStockNotifications = async () => {
   if (!serverRes.success) {
     return;
   }
-  
+
 
   lowStockProduits = serverRes.data || [];
   console.log("low stock Produits: " + lowStockProduits);
-  
+
   renderLowStockNotification();
 };
 

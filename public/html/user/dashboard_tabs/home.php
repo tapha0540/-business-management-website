@@ -29,14 +29,9 @@
             </div>
 
             <div class="filter-group">
-                <select name="search" required>
-                    <option value="latest-orders">dernières commandes</option>
-                    <option value="best-orders">meilleures commandes par montant</option>
-                    <option value="best-sellers">meilleurs vendeurs</option>
-                    <option value="most-sold-products">produits les plus vendus</option>
-                    <option value="best-customers">meilleurs clients</option>
-                    <option value="product-at-risk-of-out-of-stock">produits en risque de rupture</option>
-                </select>
+                <label>Métriques</label>
+                <p class="metrics-note">Tous les graphiques sont mis à jour selon la période et le nombre de résultats.
+                </p>
             </div>
 
             <div class="filter-group">
@@ -67,21 +62,61 @@
     <?php $spinnerId = 'home-spinner';
     require_once __DIR__ . '/../../component/spinner.php' ?>
 
-    <div class="table-card">
-        <h5><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24">
-                    <path d="M3 3v18h18"></path>
-                    <path d="M7 14l3-3 3 2 4-5"></path>
-                </svg></span> Résultats</h5>
-        <div class="table-responsive">
-            <table id="home-table" class="table text-center">
-                <thead>
-                    <tr>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+    <div class="charts-grid">
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <span class="home-eyebrow">Dernières commandes</span>
+                    <h5>Commandes récentes</h5>
+                </div>
+            </div>
+            <canvas id="latest-orders-canvas"></canvas>
         </div>
-        <div id="home-error-message"></div>
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <span class="home-eyebrow">Meilleures commandes</span>
+                    <h5>Top commandes par montant</h5>
+                </div>
+            </div>
+            <canvas id="best-orders-canvas"></canvas>
+        </div>
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <span class="home-eyebrow">Meilleurs vendeurs</span>
+                    <h5>Vendeurs les plus performants</h5>
+                </div>
+            </div>
+            <div class="table-card-inner" id="best-sellers-table"></div>
+        </div>
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <span class="home-eyebrow">Produits les plus vendus</span>
+                    <h5>Quantités commandées</h5>
+                </div>
+            </div>
+            <canvas id="most-sold-products-canvas"></canvas>
+        </div>
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <span class="home-eyebrow">Meilleurs clients</span>
+                    <h5>Clients les plus actifs</h5>
+                </div>
+            </div>
+            <div class="table-card-inner" id="best-customers-table"></div>
+        </div>
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <div>
+                    <span class="home-eyebrow">Risque de rupture</span>
+                    <h5>Stock critique</h5>
+                </div>
+            </div>
+            <canvas id="product-at-risk-of-out-of-stock-canvas"></canvas>
+        </div>
     </div>
+    <div id="home-error-message"></div>
 </div>

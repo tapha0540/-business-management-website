@@ -202,3 +202,4 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in C:\Users\DELL\Dev\php\projet_final\app\routes\commandes\facture_pdf.php on line 30
+\n C:\Users\DELL\Dev\php\projet_final\app\controllers\CommandesController.php -> Stock insuffisant pour le produit 'PC HP' (disponible: 0, demandé: 100)

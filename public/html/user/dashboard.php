@@ -113,7 +113,7 @@ $estAdmin = $user['role'] == 'admin';
                 <path d="m7.5 4.27 8.997 5.148" />
               </svg>
             </span>
-            Approv
+            Approv...
           </button>
           <button style="font-size: small;" class="nav-link  fw-light w-75 p-2 text-dark" id="v-pills-users-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-users" aria-selected="false">
@@ -125,7 +125,7 @@ $estAdmin = $user['role'] == 'admin';
           data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings"
           aria-selected="false">
           <img src="../../assets/images/icons/settings.svg" width="24px" height="24px" class="" />
-          Settings
+          Paramètres
         </button>
       </div>
     </section>

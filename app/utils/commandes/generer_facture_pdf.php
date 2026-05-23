@@ -25,17 +25,17 @@ function genererPdf(int $command_id, array $details_commandes)
 
         $sousTotal = $prix * $quantite;
 
-        $imgUrl = !empty($details_commande['imgUrl'])
-            ? __DIR__ . '/../../storage/uploads/images/produits/' . $details_commande['imgUrl']
-            : "";
+        // $imgUrl = !empty($details_commande['imgUrl'])
+        //     ? __DIR__ . '/../../storage/uploads/images/produits/' . $details_commande['imgUrl']
+        //     : "";
 
-        $imageHtml = $imgUrl
-            ? "<img class='product-image' src='$imgUrl' alt='Produit' width='500' height='500'>"
-            : "<div class='placeholder'>" . strtoupper($nom[0]) . "</div>";
+        // $imageHtml = $imgUrl
+        //     ? "<img class='product-image' src='$imgUrl' alt='Produit' width='500' height='500'>"
+        //     : "<div class='placeholder'>" . strtoupper($nom[0]) . "</div>";
 
         $tbody .= "
             <tr>
-                <td>$imageHtml</td>
+                
                 <td>$nom</td>
                 <td>$categorie</td>
                 <td>" . number_format($prix, 0, ',', ' ') . " FCFA</td>
@@ -174,7 +174,7 @@ function genererPdf(int $command_id, array $details_commandes)
 
                 <thead>
                     <tr>
-                        <th>Image</th>
+                        
                         <th>Produit</th>
                         <th>Catégorie</th>
                         <th>Prix</th>

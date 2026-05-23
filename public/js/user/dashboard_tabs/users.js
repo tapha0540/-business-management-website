@@ -113,8 +113,10 @@ const fetchUtilisateursTableData = async () => {
             supprimerUtilisateurs([user.id]);
           });
         } else {
-          editBtn.remove();
-          deleteBtn.remove();
+          editBtn.disabled = true;
+          deleteBtn.disabled = true;
+          editBtn.style.opacity = 0.3;
+          deleteBtn.style.opacity = 0.3;
         }
 
         utilisateursTableTbody.appendChild(newRow);

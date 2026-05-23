@@ -225,7 +225,7 @@ class Utilisateur
                                         u.prenom AS `Prénom`,
                                         u.nom AS `Nom`,
                                         u.email AS `Email`,
-                                        u.imgUrl,
+                                        CONCAT('http://localhost:8081/storage/uploads/images/produits/', u.imgUrl) AS imgUrl,
                                         DATE_FORMAT(u.created_at, '%d/%m/%Y') AS `Compte crée le`,
                                         COUNT(c.id) AS `Nombre de commandes réalisées`
                                     FROM utilisateurs u

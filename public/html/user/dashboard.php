@@ -97,9 +97,9 @@ $estAdmin = $user['role'] == 'admin';
             </span>
             Fournisseurs
           </button>
-          <button style="font-size: small;" class="nav-link  fw-light w-75 p-2 text-dark" id="v-pills-approv-tab" data-bs-toggle="pill"
+          <button style="font-size: small;" class="nav-link fw-light w-75 p-2 text-dark" id="v-pills-approv-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-approv" type="button" role="tab" aria-controls="v-pills-approv"
-            aria-selected="false">
+            aria-selected="false" >
             <span class="app-icon app-icon-md" aria-hidden="true">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -113,7 +113,7 @@ $estAdmin = $user['role'] == 'admin';
                 <path d="m7.5 4.27 8.997 5.148" />
               </svg>
             </span>
-            Approvisionnements
+            Approv
           </button>
           <button style="font-size: small;" class="nav-link  fw-light w-75 p-2 text-dark" id="v-pills-users-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-users" aria-selected="false">

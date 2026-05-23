@@ -68,10 +68,6 @@ section:first-child h5 {
   gap: 0.55rem;
 }
 
-.nav-link:hover {
-  color: var(--primary-color) !important;
-  transform: translateX(4px);
-}
 
 .nav-link.active {
   background: linear-gradient(

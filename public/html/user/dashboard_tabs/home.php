@@ -29,12 +29,6 @@
             </div>
 
             <div class="filter-group">
-                <label>Métriques</label>
-                <p class="metrics-note">Tous les graphiques sont mis à jour selon la période et le nombre de résultats.
-                </p>
-            </div>
-
-            <div class="filter-group">
                 <label>du</label>
                 <?php
                 $date = new DateTime();
